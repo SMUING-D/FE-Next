@@ -1,5 +1,5 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 
 const fetchData = async () => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/resource`);
