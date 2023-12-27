@@ -1,7 +1,14 @@
 'use client';
 
+import RQProvider from './components/RQProvider';
+import List from './components/List';
+
 const Home = () => {
-  return <h1>SMUING</h1>;
+  return (
+    <RQProvider>
+      <List />
+    </RQProvider>
+  );
 };
 
 export default Home;

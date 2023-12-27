@@ -10,5 +10,10 @@ export const handlers = [
         'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
       }
     });
+  }),
+  http.get('/api/resource', () => {
+    // And respond with a "text/plain" response
+    // with a "Hello world!" text response body.
+    return HttpResponse.json('차다인');
   })
 ];
