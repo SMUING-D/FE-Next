@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <RQProvider>
       <List />
+      <h3>husky</h3>
     </RQProvider>
   );
 };
