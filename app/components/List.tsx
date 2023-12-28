@@ -9,6 +9,7 @@ const fetchData = async () => {
 
 const List = () => {
   const { data, isLoading, error } = useQuery({ queryKey: ['projects'], queryFn: fetchData });
+  console.log(data);
 
   return (
     <div>
@@ -16,6 +17,7 @@ const List = () => {
       {error && <div>Error: {error.message}</div>}
       {data && <div>{data}</div>}
       <div>제발되라</div>
+      <h1>ㅎㅇㅎㅇ</h1>
     </div>
   );
 };
