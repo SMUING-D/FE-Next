@@ -1,5 +1,6 @@
 'use client';
 
+import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { useCallback, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -8,6 +9,7 @@ import Avatar from '../Avatar';
 import MenuItem from './MenuItem';
 
 const UserMenu = () => {
+  const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
   // 나중에 실제 유저 prop으로 변경
@@ -45,7 +47,7 @@ const UserMenu = () => {
               </>
             ) : (
               <>
-                <MenuItem onClick={() => {}} label="로그인" />
+                <MenuItem onClick={loginModal.onOpen} label="로그인" />
                 <MenuItem onClick={registerModal.onOpen} label="회원 가입" />
               </>
             )}
