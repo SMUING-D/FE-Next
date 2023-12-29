@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Nunito } from 'next/font/google';
+
+import RegisterModal from './components/modals/RegisterModal';
+import Navbar from './components/navbar/Navbar';
+import ToasterProvider from './components/providers/ToasterProvider';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const font = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'SMUING',
@@ -11,8 +15,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko">
+      <body className={`${font.className} dark:bg-medium`}>
+        <Navbar />
+        <ToasterProvider />
+        <RegisterModal />
+
+        <div className="pb-20 pt-28">{children}</div>
+      </body>
     </html>
   );
 }

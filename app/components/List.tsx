@@ -16,8 +16,8 @@ const List = () => {
       {isLoading && <div>Loading...</div>}
       {error && <div>Error: {error.message}</div>}
       {data && <div>{data}</div>}
-      <div>제발되라</div>
-      <h1>ㅎㅇㅎㅇ</h1>
+      <div>여기에 아마 프로젝트</div>
+      <h1>모집글같은거 올릴꺼 같습니다</h1>
     </div>
   );
 };
