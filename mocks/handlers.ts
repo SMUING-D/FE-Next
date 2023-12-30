@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 const User = [{ id: 'dara', nickname: 'Dara', image: '', token: '12312312312' }];
 
