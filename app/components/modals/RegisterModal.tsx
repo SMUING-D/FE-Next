@@ -64,7 +64,7 @@ const RegisterModal = () => {
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
   const school = watch('school');
-  const major = watch(' major');
+  const major = watch('major');
   const grade = watch('grade');
   const job = watch('job');
   const skill = watch('skill');
