@@ -15,5 +15,13 @@ export const handlers = [
     // And respond with a "text/plain" response
     // with a "Hello world!" text response body.
     return HttpResponse.json('차다인');
+  }),
+  http.post('/api/register', () => {
+    console.log('회원가입');
+    return HttpResponse.json(User[0], {
+      headers: {
+        'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
+      }
+    });
   })
 ];

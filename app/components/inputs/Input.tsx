@@ -12,6 +12,7 @@ type InputProps = {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  value?: string;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -22,7 +23,8 @@ const Input: React.FC<InputProps> = ({
   formatPrice,
   required,
   register,
-  errors
+  errors,
+  value
 }) => {
   return (
     <div className="w-full relative">
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
         {...register(id, { required })}
         placeholder=" "
         type={type}
+        value={value}
         className={`
         peer
         w-full
