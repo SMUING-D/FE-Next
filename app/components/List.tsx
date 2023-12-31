@@ -4,7 +4,7 @@ import React from 'react';
 import Container from './Container';
 
 const fetchData = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/resource`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}api/resource`);
   const data = await response.json();
   return data;
 };
