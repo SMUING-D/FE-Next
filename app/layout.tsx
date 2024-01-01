@@ -5,6 +5,7 @@ import ClientOnly from './components/ClientOnly';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
 import Navbar from './components/navbar/Navbar';
+import RQProvider from './components/providers/RQProvider';
 import ToasterProvider from './components/providers/ToasterProvider';
 import './globals.css';
 
@@ -20,12 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <body className={`${font.className} dark:bg-medium`}>
         <ClientOnly>
-          <Navbar />
-          <ToasterProvider />
-          <RegisterModal />
-          <LoginModal />
+          <RQProvider>
+            <ToasterProvider />
+            <RegisterModal />
+            <LoginModal />
+            <Navbar />
+            <div className="pb-20 pt-28">{children}</div>
+          </RQProvider>
         </ClientOnly>
-        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );

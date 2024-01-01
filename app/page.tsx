@@ -1,21 +1,34 @@
-'use client';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
-import ClientOnly from './components/ClientOnly';
 import Container from './components/Container';
-import List from './components/List';
-import RQProvider from './components/providers/RQProvider';
+import ListingCard from './components/listings/ListingCard';
+import { getFilteredPosts } from './lib/getFilteredPosts';
 
-const Home = () => {
+type HomeProps = {
+  searchParams?: {
+    category?: string;
+  };
+};
+
+const Home: React.FC<HomeProps> = async ({ searchParams }) => {
+  const queryClient = new QueryClient();
+  const category = searchParams?.category || '';
+
+  // 서버에서 불러온 데이터를 클라이언트의 리액트 쿼리가 물려받음.(하이드레이트)
+  await queryClient.prefetchQuery({
+    queryKey: ['posts', category],
+    queryFn: () => getFilteredPosts(category) // searchParams 전달
+  });
+
+  // hydrate라는 것은 서버에서 온 데이터를 클라이언트에서 그대로, 물려받는 것 이다.
+  const dehydratedState = dehydrate(queryClient);
+
   return (
-    <ClientOnly>
-      <RQProvider>
-        <Container>
-          <section className="dark:text-white pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-            <List />
-          </section>
-        </Container>
-      </RQProvider>
-    </ClientOnly>
+    <HydrationBoundary state={dehydratedState}>
+      <Container>
+        <ListingCard />
+      </Container>
+    </HydrationBoundary>
   );
 };
 

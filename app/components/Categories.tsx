@@ -1,8 +1,8 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import React from 'react';
 import { FaBook, FaPaintBrush } from 'react-icons/fa';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { GiTeacher } from 'react-icons/gi';
 import { IoSettings } from 'react-icons/io5';
 import { PiPresentationChartFill } from 'react-icons/pi';
@@ -11,6 +11,13 @@ import CategoryBox from './CategoryBox';
 import Container from './Container';
 
 export const categories = [
+  {
+    name: '전체',
+    label: 'ALL',
+    alias: 'ALL',
+    icon: FaMagnifyingGlass,
+    description: '인문사회과학대학과 관련된 정보가 담겨져 있습니다!'
+  },
   {
     name: '인문사회과학대학',
     label: 'College of Humanities and Social Sciences',
@@ -67,7 +74,7 @@ const Categories = () => {
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
-            selected={category === item.alias}
+            selected={category === item.name}
             label={item.name}
             icon={item.icon}
           />
