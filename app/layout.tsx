@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
 import { Nunito } from 'next/font/google';
 
+import { authOptions } from './api/auth/[...nextauth]/route';
 import ClientOnly from './components/ClientOnly';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
@@ -16,7 +18,9 @@ export const metadata: Metadata = {
   description: 'SMUING에 오신것을 환영합니다.'
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+  console.log('루트다라라라라라라', session);
   return (
     <html lang="ko">
       <body className={`${font.className} dark:bg-medium`}>

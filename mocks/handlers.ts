@@ -1,6 +1,14 @@
 import { HttpResponse, http } from 'msw';
 
-const User = [{ id: 'dara', nickname: 'Dara', image: '', token: '12312312312' }];
+const User = [
+  {
+    email: 'dara@naver.com',
+    nickname: 'Dara',
+    image:
+      'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    token: '12312312312'
+  }
+];
 
 export const handlers = [
   http.post('/api/login', () => {

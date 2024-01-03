@@ -12,6 +12,7 @@ import { FcGoogle } from 'react-icons/fc';
 import schema from '../../schema/user';
 import Button from '../Button';
 import Heading from '../Heading';
+import FormError from '../form-error';
 import Input from '../inputs/Input';
 import Modal from './Modal';
 
@@ -148,7 +149,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      {errors.name && <p className="text-neutral-600">{errors.name?.message?.toString()}</p>}
+      {errors.name && <FormError message={errors.name?.message?.toString()} />}
       <Input
         id="nickname"
         label="닉네임"
@@ -158,9 +159,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      {errors.nickname && (
-        <p className="text-neutral-600">{errors.nickname?.message?.toString()}</p>
-      )}
+      {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
       <Input
         id="password"
         type="password"
@@ -171,9 +170,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      {errors.password && (
-        <p className="text-neutral-600">{errors.password?.message?.toString()}</p>
-      )}
+      {errors.password && <FormError message={errors.password?.message?.toString()} />}
       <Input
         id="confirmPassword"
         type="password"
@@ -185,7 +182,7 @@ const RegisterModal = () => {
         required
       />
       {errors.confirmPassword && (
-        <p className="text-neutral-600">{errors.confirmPassword?.message?.toString()}</p>
+        <FormError message={errors.confirmPassword?.message?.toString()} />
       )}
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex gap-2 items-center justify-center">
@@ -214,7 +211,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors.email && <p className="text-neutral-600">{errors.email?.message?.toString()}</p>}
+        {errors.email && <FormError message={errors.email?.message?.toString()} />}
         <Input
           id="school"
           label="대학교 또는 대학원"
@@ -224,7 +221,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors.school && <p className="text-neutral-600">{errors.school?.message?.toString()}</p>}
+        {errors.school && <FormError message={errors.school?.message?.toString()} />}
         <Input
           id="major"
           label="학과"
@@ -234,7 +231,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors.major && <p className="text-neutral-600">{errors.major?.message?.toString()}</p>}
+        {errors.major && <FormError message={errors.major?.message?.toString()} />}
         <Input
           id="grade"
           label="학년"
@@ -245,7 +242,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors.grade && <p className="text-neutral-600">{errors.grade?.message?.toString()}</p>}
+        {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
       </div>
     );
   }
@@ -262,7 +259,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors.job && <p className="text-neutral-600">{errors.job?.message?.toString()}</p>}
+        {errors.job && <FormError message={errors.job?.message?.toString()} />}
         <Input
           id="skill"
           label="자격증 및 기술 스택"
@@ -272,7 +269,7 @@ const RegisterModal = () => {
           errors={errors}
           required
         />
-        {errors?.skill && <p className="text-neutral-600">{errors?.skill?.message?.toString()}</p>}
+        {errors?.skill && <FormError message={errors?.skill?.message?.toString()} />}
       </div>
     );
   }
