@@ -1,5 +1,4 @@
-import axios from 'axios';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 interface UserData {
@@ -9,8 +8,8 @@ interface UserData {
   token: string;
 }
 
-const handler = NextAuth({
-  secret: process.env.AUTH_SECRET,
+export const authOptions: AuthOptions = {
+  secret: process.env.SECRET,
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -19,54 +18,69 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials: any): Promise<null | UserData> {
-        const { email, password } = credentials;
+        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: credentials.email,
+            password: credentials.password
+          })
+        });
 
-        try {
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/login`, {
-            email: email,
-            password: password
-          });
-          console.log(response);
-          if (response) {
-            const userData: UserData = {
-              id: response.data.id,
-              nickname: response.data.nickname,
-              image: response.data.image,
-              token: response.data.token
-            };
-
-            return userData;
-          }
+        if (!authResponse) {
           return null;
-        } catch (error: any) {
-          throw new Error(error?.response?.data.msg);
         }
+        // handlers User
+        const user = await authResponse.json();
+
+        return {
+          email: user.email,
+          name: user.nickname,
+          image: user.image,
+          ...user //아래의 정보들, 세션
+        };
       }
     })
   ],
+  // Login을 성공하면 (authorize) => login 성공시 json 정보가 리턴되는거고.
+  // token에는
   callbacks: {
-    // async session({ session, token }: any) {
-    //   console.log('session callback is executed');
-    //   console.log('session: ', session);
-    //   console.log('token: ', token);
-    //   session.user = token.user;
-    //   return session;
-    // }
-    // async jwt({ token, user }: any) {
-    //   if (user) {
-    //     token.id = user.id;
-    //     token.email = user.email;
-    //   }
-    //   return token;
-    // }
+    session: async ({ session, token }: any) => {
+      console.log('session callback is executed');
+      if (token.role && session.user) {
+        session.user.role = token.role;
+      }
+      return session;
+    },
+    jwt: async ({ token }) => {
+      // getUserInfo(token.sub)
+      console.log('토큰', token);
+      const userInfo = { role: 'ADMIN', token: '123' };
+      token.role = userInfo.role;
+
+      // if (!token.sub) return token;
+
+      // const userInfo = { role: 'ADMIN' };
+
+      // if (!userInfo) return token;
+
+      // token.role = userInfo.role;
+
+      return token;
+    }
   },
   pages: {
-    signIn: '/'
+    signIn: '/',
+    signOut: '/'
   },
   session: {
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 30
   }
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

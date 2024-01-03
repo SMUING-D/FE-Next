@@ -18,13 +18,13 @@ import Modal from './Modal';
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false); //eslint-disable-line no-unused-vars
+  const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset, // eslint-disable-line @typescript-eslint/no-unused-vars
     watch
   } = useForm<FieldValues>({
     mode: 'onBlur',
@@ -36,28 +36,28 @@ const LoginModal = () => {
   });
   const { email, password } = watch();
 
-  const finishLogin = (message: string) => {
-    setIsLoading(false);
-    loginModal.onClose();
-    reset({});
-    toast(message);
-  };
+  // const finishLogin = (message: string) => {
+  //   setIsLoading(false);
+  //   loginModal.onClose();
+  //   reset({});
+  //   toast(message);
+  // };
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const { email, password } = data;
-    setIsLoading(true);
-
-    const result = await signIn('credentials', {
-      redirect: false,
-      email: email,
-      password: password
-    });
-
-    if (result?.status === 401) {
-      console.error(result);
-      finishLogin('로그인에 실패했습니다. 다시 시도해주세요');
-    } else {
-      finishLogin('로그인 되었습니다.');
+  const onSubmit: SubmitHandler<FieldValues> = async () => {
+    try {
+      await signIn(
+        'credentials',
+        {
+          username: email,
+          password,
+          redirect: false
+        },
+        toast.success('로그인에 성공하였습니다.')
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      loginModal.onClose();
     }
   };
 
