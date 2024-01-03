@@ -2,7 +2,9 @@
 
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import { signOut, useSession } from 'next-auth/react';
 import { useCallback, useState } from 'react';
+import toast from 'react-hot-toast';
 import { AiOutlineMenu } from 'react-icons/ai';
 
 import Avatar from '../Avatar';
@@ -12,8 +14,7 @@ const UserMenu = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
-  // 나중에 실제 유저 prop으로 변경
-  const currentUser = true;
+  const { data: session } = useSession();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -38,12 +39,18 @@ const UserMenu = () => {
       {isOpen && (
         <div className="dark:text-black absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            {!currentUser ? (
+            {session ? (
               <>
                 <MenuItem onClick={() => {}} label="마이 페이지" />
                 <MenuItem onClick={() => {}} label="스터디/프로젝트 모집" />
                 <MenuItem onClick={() => {}} label="게시글 작성" />
-                <MenuItem onClick={() => {}} label="로그아웃" />
+                <MenuItem
+                  onClick={() => {
+                    signOut();
+                    toast('로그아웃 되었습니다.');
+                  }}
+                  label="로그아웃"
+                />
               </>
             ) : (
               <>
