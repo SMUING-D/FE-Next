@@ -8,7 +8,7 @@ import StarButton from '../StarButton';
 type ListingHeadProps = {
   title: string;
   imageSrc: string;
-  id: string;
+  id: number;
   category: string;
   currentUser?: string | null;
 };
@@ -16,9 +16,9 @@ type ListingHeadProps = {
 const ListingHeader: React.FC<ListingHeadProps> = ({
   title,
   category,
-  imageSrc,
-  id,
-  currentUser
+  imageSrc
+  // id,
+  // currentUser
 }) => {
   return (
     <>
@@ -28,7 +28,7 @@ const ListingHeader: React.FC<ListingHeadProps> = ({
 
         {/* <Image alt="Image" src={imageSrc} fill className="object-cover w-full" /> */}
         <div className="absolute top-5 right-5">
-          <StarButton listingId={id} currentUser={currentUser} />
+          <StarButton />
         </div>
       </div>
     </>
