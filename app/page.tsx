@@ -22,7 +22,6 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
     queryFn: () => getFilteredPosts(category) // searchParams 전달
   });
 
-  //preview post data 서버에서 가져와서 쿼리에 저장
   await queryClient.prefetchQuery({
     queryKey: ['PreviewPosts'],
     queryFn: () => getPreviewPosts()
@@ -34,7 +33,7 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Container>
-        <ListingPosts />
+        {category === '' && <ListingPosts />}
         <ListingCard />
       </Container>
     </HydrationBoundary>
