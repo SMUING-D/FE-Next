@@ -1,5 +1,7 @@
 import { HttpResponse, http } from 'msw';
 
+import { postData } from './data';
+
 const User = [
   {
     email: 'dara@naver.com',
@@ -181,5 +183,9 @@ export const handlers = [
         }
       ]);
     }
+  }),
+  http.get('/api/preview/posts', () => {
+    console.log('post 불러오기');
+    return HttpResponse.json(postData);
   })
 ];
