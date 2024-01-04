@@ -1,8 +1,9 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import Container from './components/Container';
+import HomeContainer from './components/HomeContainer';
 import ListingCard from './components/listings/ListingCard';
-import ListingPosts from './components/post/ListingPosts';
+import PreviewPostsView from './components/post/PreviewPostsView';
 import { getFilteredPosts } from './lib/getFilteredPosts';
 import { getPreviewPosts } from './lib/getPreviewPosts';
 
@@ -23,7 +24,7 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ['PreviewPosts'],
+    queryKey: ['previewPosts'],
     queryFn: () => getPreviewPosts()
   });
 
@@ -33,7 +34,11 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Container>
-        {category === '' && <ListingPosts />}
+        {category === '' && (
+          <HomeContainer>
+            <PreviewPostsView />
+          </HomeContainer>
+        )}
         <ListingCard />
       </Container>
     </HydrationBoundary>

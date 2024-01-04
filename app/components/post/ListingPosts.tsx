@@ -6,18 +6,30 @@ import { useQuery } from '@tanstack/react-query';
 
 import PostPreview from './PostPreview';
 
-//게시글 미리보기 컴포넌트 나열
-const ListingPosts = () => {
+const ListingPosts = ({ category }: { category: string }) => {
   const { data: previewPosts } = useQuery<Post[]>({
-    queryKey: ['PreviewPosts'],
+    queryKey: ['previewPosts'],
     queryFn: () => getPreviewPosts()
   });
 
+  const filteredPosts = previewPosts
+    ?.filter((postData) => category === postData.category)
+    .slice(0, 5);
+  let hotPostsData;
+
+  if (category === 'HOT') {
+    hotPostsData = previewPosts?.sort((a, b) => (b?.likes || 0) - (a?.likes || 0));
+    hotPostsData = hotPostsData?.slice(0, 5);
+    return (
+      <div className="flex flex-col p-2  gap-5">
+        {hotPostsData?.map((postData) => <PostPreview key={postData.id} data={postData} />)}
+      </div>
+    );
+  }
+
   return (
-    <div className="pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-      {previewPosts?.map((postData) => {
-        return <PostPreview key={postData.id} data={postData} />;
-      })}
+    <div className="flex flex-col p-2  gap-5">
+      {filteredPosts?.map((postData) => <PostPreview key={postData.id} data={postData} />)}
     </div>
   );
 };
