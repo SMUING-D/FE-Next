@@ -10,7 +10,6 @@ const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
     <>
       <div>{data.title}</div>
       <div>{data.createdAt}</div>
-      <div>{data.createdAt}</div>
     </>
   );
 };
