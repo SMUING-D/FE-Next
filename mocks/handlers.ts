@@ -45,7 +45,8 @@ export const handlers = [
           title: '역사 스터디 인원 모집 현재 3/5',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '재밌는 역사 스터디에 오세요!!',
+          description:
+            '안녕하세요! 인문사회과학대학 XX학부 XX학년에 재학중인 XXX입니다. 이번에 000 쪽으로 취업을 준비하며, 혼자 공부하는데 동기부여가 많이 부족한 것 같아 다같이 해보면 좋을듯 하여 팀원을 모집하게 되었습니다. 이런 좋은 서비스가 있다는 것을 처음알았네요!! 참여 인원 구합니다!! 많이 신청해주세요!!',
           memberCount: 4,
           imageSrc:
             'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -187,5 +188,18 @@ export const handlers = [
   http.get('/api/preview/posts', () => {
     console.log('post 불러오기');
     return HttpResponse.json(postData);
+  }),
+  http.get('/api/recruitments/:postId', () => {
+    return HttpResponse.json({
+      id: 1,
+      title: '역사 스터디 인원 모집 현재 3/5',
+      category: '인문사회과학대학',
+      createdAt: new Date(),
+      description:
+        '안녕하세요! 인문사회과학대학 XX학부 XX학년에 재학중인 XXX입니다. 이번에 000 쪽으로 취업을 준비하며, 혼자 공부하는데 동기부여가 많이 부족한 것 같아 다같이 해보면 좋을듯 하여 팀원을 모집하게 되었습니다. 이런 좋은 서비스가 있다는 것을 처음알았네요!! 참여 인원 구합니다!! 많이 신청해주세요!!',
+      memberCount: 4,
+      imageSrc:
+        'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    });
   })
 ];
