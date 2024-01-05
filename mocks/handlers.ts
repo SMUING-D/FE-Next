@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
-import { postData } from './data';
+import { detailPostData, postData } from './data';
 
 const User = [
   {
@@ -185,7 +185,15 @@ export const handlers = [
     }
   }),
   http.get('/api/preview/posts', () => {
-    console.log('post 불러오기');
+    // console.log('post 불러오기');
     return HttpResponse.json(postData);
+  }),
+  http.get('api/detail/posts/:id', ({ request }) => {
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+
+    detailPostData.map((data) => {
+      return id && parseInt(id) === data.id && HttpResponse.json(data);
+    });
   })
 ];
