@@ -1,8 +1,8 @@
 'use client';
 
 import Avatar from '@/app/components/Avatar';
-import Button from '@/app/components/Button';
 import ImageSlider from '@/app/components/ImageSlider';
+import CommentInput from '@/app/components/comments/CommentInput';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import { Post } from '@/app/types';
 import { format } from 'date-fns';
@@ -79,19 +79,7 @@ const PostPage = () => {
       <div className="flex border-b-2 border-gray-100 mb-10"></div>
 
       <div className="flex flex-col gap-14">
-        {/* 댓글 쓰는 곳 */}
-        <div className="flex flex-row gap-5">
-          <div>
-            <Avatar src="https://images.unsplash.com/photo-1561229474-1f22e022dfd4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
-          </div>
-          <input
-            className="text-sm rounded-md border-2 h-16 p-3 flex-1 outline-none"
-            placeholder="댓글을 남겨보세요"
-          />
-          <div className="w-20">
-            <Button onClick={() => console.log('댓글 작성')} label="댓글 달기" small={true} />
-          </div>
-        </div>
+        <CommentInput />
 
         {/* 실제 댓글 리스트 올 곳 */}
         <div className="flex flex-col gap-10">
