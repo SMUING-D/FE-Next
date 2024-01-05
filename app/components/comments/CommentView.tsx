@@ -15,13 +15,6 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
   const { data: session } = useSession();
   const user = session?.user?.name;
 
-  const toStringDate = (createdAt: string) => {
-    if (!createdAt) {
-      return null;
-    }
-    return `${format(createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
-  };
-
   return (
     <div className="flex flex-col gap-10">
       {commentsList?.map(({ id, username, imageSrc, createdAt, likes, comments, content }) => (
@@ -32,7 +25,7 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               {username}
             </div>
             <div className="flex text-xs dark:text-zinc-100 text-zinc-300 font-light">
-              {createdAt && toStringDate(createdAt)}
+              {createdAt && format(new Date(createdAt), 'yyyy년 MM월 dd일 HH:mm')}
             </div>
             <div className="flex justify-end flex-1 gap-2">
               {username === user ? (
