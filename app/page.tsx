@@ -18,9 +18,11 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   const category = searchParams?.category || '';
 
   // 서버에서 불러온 데이터를 클라이언트의 리액트 쿼리가 물려받음.(하이드레이트)
-  await queryClient.prefetchQuery({
+  await queryClient.prefetchInfiniteQuery({
     queryKey: ['posts', category],
-    queryFn: () => getFilteredPosts(category) // searchParams 전달
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, { pageParam }), // searchParams 전달
+    // 커서 값
+    initialPageParam: 0
   });
 
   await queryClient.prefetchQuery({
