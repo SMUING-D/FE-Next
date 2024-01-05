@@ -1,7 +1,7 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import Container from './components/Container';
-import HomeContainer from './components/HomeContainer';
+import Heading from './components/Heading';
 import ListingCard from './components/listings/ListingCard';
 import PreviewPostsView from './components/post/PreviewPostsView';
 import { getFilteredPosts } from './lib/getFilteredPosts';
@@ -36,12 +36,16 @@ const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Container>
-        {category === '' && (
-          <HomeContainer>
-            <PreviewPostsView />
-          </HomeContainer>
-        )}
-        <ListingCard />
+        <div className="p-20 flex flex-col items-center justify-center">
+          {category === '' && (
+            <div className="py-10">
+              <Heading title="취업정보 교류글" subtitle="취업 정보 교류" center />
+              <PreviewPostsView />
+            </div>
+          )}
+          <Heading title="프로젝트/스터디 모집글" subtitle="취업 정보 교류" center />
+          <ListingCard />
+        </div>
       </Container>
     </HydrationBoundary>
   );

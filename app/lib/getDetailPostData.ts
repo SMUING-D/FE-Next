@@ -1,6 +1,6 @@
-import { Post } from '../types';
+import { Listing } from '../types';
 
-export const getDetailPostData = async (id: string): Promise<Post> => {
+export const getDetailPostData = async (id: string): Promise<Listing> => {
   const url = `${process.env.NEXT_PUBLIC_URL}/api/detail/posts?postId=${id}`;
   const res = await fetch(url);
   if (!res.ok) {

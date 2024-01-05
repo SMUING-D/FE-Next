@@ -1,12 +1,12 @@
 'use client';
 
-import { Post } from '@/app/types';
+import { Listing } from '@/app/types';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 type PostPreviewProps = {
-  data: Post;
+  data: Listing;
 };
 
 const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
@@ -24,7 +24,7 @@ const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
       <div
         className="flex flex-col "
         onClick={() => {
-          router.push(`/post/${data.id}`);
+          router.push(`/post/${data.postId}`);
         }}
       >
         <div className="font-regular dark:text-neutral-400 text-sm truncate">{data.title}</div>

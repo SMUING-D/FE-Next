@@ -4,14 +4,17 @@ import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import ImageViewer from 'react-simple-image-viewer';
 
-type ImageSlider = {
-  imageList: string[];
+import { Images } from '../types';
+
+type ImageSliderProps = {
+  imageList: Images[];
   size?: number;
 };
 
-const ImageSlider = ({ imageList, size = 200 }: ImageSlider) => {
+const ImageSlider = ({ imageList, size = 200 }: ImageSliderProps) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const imageLinkList: string[] = imageList.map((item) => item.link);
 
   const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
@@ -25,21 +28,21 @@ const ImageSlider = ({ imageList, size = 200 }: ImageSlider) => {
 
   return (
     <div className="flex flex-row p-2 gap-1 overflow-x-auto scrollbar-hide">
-      {imageList?.map((src: string, index: number) => (
+      {imageList?.map((images) => (
         <Image
-          key={index}
+          key={images.imageId}
           className="flex rounded-md"
-          src={src}
+          src={images.link}
           width={size}
           height={size}
           alt="profle"
-          onClick={() => openImageViewer(index)}
+          onClick={() => openImageViewer(images.imageId)}
         />
       ))}
 
-      {isViewerOpen && (
+      {isViewerOpen && imageLinkList && (
         <ImageViewer
-          src={imageList}
+          src={imageLinkList}
           currentIndex={currentImage}
           disableScroll={false}
           closeOnClickOutside={true}

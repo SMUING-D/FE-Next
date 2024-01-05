@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, delay, http } from 'msw';
 
-import { detailPostData, postData } from './data';
+import { postData } from './data';
 
 const User = [
   {
@@ -196,15 +196,16 @@ export const handlers = [
     }
   }),
   http.get('/api/preview/posts', () => {
-    // console.log('post 불러오기');
+    console.log(postData);
     return HttpResponse.json(postData);
   }),
   http.get('/api/detail/posts', ({ request }) => {
     const url = new URL(request.url);
     const postId = url.searchParams.get('postId');
 
-    const selectedPost = postId && detailPostData.find((post) => post.id === parseInt(postId));
+    const selectedPost = postId && postData.find((post) => post.postId === parseInt(postId));
 
+    console.log(selectedPost);
     if (selectedPost) {
       return HttpResponse.json(selectedPost);
     }
