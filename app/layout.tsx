@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   console.log('루트다라라라라라라', session);
   return (
     <html lang="ko">
-      <body className={`${font.className} dark:bg-medium`}>
+      <body className={`${font.className} dark:bg-medium dark:text-slate-100`}>
         <ClientOnly>
           <RQProvider>
             <ToasterProvider />

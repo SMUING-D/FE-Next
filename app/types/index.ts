@@ -9,38 +9,22 @@ export type Listing = {
 };
 
 export type Post = {
-  id?: number;
-  userId?: number;
-  username?: string;
-  userImageSrc?: string;
+  id: number;
   title?: string;
   description?: string;
   category?: string;
   likes?: number;
   comments?: number;
   createdAt?: string;
-  imageSrc?: string[];
-  commentsList?: Comments[];
+  imageSrc?: string;
+  memberCount?: number;
 };
 
-export type Comments = {
-  id?: number;
-  userId?: number;
-  username?: string;
-  imageSrc?: string;
-  content?: string;
-  likes?: number;
-  reports?: number;
-  createdAt?: string;
-  comments: number;
-  commentsList?: {
-    id?: number;
-    userId?: number;
-    username?: string;
-    imageSrc?: string;
-    content?: string;
-    likes?: number;
-    reports?: number;
-    createdAt?: string;
-  }[];
+export type UserRole = 'ADMIN' | 'USER';
+
+export type User = {
+  name?: string;
+  email?: string;
+  image?: string;
+  role?: UserRole;
 };

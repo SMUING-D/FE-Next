@@ -1,4 +1,5 @@
-import { HttpResponse, http } from 'msw';
+import { faker } from '@faker-js/faker';
+import { HttpResponse, delay, http } from 'msw';
 
 import { detailPostData, postData } from './data';
 
@@ -9,6 +10,12 @@ const User = [
     image:
       'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     token: '12312312312'
+  },
+  {
+    email: faker.internet.email,
+    nickname: 'dydals3440',
+    image: faker.image.avatarGitHub,
+    token: faker.internet.password
   }
 ];
 
@@ -34,71 +41,75 @@ export const handlers = [
       }
     });
   }),
-  http.get('/api/posts', ({ request }) => {
+  http.get('/api/posts', async ({ request }) => {
+    await delay(5000);
     const url = new URL(request.url);
-    const category = url.searchParams.get('category');
+    const category = url.searchParams.get('category') || '전체';
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+    console.log(url.searchParams);
+
     if (category === '전체') {
       // Handle 전체 category
       return HttpResponse.json([
         {
-          id: 1,
+          id: cursor + 1,
+          User: User[1],
+          title: `${cursor + 1}역사 스터디 인원 모집 현재 3/5`,
+          category: '인문사회과학대학',
+          createdAt: new Date(),
+          description: `${cursor + 1} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          imageSrc: faker.image.urlLoremFlickr()
+        },
+        {
+          id: cursor + 2,
+          User: User[1],
           title: '역사 스터디 인원 모집 현재 3/5',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '재밌는 역사 스터디에 오세요!!',
+          description: `${cursor + 2} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc:
-            'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          imageSrc: faker.image.urlLoremFlickr()
         },
         {
-          id: 2,
-          title: '문학과 예술 감상 스터디 참여자 모집',
+          id: cursor + 3,
+          User: User[1],
+          title: '역사 스터디 인원 모집 현재 3/5',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '시와 예술을 함께 감상하는 모임입니다. 참여해주세요!',
-          memberCount: 8,
-          imageSrc:
-            'https://images.unsplash.com/photo-1633671687025-0e25709eed2b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          description: `${cursor + 3} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          imageSrc: faker.image.urlLoremFlickr()
         },
         {
-          id: 3,
-          title: '교육학과 교수님 강의 소개',
-          category: '사범대학',
+          id: cursor + 4,
+          User: User[1],
+          title: '역사 스터디 인원 모집 현재 3/5',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '교육학과에서 제공하는 흥미로운 강의에 대해 소개합니다.',
-          memberCount: 10,
-          imageSrc:
-            'https://images.unsplash.com/photo-1542015644587-425b23f310b2?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          description: `${cursor + 4} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          imageSrc: faker.image.urlLoremFlickr()
         },
         {
-          id: 4,
-          title: '스타트업 경험 공유 모임',
-          category: '경영경제대학',
+          id: cursor + 5,
+          User: User[1],
+          title: '역사 스터디 인원 모집 현재 3/5',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '스타트업 창업 경험을 나누는 자리입니다. 함께 나누어봐요!',
-          memberCount: 6,
-          imageSrc:
-            'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          description: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          imageSrc: faker.image.urlLoremFlickr()
         },
         {
-          id: 5,
-          title: '인공지능 세미나 개최 안내',
-          category: '융합공과대학',
+          id: cursor + 6,
+          User: User[1],
+          title: '역사 스터디 인원 모집 현재 3/5',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '인공지능 분야에 대한 최신 동향과 세미나 일정 안내합니다.',
-          memberCount: 15,
-          imageSrc:
-            'https://images.unsplash.com/photo-1694747994681-67791c336f2c?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        },
-        {
-          id: 6,
-          title: '미술 전시회 개최 안내',
-          category: '문화예술대학',
-          createdAt: new Date(),
-          description: '다가오는 미술 전시회 일정과 참여 안내입니다. 함께 즐겨보세요!',
-          memberCount: 20,
-          imageSrc:
-            'https://images.unsplash.com/photo-1561229474-1f22e022dfd4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          description: `${cursor + 6} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          imageSrc: faker.image.urlLoremFlickr()
         }
       ]);
     }
@@ -197,5 +208,18 @@ export const handlers = [
     if (selectedPost) {
       return HttpResponse.json(selectedPost);
     }
+  }),
+  http.get('/api/recruitments/:postId', () => {
+    return HttpResponse.json({
+      id: 1,
+      title: '역사 스터디 인원 모집 현재 3/5',
+      category: '인문사회과학대학',
+      createdAt: new Date(),
+      description:
+        '안녕하세요! 인문사회과학대학 XX학부 XX학년에 재학중인 XXX입니다. 이번에 000 쪽으로 취업을 준비하며, 혼자 공부하는데 동기부여가 많이 부족한 것 같아 다같이 해보면 좋을듯 하여 팀원을 모집하게 되었습니다. 이런 좋은 서비스가 있다는 것을 처음알았네요!! 참여 인원 구합니다!! 많이 신청해주세요!!',
+      memberCount: 4,
+      imageSrc:
+        'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    });
   })
 ];

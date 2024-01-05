@@ -1,6 +1,7 @@
 import { Listing } from '@/app/types';
 import { format } from 'date-fns';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 import StarButton from '../StarButton';
@@ -10,6 +11,7 @@ type ListingGridProps = {
 };
 
 const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
+  const router = useRouter();
   const date = useMemo(() => {
     if (!data.createdAt) {
       return null;
@@ -18,7 +20,10 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
     return `${format(data.createdAt, 'yyyy년/MM월/dd일')}`;
   }, [data.createdAt]);
   return (
-    <div onClick={() => {}} className="col-span-1 cursor-pointer group">
+    <div
+      onClick={() => router.push(`/recruitments/${data.id}`)}
+      className="col-span-1 cursor-pointer group"
+    >
       <div
         className="
                 aspect-square
