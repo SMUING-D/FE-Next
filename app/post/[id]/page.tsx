@@ -3,14 +3,13 @@
 import Avatar from '@/app/components/Avatar';
 import ImageSlider from '@/app/components/ImageSlider';
 import CommentInput from '@/app/components/comments/CommentInput';
+import CommentView from '@/app/components/comments/CommentView';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import { Post } from '@/app/types';
 import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { FaComments } from 'react-icons/fa';
 import { FaComment, FaHeart } from 'react-icons/fa6';
-import { PiSirenFill } from 'react-icons/pi';
 
 type paramsType = {
   id: string;
@@ -80,35 +79,7 @@ const PostPage = () => {
 
       <div className="flex flex-col gap-14">
         <CommentInput />
-
-        {/* 실제 댓글 리스트 올 곳 */}
-        <div className="flex flex-col gap-10">
-          {postData?.commentsList?.map(
-            ({ id, username, imageSrc, createdAt, likes, comments, content }) => (
-              <div key={id} className="flex flex-col p-3 border-b-2 border-gray-100 gap-5">
-                <div className="flex flex-row gap-3 items-center">
-                  <Avatar src={imageSrc} />
-                  <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-medium">
-                    {username}
-                  </div>
-                  <div className="flex text-xs dark:text-zinc-100 text-zinc-300 font-light">
-                    {createdAt}
-                  </div>
-                  <div className="flex justify-end flex-1 gap-2">
-                    <PiSirenFill className="flex mr-2 dark:text-zinc-100 text-zinc-400" />
-                    <FaComments className="flex dark:text-zinc-100 text-zinc-400" />
-                    <div className="flex text-xs dark:text-zinc-100 text-zinc-300">{comments}</div>
-                    <FaHeart className="flex dark:text-zinc-100 text-zinc-400" />
-                    <div className="flex text-xs dark:text-zinc-100 text-zinc-300">{likes}</div>
-                  </div>
-                </div>
-                <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal">
-                  {content}
-                </div>
-              </div>
-            )
-          )}
-        </div>
+        {postData?.commentsList && <CommentView commentsList={postData?.commentsList} />}
       </div>
     </div>
   );
