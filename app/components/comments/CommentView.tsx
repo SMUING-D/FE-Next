@@ -2,7 +2,7 @@ import { Comments } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
-import { FaComments, FaHeart } from 'react-icons/fa';
+import { FaComments, FaHeart, FaTrashAlt } from 'react-icons/fa';
 import { PiSirenFill } from 'react-icons/pi';
 
 import Avatar from '../Avatar';
@@ -13,6 +13,7 @@ type CommentViewProps = {
 
 const CommentView = ({ commentsList }: CommentViewProps) => {
   const { data: session } = useSession();
+  const user = session?.user?.name;
 
   const toStringDate = (createdAt: string) => {
     if (!createdAt) {
@@ -34,12 +35,19 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               {createdAt && toStringDate(createdAt)}
             </div>
             <div className="flex justify-end flex-1 gap-2">
-              <PiSirenFill
-                className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() =>
-                  session ? toast('댓글이 신고되었습니다') : toast('로그인이 필요한 기능입니다')
-                }
-              />
+              {username === user ? (
+                <FaTrashAlt
+                  className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                  onClick={() => console.log('댓글 삭제')}
+                />
+              ) : (
+                <PiSirenFill
+                  className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                  onClick={() =>
+                    session ? toast('댓글이 신고되었습니다') : toast('로그인이 필요한 기능입니다')
+                  }
+                />
+              )}
               <FaComments
                 className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
                 onClick={() =>
