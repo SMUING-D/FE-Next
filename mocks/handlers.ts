@@ -188,12 +188,14 @@ export const handlers = [
     // console.log('post 불러오기');
     return HttpResponse.json(postData);
   }),
-  http.get('api/detail/posts/:id', ({ request }) => {
+  http.get('/api/detail/posts', ({ request }) => {
     const url = new URL(request.url);
-    const id = url.searchParams.get('id');
+    const postId = url.searchParams.get('postId');
 
-    detailPostData.map((data) => {
-      return id && parseInt(id) === data.id && HttpResponse.json(data);
-    });
+    const selectedPost = postId && detailPostData.find((post) => post.id === parseInt(postId));
+
+    if (selectedPost) {
+      return HttpResponse.json(selectedPost);
+    }
   })
 ];
