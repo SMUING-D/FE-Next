@@ -9,7 +9,7 @@ export type Listing = {
 };
 
 export type Post = {
-  id?: number;
+  id: number;
   title?: string;
   description?: string;
   category?: string;
@@ -17,4 +17,14 @@ export type Post = {
   comments?: number;
   createdAt?: string;
   imageSrc?: string;
+  memberCount?: number;
+};
+
+export type UserRole = 'ADMIN' | 'USER';
+
+export type User = {
+  name?: string;
+  email?: string;
+  image?: string;
+  role?: UserRole;
 };
