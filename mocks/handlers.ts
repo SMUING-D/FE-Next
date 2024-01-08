@@ -52,64 +52,124 @@ export const handlers = [
       // Handle 전체 category
       return HttpResponse.json([
         {
-          id: cursor + 1,
+          postId: cursor + 1,
           User: User[1],
           title: `${cursor + 1}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: `${cursor + 1} 재밌는 역사 스터디에 오세요!!`,
+          content: `${cursor + 1} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         },
         {
-          id: cursor + 2,
+          postId: cursor + 2,
           User: User[1],
-          title: '역사 스터디 인원 모집 현재 3/5',
+          title: `${cursor + 2}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: `${cursor + 2} 재밌는 역사 스터디에 오세요!!`,
+          content: `${cursor + 2} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         },
         {
-          id: cursor + 3,
+          postId: cursor + 3,
           User: User[1],
-          title: '역사 스터디 인원 모집 현재 3/5',
+          title: `${cursor + 3}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: `${cursor + 3} 재밌는 역사 스터디에 오세요!!`,
+          content: `${cursor + 3} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         },
         {
-          id: cursor + 4,
+          postId: cursor + 4,
           User: User[1],
-          title: '역사 스터디 인원 모집 현재 3/5',
+          title: `${cursor + 4}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: `${cursor + 4} 재밌는 역사 스터디에 오세요!!`,
+          content: `${cursor + 4} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         },
         {
-          id: cursor + 5,
+          postId: cursor + 5,
           User: User[1],
-          title: '역사 스터디 인원 모집 현재 3/5',
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
           memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
-        },
-        {
-          id: cursor + 6,
-          User: User[1],
-          title: '역사 스터디 인원 모집 현재 3/5',
-          category: '인문사회과학대학',
-          createdAt: new Date(),
-          description: `${cursor + 6} 재밌는 역사 스터디에 오세요!!`,
-          memberCount: 4,
-          imageSrc: faker.image.urlLoremFlickr()
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }
@@ -119,14 +179,28 @@ export const handlers = [
       // Handle 인문사회과학대학 category
       return HttpResponse.json([
         {
-          id: 2,
-          title: '문학과 예술 감상 스터디 참여자 모집',
+          postId: cursor + 5,
+          User: User[1],
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '시와 예술을 함께 감상하는 모임입니다. 참여해주세요!',
-          memberCount: 8,
-          imageSrc:
-            'https://images.unsplash.com/photo-1633671687025-0e25709eed2b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }
@@ -135,14 +209,28 @@ export const handlers = [
       // Handle 사범대학 category
       return HttpResponse.json([
         {
-          id: 3,
-          title: '교육학과 교수님 강의 소개',
-          category: '사범대학',
+          postId: cursor + 5,
+          User: User[1],
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '교육학과에서 제공하는 흥미로운 강의에 대해 소개합니다.',
-          memberCount: 10,
-          imageSrc:
-            'https://images.unsplash.com/photo-1542015644587-425b23f310b2?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }
@@ -151,14 +239,28 @@ export const handlers = [
       // Handle 경영경제대학 category
       return HttpResponse.json([
         {
-          id: 4,
-          title: '스타트업 경험 공유 모임',
-          category: '경영경제대학',
+          postId: cursor + 5,
+          User: User[1],
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '스타트업 창업 경험을 나누는 자리입니다. 함께 나누어봐요!',
-          memberCount: 6,
-          imageSrc:
-            'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }
@@ -167,14 +269,28 @@ export const handlers = [
       // Handle 융합공과대학 category
       return HttpResponse.json([
         {
-          id: 5,
-          title: '인공지능 세미나 개최 안내',
-          category: '융합공과대학',
+          postId: cursor + 5,
+          User: User[1],
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '인공지능 분야에 대한 최신 동향과 세미나 일정 안내합니다.',
-          memberCount: 15,
-          imageSrc:
-            'https://images.unsplash.com/photo-1694747994681-67791c336f2c?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }
@@ -183,14 +299,28 @@ export const handlers = [
       // Handle 문화예술대학 category
       return HttpResponse.json([
         {
-          id: 6,
-          title: '미술 전시회 개최 안내',
-          category: '문화예술대학',
+          postId: cursor + 5,
+          User: User[1],
+          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          type: 'recruit',
+          category: '인문사회과학대학',
           createdAt: new Date(),
-          description: '다가오는 미술 전시회 일정과 참여 안내입니다. 함께 즐겨보세요!',
-          memberCount: 20,
-          imageSrc:
-            'https://images.unsplash.com/photo-1561229474-1f22e022dfd4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          memberCount: 4,
+          dueDate: new Date(),
+          place: '상명대학교 L507 학술정보관',
+          isOnline: '오프라인 | 온라인',
+          imageSrc: faker.image.urlLoremFlickr(),
+          Comments: [
+            {
+              commentId: 1,
+              User: User[2],
+              content: '재밌당',
+              createdAt: new Date(),
+              likes: 10,
+              reports: 1
+            }
+          ]
         }
       ]);
     }

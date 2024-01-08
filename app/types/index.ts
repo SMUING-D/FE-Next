@@ -1,5 +1,5 @@
 export type Listing = {
-  postId: string;
+  postId: number;
   User?: User;
   title: string;
   type: string;

@@ -30,7 +30,7 @@ const ListingCard = () => {
     queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, { pageParam }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.id,
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.postId,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000
   });
@@ -54,7 +54,7 @@ const ListingCard = () => {
         {listings?.pages.map((page, i) => (
           <Fragment key={i}>
             {page.map((listing) => (
-              <ListingGrid key={listing.id} data={listing} />
+              <ListingGrid key={listing.postId} data={listing} />
             ))}
           </Fragment>
         ))}
