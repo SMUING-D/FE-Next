@@ -11,18 +11,17 @@ type ListingGridProps = {
 };
 
 const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
-  console.log(data);
   const router = useRouter();
   const date = useMemo(() => {
     if (!data.createdAt) {
       return null;
     }
-
     return `${format(data.createdAt, 'yyyy년/MM월/dd일')}`;
   }, [data.createdAt]);
+
   return (
     <div
-      onClick={() => router.push(`/recruitments/${data.postId}`)}
+      onClick={() => router.push(`/post/${data.postId}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div
@@ -43,7 +42,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
                   group-hover:scale-110
                   transition"
           // 추후 구조 변경하면서 수정 예정!
-          src={data?.imageSrc as string}
+          src={data.Images[0].link}
           alt={`${data.title}이미지`}
         />
         <div className="absolute top-3 right-3">

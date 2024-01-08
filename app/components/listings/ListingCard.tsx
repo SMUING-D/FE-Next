@@ -8,6 +8,7 @@ import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 
+import EmptyState from '../EmptyState';
 import ListingGrid from './ListingGrid';
 
 const ListingCard = () => {
@@ -18,7 +19,8 @@ const ListingCard = () => {
     data: listings,
     fetchNextPage,
     hasNextPage,
-    isFetching
+    isFetching,
+    isError
   } = useInfiniteQuery<
     Listing[],
     Object,
@@ -47,6 +49,10 @@ const ListingCard = () => {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
+  if (isError || listings?.pages?.length === 0) {
+    return <EmptyState />;
+  }
 
   return (
     <>

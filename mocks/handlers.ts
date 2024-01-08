@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { HttpResponse, delay, http } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 import { postData } from './data';
 
@@ -42,11 +42,9 @@ export const handlers = [
     });
   }),
   http.get('/api/posts', async ({ request }) => {
-    await delay(5000);
     const url = new URL(request.url);
     const category = url.searchParams.get('category') || '전체';
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
-    console.log(url.searchParams);
 
     if (category === '전체') {
       // Handle 전체 category
@@ -63,7 +61,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -78,7 +93,7 @@ export const handlers = [
         {
           postId: cursor + 2,
           User: User[1],
-          title: `${cursor + 2}역사 스터디 인원 모집 현재 3/5`,
+          title: `${cursor + 2}수학 스터디 인원 모집 현재 3/5`,
           type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
@@ -87,7 +102,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -102,7 +134,7 @@ export const handlers = [
         {
           postId: cursor + 3,
           User: User[1],
-          title: `${cursor + 3}역사 스터디 인원 모집 현재 3/5`,
+          title: `${cursor + 3}코테 스터디 인원 모집 현재 3/5`,
           type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
@@ -111,7 +143,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -126,7 +175,7 @@ export const handlers = [
         {
           postId: cursor + 4,
           User: User[1],
-          title: `${cursor + 4}역사 스터디 인원 모집 현재 3/5`,
+          title: `${cursor + 4}리액트 스터디 인원 모집 현재 3/5`,
           type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
@@ -135,7 +184,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -150,7 +216,7 @@ export const handlers = [
         {
           postId: cursor + 5,
           User: User[1],
-          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          title: `${cursor + 5}Type Script 스터디 인원 모집 현재 3/5`,
           type: 'recruit',
           category: '인문사회과학대학',
           createdAt: new Date(),
@@ -159,7 +225,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -190,7 +273,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -220,7 +320,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -250,7 +367,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -280,7 +414,24 @@ export const handlers = [
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
@@ -299,18 +450,35 @@ export const handlers = [
       // Handle 문화예술대학 category
       return HttpResponse.json([
         {
-          postId: cursor + 5,
+          postId: 5,
           User: User[1],
-          title: `${cursor + 5}역사 스터디 인원 모집 현재 3/5`,
+          title: '미술 스터디 인원 모집 현재 3/5',
           type: 'recruit',
-          category: '인문사회과학대학',
+          category: '문화예술대학',
           createdAt: new Date(),
-          content: `${cursor + 5} 재밌는 역사 스터디에 오세요!!`,
+          content: '재밌는 미술 스터디에 오세요',
           memberCount: 4,
           dueDate: new Date(),
           place: '상명대학교 L507 학술정보관',
           isOnline: '오프라인 | 온라인',
-          imageSrc: faker.image.urlLoremFlickr(),
+          Images: [
+            {
+              imageId: 1,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 2,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 3,
+              link: faker.image.urlLoremFlickr()
+            },
+            {
+              imageId: 4,
+              link: faker.image.urlLoremFlickr()
+            }
+          ],
           Comments: [
             {
               commentId: 1,
