@@ -11,6 +11,7 @@ type PostPreviewProps = {
 
 const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
   const router = useRouter();
+
   const date = useMemo(() => {
     if (!data.createdAt) {
       return null;
@@ -20,7 +21,7 @@ const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {
   }, [data.createdAt]);
 
   return (
-    <div className="rounded-lg p-2 hover:bg-slate-300   hover:dark:bg-slate-500 transition cursor-pointer">
+    <div className="rounded-lg p-2 hover:bg-slate-300 hover:dark:bg-slate-500 transition cursor-pointer">
       <div
         className="flex flex-col "
         onClick={() => {

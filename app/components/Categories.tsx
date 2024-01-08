@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import { FaBook, FaPaintBrush } from 'react-icons/fa';
+import { FaBook, FaFire, FaPaintBrush } from 'react-icons/fa';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { GiTeacher } from 'react-icons/gi';
 import { IoSettings } from 'react-icons/io5';
@@ -11,6 +11,13 @@ import CategoryBox from './CategoryBox';
 import Container from './Container';
 
 export const categories = [
+  {
+    name: 'HOT',
+    label: 'HOT',
+    alias: 'HOT',
+    icon: FaFire,
+    description: '인기게시글과 관련된 정보가 담겨져 있습니다!'
+  },
   {
     name: '전체',
     label: 'ALL',
