@@ -6,6 +6,7 @@ import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import getUserInfo from '@/app/lib/getUserInfo';
+import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -21,6 +22,7 @@ const Mypage = () => {
   const { userId } = useParams<paramsType>();
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
+  const { data: session } = useSession();
   const [userInfo, setUserInfo] = useState<User>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MYHOME');
 
@@ -56,18 +58,20 @@ const Mypage = () => {
             }`}
             onClick={() => setActiveTab('MYHOME')}
           >
-            MY 홈
+            {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '홈'}
           </div>
-          <div
-            className={`text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
-              activeTab === 'SETTINGS'
-                ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                : ''
-            }`}
-            onClick={() => setActiveTab('SETTINGS')}
-          >
-            개인 설정
-          </div>
+          {parseInt(userId) === session?.user?.userId && (
+            <div
+              className={`text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                activeTab === 'SETTINGS'
+                  ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                  : ''
+              }`}
+              onClick={() => setActiveTab('SETTINGS')}
+            >
+              개인 설정
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col flex-1 p-2">
