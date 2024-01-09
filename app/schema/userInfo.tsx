@@ -48,9 +48,8 @@ const schema = z.object({
   profileImg: z
     .any()
     .refine((file) => {
-      console.log('Received file:', file[0]);
       return file[0]?.size <= MAX_FILE_SIZE;
-    }, 'Max image size is 5MB.')
+    }, '파일의 최대 크기는 5MB입니다.')
     .refine(
       (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file[0]?.type),
       '.jpg .jpeg .png .webp 형식의 파일만 지원합니다.'
