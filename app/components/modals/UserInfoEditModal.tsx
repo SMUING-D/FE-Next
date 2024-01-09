@@ -55,7 +55,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     experience,
     introduce
   } = watch();
-  console.log(errors);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
