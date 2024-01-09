@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 
 import Avatar from '../components/Avatar';
+import PasswordEditModal from '../components/modals/PasswordEditModal.tsx';
 import UserInfoEditModal from '../components/modals/UserInfoEditModal';
+import usePasswordEditModal from '../hooks/usePasswordEditModal';
 import useUserInfoEditModal from '../hooks/useUserInfoModal';
 import getUserInfo from '../lib/getUserInfo';
 import { User } from '../types';
@@ -12,6 +14,7 @@ type ActiveType = 'MYHOME' | 'SETTINGS';
 
 const Mypage = () => {
   const userInfoEditModal = useUserInfoEditModal();
+  const passwordEditModal = usePasswordEditModal();
   const [userInfo, setUserInfo] = useState<User>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MYHOME');
 
@@ -114,7 +117,10 @@ const Mypage = () => {
               <div className="text-xl font-semibold">개인 정보 수정</div>
               <div className="text-2xl ml-auto  font-light">{'>'}</div>
             </div>
-            <div className="flex flex-row items-center cursor-pointer">
+            <div
+              className="flex flex-row items-center cursor-pointer"
+              onClick={passwordEditModal.onOpen}
+            >
               <div className="text-xl font-semibold">비밀번호 변경</div>
               <div className="text-2xl ml-auto  font-light">{'>'}</div>
             </div>
@@ -122,6 +128,7 @@ const Mypage = () => {
         )}
       </div>
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
+      <PasswordEditModal />
     </div>
   );
 };

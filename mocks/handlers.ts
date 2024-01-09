@@ -358,5 +358,8 @@ export const handlers = [
   }),
   http.put('/api/edit/user/info', () => {
     return HttpResponse.json(nomalUser);
+  }),
+  http.put('/api/change/password', () => {
+    return HttpResponse.json(true);
   })
 ];
