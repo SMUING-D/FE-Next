@@ -43,7 +43,10 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer">
             {session ? (
               <>
-                <MenuItem onClick={() => router.push('/mypage')} label="마이 페이지" />
+                <MenuItem
+                  onClick={() => router.push(`/user/${session?.user?.userId}`)}
+                  label="마이 페이지"
+                />
                 <MenuItem onClick={() => {}} label="스터디/프로젝트 모집" />
                 <MenuItem onClick={() => {}} label="게시글 작성" />
                 <MenuItem

@@ -2,7 +2,6 @@ import NextAuth, { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 interface UserData {
-  id: string;
   nickname: string;
   image: string;
   token: string;
@@ -51,15 +50,16 @@ export const authOptions: AuthOptions = {
       console.log('session callback is executed');
       if (token.role && session.user) {
         session.user.role = token.role;
+        session.user.userId = token.userId;
       }
       return session;
     },
     jwt: async ({ token }) => {
       // getUserInfo(token.sub)
       console.log('토큰', token);
-      const userInfo = { role: 'ADMIN', token: '123' };
+      const userInfo = { role: 'ADMIN', token: '123', userId: 2 };
       token.role = userInfo.role;
-
+      token.userId = userInfo.userId;
       // if (!token.sub) return token;
 
       // const userInfo = { role: 'ADMIN' };

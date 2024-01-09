@@ -1,5 +1,5 @@
-const getUserInfo = async (token: string) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/user/info`;
+const getUserInfo = async (token: string, userId: number | string) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/user/info/${userId}`;
   const res = await fetch(url, {
     method: 'GET',
     headers: {
