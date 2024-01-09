@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 
-import { postData } from './data';
+import { nomalUser, postData } from './data';
 
 const User = [
   {
@@ -520,5 +520,15 @@ export const handlers = [
       imageSrc:
         'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     });
+  }),
+  http.get('/api/user/info/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(nomalUser);
+  }),
+  http.put('/api/edit/user/info', () => {
+    return HttpResponse.json(nomalUser);
+  }),
+  http.put('/api/change/password', () => {
+    return HttpResponse.json(true);
   })
 ];

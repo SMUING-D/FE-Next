@@ -9,7 +9,7 @@ import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import { Listing } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
@@ -22,6 +22,7 @@ type paramsType = {
 const PostPage = () => {
   const { data: session } = useSession();
   const { id } = useParams<paramsType>();
+  const router = useRouter();
 
   const username = session?.user?.name;
   const [postData, setPostData] = useState<Listing | undefined>(undefined);
@@ -58,10 +59,16 @@ const PostPage = () => {
       </div>
 
       <div className="flex flex-row relative gap-3 items-center">
-        <Avatar src={postData?.User.profileImg} />
-        <div className="flex dark:text-zinc-100 text-sm text-zinc-500 font-medium">
-          {postData?.User.username}
+        <div
+          className="flex flex-row relative gap-3 items-center cursor-pointer"
+          onClick={() => router.push(`/user/${postData?.User.userId}`)}
+        >
+          <Avatar src={postData?.User.profileImg} />
+          <div className="flex dark:text-zinc-100 text-sm text-zinc-500 font-medium">
+            {postData?.User.username}
+          </div>
         </div>
+
         <div className="flex dark:text-zinc-100 text-xs text-zinc-300 font-light">{postDate}</div>
         <GiHamburgerMenu
           className="relative text-lg ml-auto text-zinc-300 cursor-pointer"

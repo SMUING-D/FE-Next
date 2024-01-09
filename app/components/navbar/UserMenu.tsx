@@ -3,6 +3,7 @@
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -13,6 +14,7 @@ import MenuItem from './MenuItem';
 const UserMenu = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
 
@@ -41,7 +43,10 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer">
             {session ? (
               <>
-                <MenuItem onClick={() => {}} label="마이 페이지" />
+                <MenuItem
+                  onClick={() => router.push(`/user/${session?.user?.userId}`)}
+                  label="마이 페이지"
+                />
                 <MenuItem onClick={() => {}} label="스터디/프로젝트 모집" />
                 <MenuItem onClick={() => {}} label="게시글 작성" />
                 <MenuItem
