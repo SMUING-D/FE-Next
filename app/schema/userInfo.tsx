@@ -3,7 +3,7 @@ import * as z from 'zod';
 export type ValidationSchema = {
   username: string;
   nickname: string;
-  profileImg?: File | string;
+  profileImg?: File;
   school: string;
   grade: number;
   majorColleg?: string;
@@ -15,9 +15,8 @@ export type ValidationSchema = {
   introduce?: string;
 };
 
-// const MAX_FILE_SIZE = 1024 * 1024 * 5;
-// const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-// const ACCEPTED_IMAGE_TYPES = ['jpeg', 'jpg', 'png', 'webp'];
+const MAX_FILE_SIZE = 1024 * 1024 * 5;
+const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 
 const schema = z.object({
   username: z
@@ -46,23 +45,16 @@ const schema = z.object({
   job: z.string().transform((v) => v.replace(/ /g, ' ')),
   experience: z.string().transform((v) => v.replace(/ /g, ' ')),
   introduce: z.string().transform((v) => v.replace(/ /g, ' ')),
-  profileImg: z.union([
-    z.object({
-      // 오브젝트 형식일 경우
-    }),
-    z.string() // 문자열 형식일 경우
-  ])
-  // .object({
-  // adImage: z
-  //   .any()
-  //   .refine((files) => {
-  //     return files?.[0]?.size <= MAX_FILE_SIZE;
-  //   }, 'Max image size is 5MB.')
-  //   .refine(
-  //     (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-  //     'Only .jpg, .jpeg, .png and .webp formats are supported.'
-  //   )
-  // })
+  profileImg: z
+    .any()
+    .refine((file) => {
+      console.log('Received file:', file[0]);
+      return file[0]?.size <= MAX_FILE_SIZE;
+    }, 'Max image size is 5MB.')
+    .refine(
+      (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file[0]?.type),
+      '.jpg .jpeg .png .webp 형식의 파일만 지원합니다.'
+    )
 });
 
 export default schema;

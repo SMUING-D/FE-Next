@@ -149,8 +149,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           errors={errors}
         />
       </div>
-
-      {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
     </form>
   );
 

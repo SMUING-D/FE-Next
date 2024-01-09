@@ -2,6 +2,8 @@
 
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
+import FormError from '../form-error';
+
 type FileInputProps = {
   id: string;
   disabled?: boolean;
@@ -36,10 +38,8 @@ const FileInput: React.FC<FileInputProps> = ({
         ${errors[id] ? 'focus:border-red-500' : 'focus:border-black'}
        `}
         />
-        <div className="flex flex-row">
-          <p className="text-xs text-gray-400 mt-2">
-            PNG, JPG, SVG, WEBP, JPEG 형식의 파일만 지원합니다.
-          </p>
+        <div className="flex flex-row mt-1">
+          {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
           <p
             className="text-xs text-gray-400 mt-2 ml-auto cursor-pointer hover:text-slate-800"
             onClick={onClick}
