@@ -355,5 +355,8 @@ export const handlers = [
   }),
   http.get('/api/user/info', () => {
     return HttpResponse.json(nomalUser);
+  }),
+  http.put('/api/edit/user/info', () => {
+    return HttpResponse.json(nomalUser);
   })
 ];

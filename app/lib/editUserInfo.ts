@@ -1,8 +1,8 @@
-import { User } from '../types';
+import { FieldValues } from 'react-hook-form';
 
-const editUserInfo = async (token: string, data: User) => {
+const editUserInfo = async (token: string, data: FieldValues) => {
   console.log(data);
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/user/info`;
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/edit/user/info`;
   const res = await fetch(url, {
     method: 'PUT',
     headers: {

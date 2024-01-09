@@ -5,16 +5,17 @@ import editUserInfo from '@/app/lib/editUserInfo';
 import schema from '@/app/schema/userInfo';
 import { User } from '@/app/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import Heading from '../Heading';
 import FormError from '../form-error';
+import FileInput from '../inputs/FileInput';
 import Input from '../inputs/Input';
 import Modal from './Modal';
 
-//nickname, username, profile img, school, major, minor, grade, majorCollege, minorCollege, job, experience, introduce
 enum STEPS {
   ONE = 1,
   TWO = 2,
@@ -25,8 +26,9 @@ enum STEPS {
 
 const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
   const userInfoEditModal = useUserInfoEditModal();
-  const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   const {
     register,
@@ -37,25 +39,12 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
   } = useForm<FieldValues>({
     mode: 'onBlur',
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: '',
-      nickname: '',
-      profileImg: '',
-      school: '',
-      major: '',
-      minor: '',
-      grade: '',
-      majorCollege: '',
-      minorCollege: '',
-      job: '',
-      experience: '',
-      introduce: ''
-    }
+    defaultValues: userInfo
   });
   const {
-    name,
+    username,
     nickname,
-    profileImg,
+    profileImg, // eslint-disable-line @typescript-eslint/no-unused-vars
     school,
     major,
     minor,
@@ -66,10 +55,18 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     experience,
     introduce
   } = watch();
+  console.log(errors);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
 
   const actionLabel = useMemo(() => {
     if (nowPage === STEPS.FIVE) {
-      return '수정하기';
+      return '제출하기';
     }
     return '계속하기';
   }, [nowPage]);
@@ -82,17 +79,23 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
   }, [nowPage]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+    setIsLoading(true);
     try {
       await editUserInfo('user', data);
     } catch (error) {
       console.error(error);
     } finally {
       userInfoEditModal.onClose();
+      setNowPage(STEPS.ONE);
+      reset(userInfo);
+      toast.success('개인 정보가 수정되었습니다');
     }
+    setIsLoading(false);
   };
 
   const nextPage = () => {
-    if (nowPage === STEPS.THREE) {
+    if (nowPage === STEPS.FIVE) {
       handleSubmit(onSubmit)();
     } else {
       setNowPage(nowPage + 1);
@@ -107,11 +110,11 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     }
   };
   let bodyContent = (
-    <div className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" encType="multipart/form-data">
       <Heading title="개인 정보를 수정합니다." />
       <Input
-        id="name"
-        value={name ? name : userInfo?.username}
+        id="username"
+        value={username}
         label="이름"
         disabled={isLoading}
         register={register}
@@ -122,24 +125,34 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
       <Input
         id="nickname"
         label="닉네임"
-        value={nickname ? nickname : userInfo?.nickname}
+        value={nickname}
         disabled={isLoading}
         register={register}
         errors={errors}
         required
       />
       {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
-      <Input
-        id="profileImg"
-        label="프로필사진"
-        value={profileImg}
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
+      <div className="flex flex-row items-center gap-3">
+        <div className="w-20 h-20 overflow-hidden rounded-md">
+          <Image
+            src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
+            width={100}
+            height={100}
+            className="rounded-md"
+            alt="profileImg"
+          />
+        </div>
+        <FileInput
+          id="profileImg"
+          disabled={isLoading}
+          register={register}
+          onChange={handleFileChange}
+          errors={errors}
+        />
+      </div>
+
       {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
-    </div>
+    </form>
   );
 
   if (nowPage === STEPS.TWO) {
@@ -190,7 +203,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          required
         />
         {errors.minor && <FormError message={errors.minor?.message?.toString()} />}
         <Input
@@ -210,7 +222,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          required
         />
         {errors.minorCollege && <FormError message={errors.minorCollege?.message?.toString()} />}
       </div>
@@ -227,7 +238,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          required
         />
         {errors.job && <FormError message={errors.job?.message?.toString()} />}
         <Input
@@ -237,7 +247,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          required
         />
         {errors.experience && <FormError message={errors.experience?.message?.toString()} />}
       </div>
@@ -254,7 +263,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          required
         />
         {errors.introduce && <FormError message={errors.introduce?.message?.toString()} />}
       </div>
