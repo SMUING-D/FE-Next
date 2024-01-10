@@ -11,7 +11,11 @@ const getUserInfo = async (token: string, userId: number | string) => {
     throw new Error('Faild to fetch data');
   }
 
-  return res.json();
+  if (res) {
+    return res.json();
+  } else {
+    return null;
+  }
 };
 
 export default getUserInfo;

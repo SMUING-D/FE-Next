@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 import FormError from '../form-error';
@@ -11,7 +12,8 @@ type FileInputProps = {
   register: UseFormRegister<FieldValues>;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errors: FieldErrors;
-  onClick?: () => void;
+  resetImage: boolean;
+  onResetImage: () => void;
 };
 
 const FileInput: React.FC<FileInputProps> = ({
@@ -21,8 +23,14 @@ const FileInput: React.FC<FileInputProps> = ({
   onChange,
   required = false,
   errors,
-  onClick
+  resetImage,
+  onResetImage
 }) => {
+  const [isImageReset, setIsImageReset] = useState(false);
+
+  if (resetImage !== isImageReset) {
+    setIsImageReset(resetImage);
+  }
   return (
     <div className="w-full">
       <div className="font-[sans-serif]">
@@ -32,6 +40,7 @@ const FileInput: React.FC<FileInputProps> = ({
           type="file"
           disabled={disabled}
           onChange={onChange}
+          key={resetImage ? 'reset' : 'not-reset'}
           className={`
           w-full text-black text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-2.5 file:px-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-black rounded
         ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
@@ -42,7 +51,10 @@ const FileInput: React.FC<FileInputProps> = ({
           {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
           <p
             className="text-xs text-gray-400 mt-2 ml-auto cursor-pointer hover:text-slate-800"
-            onClick={onClick}
+            onClick={() => {
+              onResetImage();
+              setIsImageReset(true);
+            }}
           >
             이미지 초기화
           </p>

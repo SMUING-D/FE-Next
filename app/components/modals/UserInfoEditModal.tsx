@@ -29,13 +29,15 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
+  const [resetImage, setResetImage] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch
+    watch,
+    getValues
   } = useForm<FieldValues>({
     mode: 'onBlur',
     resolver: zodResolver(schema),
@@ -60,7 +62,14 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
+      setResetImage(false);
     }
+  };
+
+  const onResetImage = () => {
+    setSelectedFile(undefined);
+    reset({ ...getValues(), profileImg: {} });
+    setResetImage(true);
   };
 
   const actionLabel = useMemo(() => {
@@ -87,7 +96,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     } finally {
       userInfoEditModal.onClose();
       setNowPage(STEPS.ONE);
-      reset(userInfo);
       toast.success('개인 정보가 수정되었습니다');
     }
     setIsLoading(false);
@@ -132,14 +140,16 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
       />
       {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
       <div className="flex flex-row items-center gap-3">
-        <div className="w-20 h-20 overflow-hidden rounded-md">
-          <Image
-            src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
-            width={100}
-            height={100}
-            className="rounded-md"
-            alt="profileImg"
-          />
+        <div className="w-20 h-20 overflow-hidden rounded-md border-2">
+          {resetImage ? null : (
+            <Image
+              src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
+              width={100}
+              height={100}
+              className="rounded-md"
+              alt="profileImg"
+            />
+          )}
         </div>
         <FileInput
           id="profileImg"
@@ -147,6 +157,8 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
           register={register}
           onChange={handleFileChange}
           errors={errors}
+          resetImage={resetImage}
+          onResetImage={onResetImage}
         />
       </div>
     </form>

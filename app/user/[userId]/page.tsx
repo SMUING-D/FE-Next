@@ -3,6 +3,7 @@
 import Avatar from '@/app/components/Avatar';
 import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
+import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import getUserInfo from '@/app/lib/getUserInfo';
@@ -14,7 +15,7 @@ import { User } from '../../types/index';
 
 type ActiveType = 'MYHOME' | 'SETTINGS';
 
-type paramsType = {
+export type paramsType = {
   userId: string;
 };
 
@@ -35,6 +36,8 @@ const Mypage = () => {
     };
     fetchData();
   }, [userId]);
+
+  if (!userInfo) return <ErrorPage />;
 
   return (
     <div className="pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
