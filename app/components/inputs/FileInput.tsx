@@ -31,36 +31,37 @@ const FileInput: React.FC<FileInputProps> = ({
   if (resetImage !== isImageReset) {
     setIsImageReset(resetImage);
   }
+
   return (
-    <div className="w-full">
-      <div className="font-[sans-serif]">
-        <input
-          id={id}
-          {...register(id, { required })}
-          type="file"
-          disabled={disabled}
-          onChange={onChange}
-          key={resetImage ? 'reset' : 'not-reset'}
-          className={`
-          w-full text-black text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-2.5 file:px-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-black rounded
-        ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
-        ${errors[id] ? 'focus:border-red-500' : 'focus:border-black'}
-       `}
-        />
-        <div className="flex flex-row mt-1">
-          {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
-          <p
-            className="text-xs text-gray-400 mt-2 ml-auto cursor-pointer hover:text-slate-800"
-            onClick={() => {
-              onResetImage();
-              setIsImageReset(true);
-            }}
-          >
-            이미지 초기화
-          </p>
-        </div>
-      </div>
-    </div>
+    <label className="flex flex-col w-full">
+      <span className="sr-only">Choose profile photo</span>
+      <input
+        type="file"
+        className="block text-sm text-white file:cursor-pointer
+      file:me-4 file:py-2 file:px-4
+      file:rounded-lg file:border-0
+      file:text-sm file:font-semibold
+      file:bg-neutral-300 file:text-white
+      file:disabled:opacity-50 file:disabled:pointer-events-none
+      hover:file:bg-neutral-500
+    "
+        id={id}
+        {...register(id, { required })}
+        disabled={disabled}
+        onChange={onChange}
+        key={resetImage ? 'reset' : 'not-reset'}
+      />
+      <p
+        className="text-xs text-gray-400 mt-1 cursor-pointer hover:text-slate-800"
+        onClick={() => {
+          onResetImage();
+          setIsImageReset(true);
+        }}
+      >
+        이미지 초기화
+      </p>
+      {errors.profileImg && <FormError message={errors.profileImg?.message?.toString()} />}
+    </label>
   );
 };
 

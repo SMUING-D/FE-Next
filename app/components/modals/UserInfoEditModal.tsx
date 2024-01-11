@@ -139,8 +139,8 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
         required
       />
       {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
-      <div className="flex flex-row items-center gap-3">
-        <div className="w-20 h-20 overflow-hidden rounded-md border-2">
+      <div className="flex flex-row gap-3 justify-between">
+        <div className="w-24 h-24 overflow-hidden rounded-md border-2">
           {resetImage ? null : (
             <Image
               src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
