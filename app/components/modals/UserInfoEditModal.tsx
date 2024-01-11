@@ -60,6 +60,7 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
+    console.log(file);
     if (file) {
       setSelectedFile(file);
       setResetImage(false);
@@ -105,6 +106,22 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     if (nowPage === STEPS.FIVE) {
       handleSubmit(onSubmit)();
     } else {
+      if (nowPage === STEPS.ONE && (errors.name || errors.nickname || errors.profileImg)) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      } else if (nowPage === STEPS.TWO && (errors.school || errors.grade)) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      } else if (
+        nowPage === STEPS.THREE &&
+        (errors.major || errors.majorCollege || errors.minor || errors.minorCollege)
+      ) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      } else if (nowPage === STEPS.FOUR && (errors.job || errors.experience)) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      }
       setNowPage(nowPage + 1);
     }
   };

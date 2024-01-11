@@ -48,12 +48,11 @@ const schema = z.object({
   profileImg: z
     .any()
     .refine((file) => {
+      return !file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0]?.type);
+    }, '.jpg .jpeg .png .webp 형식의 파일만 지원합니다.')
+    .refine((file) => {
       return !file[0] || file[0]?.size <= MAX_FILE_SIZE;
     }, '파일의 최대 크기는 5MB입니다.')
-    .refine(
-      (file) => !file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0]?.type),
-      '.jpg .jpeg .png .webp 형식의 파일만 지원합니다.'
-    )
 });
 
 export default schema;
