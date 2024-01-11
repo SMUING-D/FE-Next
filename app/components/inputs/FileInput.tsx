@@ -37,6 +37,7 @@ const FileInput: React.FC<FileInputProps> = ({
       <span className="sr-only">Choose profile photo</span>
       <input
         type="file"
+        accept="image/png, image/jpeg, image/svg, image/webp"
         className="block text-sm text-white file:cursor-pointer
       file:me-4 file:py-2 file:px-4
       file:rounded-lg file:border-0
