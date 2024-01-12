@@ -39,7 +39,7 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               {User.username === user ? (
                 <FaTrashAlt
                   className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                  onClick={() => console.log('댓글 삭제')}
+                  onClick={() => ''}
                 />
               ) : (
                 <PiSirenFill
@@ -51,16 +51,12 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               )}
               <FaComments
                 className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() =>
-                  session ? console.log('대댓글 작성') : toast('로그인이 필요한 기능입니다')
-                }
+                onClick={() => (session ? '' : toast('로그인이 필요한 기능입니다'))}
               />
               <div className="flex text-xs dark:text-zinc-100 text-zinc-300"></div>
               <FaHeart
                 className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() =>
-                  session ? console.log('댓글 좋아요') : toast('로그인이 필요한 기능입니다')
-                }
+                onClick={() => (session ? '' : toast('로그인이 필요한 기능입니다'))}
               />
               <div className="flex text-xs dark:text-zinc-100 text-zinc-300">{likes}</div>
             </div>

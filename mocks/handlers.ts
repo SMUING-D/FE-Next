@@ -21,7 +21,6 @@ const User = [
 
 export const handlers = [
   http.post('/api/login', () => {
-    console.log('로그인');
     return HttpResponse.json(User[0], {
       headers: {
         'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
@@ -34,7 +33,6 @@ export const handlers = [
     return HttpResponse.json('차다인');
   }),
   http.post('/api/register', () => {
-    console.log('회원가입');
     return HttpResponse.json(User[0], {
       headers: {
         'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
@@ -494,16 +492,12 @@ export const handlers = [
     }
   }),
   http.get('/api/preview/posts', () => {
-    console.log(postData);
     return HttpResponse.json(postData);
   }),
   http.get('/api/detail/posts', ({ request }) => {
     const url = new URL(request.url);
     const postId = url.searchParams.get('postId');
-
     const selectedPost = postId && postData.find((post) => post.postId === parseInt(postId));
-
-    console.log(selectedPost);
     if (selectedPost) {
       return HttpResponse.json(selectedPost);
     }

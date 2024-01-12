@@ -13,4 +13,4 @@ app.use(cors({ origin: 'http://localhost:3000', optionsSuccessStatus: 200, crede
 app.use(express.json());
 app.use(createMiddleware(...handlers));
 
-app.listen(port, () => console.log(`Mock server is running on port: ${port}`));
+app.listen(port, () => {});

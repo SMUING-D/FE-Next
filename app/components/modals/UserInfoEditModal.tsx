@@ -60,7 +60,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       setSelectedFile(file);
       setResetImage(false);
@@ -88,7 +87,6 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
   }, [nowPage]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     setIsLoading(true);
     try {
       await editUserInfo('user', data);

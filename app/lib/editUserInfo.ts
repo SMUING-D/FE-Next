@@ -1,7 +1,7 @@
 import { FieldValues } from 'react-hook-form';
 
 const editUserInfo = async (token: string, data: FieldValues) => {
-  console.log(data);
+  data;
   const url = `${process.env.NEXT_PUBLIC_URL}/api/edit/user/info`;
   const res = await fetch(url, {
     method: 'PUT',

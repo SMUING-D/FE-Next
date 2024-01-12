@@ -90,7 +90,6 @@ const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    console.log('제출된 데이터', data);
     axios
       .post(`${process.env.NEXT_PUBLIC_URL}/api/register`, data)
       .then(() => {
@@ -100,7 +99,7 @@ const RegisterModal = () => {
         toast('가입되었습니다.');
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         toast.error('에러가 발생했습니다.');
       })
       .finally(() => {

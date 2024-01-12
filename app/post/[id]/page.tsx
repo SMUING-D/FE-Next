@@ -81,13 +81,13 @@ const PostPage = () => {
                 <>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={() => console.log('게시글 수정')}
+                    onClick={() => {}}
                   >
                     수정
                   </div>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={() => console.log('게시글 삭제')}
+                    onClick={() => {}}
                   >
                     삭제
                   </div>
@@ -137,7 +137,7 @@ const PostPage = () => {
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
           className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-          onClick={() => (session ? console.log('좋아요') : toast('로그인이 필요한 기능입니다'))}
+          onClick={() => (session ? {} : toast('로그인이 필요한 기능입니다'))}
         />
         <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.likes}</div>
         <FaComment className="flex dark:text-zinc-100 text-zinc-400" />

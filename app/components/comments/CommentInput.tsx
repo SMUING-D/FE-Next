@@ -22,7 +22,7 @@ const CommentInput = () => {
       />
       <div className="w-20">
         <Button
-          onClick={() => (session ? console.log('댓글 작성') : toast('로그인을 먼저 해주세요!'))}
+          onClick={() => (session ? '' : toast('로그인을 먼저 해주세요!'))}
           label="댓글 달기"
           small={true}
         />
