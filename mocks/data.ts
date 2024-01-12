@@ -5617,8 +5617,8 @@ const nomalUser = {
   username: '접시',
   profileImg:
     'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  email: '1904vv@gmail.com',
-  school: '사영대학교',
+  email: '202010677@sangmyung.kr',
+  school: '상명대학교',
   major: '경영학과',
   minor: '글로벌경영학과',
   grade: 4,
