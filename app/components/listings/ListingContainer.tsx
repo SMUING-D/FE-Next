@@ -9,7 +9,7 @@ import PreviewPostsView from '../post/PreviewPostsView';
 import ListingCard from './ListingCard';
 
 const ListingContainer = () => {
-  const [layout, setLayout] = useState('list');
+  const [layout, setLayout] = useState('grid');
   const searchParams = useSearchParams();
 
   let category = searchParams.get('category');
@@ -32,17 +32,17 @@ const ListingContainer = () => {
             <div className="">
               <button
                 type="button"
-                onClick={() => setLayout('list')}
-                className={setActiveStyle('list')}
-              >
-                <BsList />
-              </button>
-              <button
-                type="button"
                 onClick={() => setLayout('grid')}
                 className={setActiveStyle('grid')}
               >
                 <BsFillGridFill />
+              </button>
+              <button
+                type="button"
+                onClick={() => setLayout('list')}
+                className={setActiveStyle('list')}
+              >
+                <BsList />
               </button>
             </div>
           </div>
