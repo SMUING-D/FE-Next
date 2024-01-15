@@ -55,7 +55,7 @@ const ListingPosts = () => {
 
   return (
     <>
-      <div className="">
+      <div className="mt-10">
         {listings?.pages.map((page, i) => (
           <Fragment key={i}>
             {page.map((listing) => (
