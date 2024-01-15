@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 
 import Heading from '../Heading';
+import Search from '../navbar/Search';
 import PreviewPostsView from '../post/PreviewPostsView';
 import ListingCard from './ListingCard';
 
@@ -87,6 +88,12 @@ const ListingContainer = () => {
           >
             <h3>취업 / 정보 교류</h3>
           </button>
+        </div>
+        <div
+          className="flex items-center
+        justify-center p-10"
+        >
+          <Search />
         </div>
         <div className="my-2 w-full">
           {layout === 'grid' ? <ListingCard /> : <PreviewPostsView />}
