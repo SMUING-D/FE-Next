@@ -7,17 +7,23 @@ import { getFilteredPosts } from './lib/getFilteredPosts';
 type HomeProps = {
   searchParams?: {
     category?: string;
+    info?: '' | 'on';
+    search?: string;
   };
 };
 
 const Home: React.FC<HomeProps> = async ({ searchParams }) => {
   const queryClient = new QueryClient();
   const category = searchParams?.category || '';
+  const info = searchParams?.info || '';
+  const search = searchParams?.search || '';
+
+  console.log(info, search);
 
   // 서버에서 불러온 데이터를 클라이언트의 리액트 쿼리가 물려받음.(하이드레이트)
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['posts', category],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, { pageParam }), // searchParams 전달
+    queryKey: ['posts', category, info, search],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, info, search, { pageParam }), // searchParams 전달
     // 커서 값
     initialPageParam: 0
   });
