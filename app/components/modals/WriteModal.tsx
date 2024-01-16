@@ -165,15 +165,6 @@ const WriteModal = () => {
           errors={errors}
           required
         />
-        {/* <Input
-          id="content"
-          value={content}
-          label="내용"
-          register={register}
-          disabled={isLoading}
-          errors={errors}
-          required
-        /> */}
         <textarea
           placeholder="게시글 내용을 자유롭게 입력해주세요!"
           className="text-lg p-4 border-2 color-black"

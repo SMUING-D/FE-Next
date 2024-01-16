@@ -2,6 +2,7 @@
 
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useWriteModal from '@/app/hooks/useWriteModal';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -14,6 +15,7 @@ import MenuItem from './MenuItem';
 const UserMenu = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const writeModal = useWriteModal();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
@@ -25,7 +27,10 @@ const UserMenu = () => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <div className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div
+          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+          onClick={writeModal.onOpen}
+        >
           글쓰기
         </div>
         <div
@@ -47,8 +52,9 @@ const UserMenu = () => {
                   onClick={() => router.push(`/user/${session?.user?.userId}`)}
                   label="마이 페이지"
                 />
-                <MenuItem onClick={() => {}} label="스터디/프로젝트 모집" />
-                <MenuItem onClick={() => {}} label="게시글 작성" />
+                {/* STUDY / Post 나눌지 고려 */}
+                <MenuItem onClick={writeModal.onOpen} label="스터디/프로젝트 모집" />
+                <MenuItem onClick={writeModal.onOpen} label="게시글 작성" />
                 <MenuItem
                   onClick={() => {
                     signOut();
