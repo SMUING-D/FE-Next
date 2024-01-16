@@ -524,5 +524,13 @@ export const handlers = [
   }),
   http.put('/api/change/password', () => {
     return HttpResponse.json(true);
+  }),
+  http.get('/api/user/write/post/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(postData.slice(0, 10));
+  }),
+  http.get('/api/user/like/post/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(postData);
   })
 ];
