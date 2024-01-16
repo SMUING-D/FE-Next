@@ -535,5 +535,13 @@ export const handlers = [
   }),
   http.delete('/api/user/revoke', () => {
     return HttpResponse.json(true);
+  }),
+  http.get('/api/auth/email/send/:email', ({ params }) => {
+    const email = params.email;
+    console.log(email);
+    return HttpResponse.json('101010');
+  }),
+  http.put('/api/reset/password', () => {
+    return HttpResponse.json(true);
   })
 ];
