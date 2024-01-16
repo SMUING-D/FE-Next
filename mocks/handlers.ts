@@ -532,5 +532,8 @@ export const handlers = [
   http.get('/api/user/like/post/:userId', ({ params }) => {
     const userId = params.userId;
     return userId && HttpResponse.json(postData);
+  }),
+  http.delete('/api/user/revoke', () => {
+    return HttpResponse.json(true);
   })
 ];
