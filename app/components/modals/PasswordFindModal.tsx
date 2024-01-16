@@ -113,7 +113,7 @@ const PasswordFindModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
-        title="비밀번호를 초기화를 진행합니다."
+        title="비밀번호 초기화를 진행합니다."
         subtitle="본인 확인을 위한 이메일과 인증번호를 입력해주세요"
       />
       <div className="flex flex-row gap-2 items-center">
