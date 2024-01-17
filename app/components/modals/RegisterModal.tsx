@@ -17,7 +17,12 @@ import FormError from '../form-error';
 import FileInput from '../inputs/FileInput';
 import Input from '../inputs/Input';
 import SelectBox, { OptionType } from '../select/SelectBox';
-import { COLLEGE_OPTIONS, GRADE_OPTIONS } from '../select/options/registerOptions';
+import {
+  COLLEGE_OPTIONS,
+  EDUCATIONAL_STATUS_OPTIOS,
+  GRADUATE_GRADE_OPTIONS,
+  UNGRADUATE_GRADE_OPTIONS
+} from '../select/options/registerOptions';
 import Modal from './Modal';
 
 // step 선언
@@ -37,6 +42,9 @@ const RegisterModal = () => {
   const [resetImage, setResetImage] = useState(false);
   const [selectedGrade, setSelectedGrade] = useState<OptionType | null>(null);
   const [selectedCollege, setSelectedCollege] = useState<OptionType | null>(null);
+  const [selectedEducationalStatus, setSelectedEducationalStatus] = useState<OptionType | null>(
+    null
+  );
 
   const {
     register,
@@ -56,6 +64,7 @@ const RegisterModal = () => {
       nickname: '',
       profile: '',
       studentId: '',
+      educationalStatus: '',
       grade: '',
       school: '',
       major: '',
@@ -81,7 +90,8 @@ const RegisterModal = () => {
     college, // eslint-disable-line @typescript-eslint/no-unused-vars
     subMajor,
     desiredEmployment,
-    skill
+    skill,
+    educationalStatus // eslint-disable-line @typescript-eslint/no-unused-vars
   } = watch();
 
   // FieldError와 React.ReactElement 타입이 일치하지않아서.
@@ -107,6 +117,14 @@ const RegisterModal = () => {
   //College Select
   const handleCollegeSelect = (selectedOption: OptionType | null) => {
     setSelectedCollege(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), college: selectedOption.value });
+    }
+  };
+
+  //EducationalStatus Select
+  const handleEducationalStatusSelect = (selectedOption: OptionType | null) => {
+    setSelectedEducationalStatus(selectedOption);
     if (selectedOption.value) {
       reset({ ...getValues(), college: selectedOption.value });
     }
@@ -308,8 +326,22 @@ const RegisterModal = () => {
         />
         {errors.studentId && <FormError message={errors.studentId?.message?.toString()} />}
         <SelectBox
+          id="educationalStatus"
+          options={EDUCATIONAL_STATUS_OPTIOS}
+          onChange={handleEducationalStatusSelect}
+          placeholder="학위"
+          value={selectedEducationalStatus}
+        />
+        {errors.educationalStatus && (
+          <FormError message={errors.educationalStatus?.message?.toString()} />
+        )}
+        <SelectBox
           id="grade"
-          options={GRADE_OPTIONS}
+          options={
+            selectedEducationalStatus && selectedEducationalStatus.value === '대학생'
+              ? UNGRADUATE_GRADE_OPTIONS
+              : GRADUATE_GRADE_OPTIONS
+          }
           onChange={handleGradeSelect}
           placeholder="학년"
           value={selectedGrade}
