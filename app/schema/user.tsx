@@ -42,7 +42,7 @@ const schema = z
       .refine((value) => value.length === 9, {
         message: '학번은 정확히 9자리여야 합니다.'
       }),
-    grade: z.coerce.string().min(1, { message: '학년을 입력해주세요' }),
+    grade: z.coerce.string().min(1, { message: '학년을 선택해주세요' }),
     school: z
       .string()
       .min(1, { message: '학교를 입력해주세요' })
@@ -53,7 +53,7 @@ const schema = z
       .transform((v) => v.replace(/ /g, ' ')),
     college: z
       .string()
-      .min(1, { message: '단과대를 입력해주세요' })
+      .min(1, { message: '단과대를 선택해주세요' })
       .transform((v) => v.replace(/ /g, ' ')),
     subMajor: z.string().transform((v) => v.replace(/ /g, ' ')),
     desiredEmployment: z.string().transform((v) => v.replace(/ /g, ' ')),

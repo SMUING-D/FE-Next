@@ -16,6 +16,8 @@ import Heading from '../Heading';
 import FormError from '../form-error';
 import FileInput from '../inputs/FileInput';
 import Input from '../inputs/Input';
+import SelectBox, { OptionType } from '../select/SelectBox';
+import { COLLEGE_OPTIONS, GRADE_OPTIONS } from '../select/options/registerOptions';
 import Modal from './Modal';
 
 // step 선언
@@ -33,6 +35,8 @@ const RegisterModal = () => {
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resetImage, setResetImage] = useState(false);
+  const [selectedGrade, setSelectedGrade] = useState<OptionType | null>(null);
+  const [selectedCollege, setSelectedCollege] = useState<OptionType | null>(null);
 
   const {
     register,
@@ -71,14 +75,15 @@ const RegisterModal = () => {
     nickname,
     profile, // eslint-disable-line @typescript-eslint/no-unused-vars
     studentId,
-    grade,
+    grade, // eslint-disable-line @typescript-eslint/no-unused-vars
     school,
     major,
-    college,
+    college, // eslint-disable-line @typescript-eslint/no-unused-vars
     subMajor,
     desiredEmployment,
     skill
   } = watch();
+
   // FieldError와 React.ReactElement 타입이 일치하지않아서.
   // FieldError react-hook-form에서 생성된 오브젝트.
   // ReactNode는 React에서 렌더링 되는 모든 타입(숫자, 불리언, 문자열)을 포함하는 추상적 타입.
@@ -90,6 +95,24 @@ const RegisterModal = () => {
   // 첫페이지일떄는 actionLabel, secondaryLabel X
   // 두번째페이지는, actionLabel 계속하기, secondaryLabel  뒤로가기
   // 세번째페이지는, actionLabel 제출하기 secondaryLabel 뒤로가기
+
+  //Grade Select
+  const handleGradeSelect = (selectedOption: OptionType | null) => {
+    setSelectedGrade(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), grade: selectedOption.value });
+    }
+  };
+
+  //College Select
+  const handleCollegeSelect = (selectedOption: OptionType | null) => {
+    setSelectedCollege(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), college: selectedOption.value });
+    }
+  };
+
+  //File state 변경
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     if (file) {
@@ -97,7 +120,6 @@ const RegisterModal = () => {
       setResetImage(false);
     }
   };
-
   const onResetImage = () => {
     setSelectedFile(undefined);
     reset({ ...getValues(), profileImg: {} });
@@ -105,7 +127,7 @@ const RegisterModal = () => {
   };
 
   const actionLabel = useMemo(() => {
-    if (nowPage === STEPS.THREE) {
+    if (nowPage === STEPS.FIVE) {
       return '제출하기';
     }
     return '계속하기';
@@ -120,7 +142,7 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log(data);
+    console.log('제출된 데이터: ', data);
 
     axios
       .post(`${process.env.NEXT_PUBLIC_URL}/api/register`, data)
@@ -244,16 +266,18 @@ const RegisterModal = () => {
         />
         {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
         <div className="flex flex-row gap-3 justify-between">
-          <div className="w-24 h-24 overflow-hidden rounded-md border-2">
-            {resetImage ? null : (
-              <Image
-                src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
-                width={100}
-                height={100}
-                className="rounded-md"
-                alt="profileImg"
-              />
-            )}
+          <div className="w-24 h-22 overflow-hidden rounded-md border-2">
+            <Image
+              src={
+                selectedFile && !resetImage
+                  ? URL.createObjectURL(selectedFile)
+                  : '/images/placeholder.jpg'
+              }
+              width={100}
+              height={70}
+              className="rounded-md object-cover"
+              alt="profileImg"
+            />
           </div>
           <FileInput
             id="profileImg"
@@ -283,15 +307,12 @@ const RegisterModal = () => {
           required
         />
         {errors.studentId && <FormError message={errors.studentId?.message?.toString()} />}
-        <Input
+        <SelectBox
           id="grade"
-          label="학년"
-          value={grade}
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
+          options={GRADE_OPTIONS}
+          onChange={handleGradeSelect}
+          placeholder="학년"
+          value={selectedGrade}
         />
         {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
         <Input
@@ -322,14 +343,12 @@ const RegisterModal = () => {
           required
         />
         {errors.major && <FormError message={errors.major?.message?.toString()} />}
-        <Input
+        <SelectBox
           id="college"
-          label="단과대"
-          value={college}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
+          options={COLLEGE_OPTIONS}
+          onChange={handleCollegeSelect}
+          placeholder="단과대"
+          value={selectedCollege}
         />
         {errors.college && <FormError message={errors.college?.message?.toString()} />}
         <Input
