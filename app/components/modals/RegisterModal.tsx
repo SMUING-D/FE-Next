@@ -126,7 +126,7 @@ const RegisterModal = () => {
   const handleEducationalStatusSelect = (selectedOption: OptionType | null) => {
     setSelectedEducationalStatus(selectedOption);
     if (selectedOption.value) {
-      reset({ ...getValues(), college: selectedOption.value });
+      reset({ ...getValues(), educationalStatus: selectedOption.value });
     }
   };
 
@@ -189,10 +189,21 @@ const RegisterModal = () => {
       } else if (nowPage === STEPS.TWO && (errors.name || errors.profile || errors.nickname)) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
-      } else if (nowPage === STEPS.THREE && (errors.studentId || errors.grade || errors.school)) {
+      } else if (
+        nowPage === STEPS.THREE &&
+        (errors.studentId ||
+          errors.grade ||
+          errors.educationalStatus ||
+          errors.school ||
+          !selectedGrade ||
+          !selectedEducationalStatus)
+      ) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
-      } else if (nowPage === STEPS.FOUR && (errors.major || errors.college || errors.subMajor)) {
+      } else if (
+        nowPage === STEPS.FOUR &&
+        (errors.major || errors.college || errors.subMajor || !selectedCollege)
+      ) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
       }

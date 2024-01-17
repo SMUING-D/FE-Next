@@ -57,7 +57,11 @@ const schema = z
       .transform((v) => v.replace(/ /g, ' ')),
     subMajor: z.string().transform((v) => v.replace(/ /g, ' ')),
     desiredEmployment: z.string().transform((v) => v.replace(/ /g, ' ')),
-    skill: z.string().transform((v) => v.replace(/ /g, ' '))
+    skill: z.string().transform((v) => v.replace(/ /g, ' ')),
+    educationalStatus: z
+      .string()
+      .min(1, { message: '학위를 선택해주세요' })
+      .transform((v) => v.replace(/ /g, ' '))
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다',
