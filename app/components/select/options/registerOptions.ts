@@ -1,7 +1,9 @@
 const EDUCATIONAL_STATUS_OPTIOS = [
   { value: '대학생', label: '대학생' },
   { value: '대학원생', label: '대학원생' },
-  { value: '졸업자', label: '졸업자' }
+  { value: '졸업생', label: '졸업생' },
+  // { value: '취준생', label: '취준생' },
+  { value: '취업자', label: '취업자' }
 ];
 
 const UNGRADUATE_GRADE_OPTIONS = [
