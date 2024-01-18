@@ -27,7 +27,7 @@ const schema = z
     path: ['confirmPassword']
   })
   .refine((data) => data.userPassword !== data.password, {
-    message: '이전 비밀번호와 다른 비밀번호가 필요합니다',
+    message: '현재 비밀번호와 다르게 설졍해주세요!',
     path: ['password']
   });
 

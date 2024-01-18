@@ -4,7 +4,7 @@ import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import changePassword from '@/app/lib/changePassword';
 import schema from '@/app/schema/password';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -56,7 +56,6 @@ const PasswordEditModal = () => {
     } finally {
       passwordEditModal.onClose();
       setIsLoading(false);
-      signOut();
       reset();
     }
   };
@@ -78,7 +77,7 @@ const PasswordEditModal = () => {
       <Input
         id="password"
         type="password"
-        label="비밀번호"
+        label="새로운 비밀번호"
         value={password}
         disabled={isLoading}
         register={register}
@@ -89,7 +88,7 @@ const PasswordEditModal = () => {
       <Input
         id="confirmPassword"
         type="password"
-        label="비밀번호 확인"
+        label="새로운 비밀번호 확인"
         value={confirmPassword}
         disabled={isLoading}
         register={register}
