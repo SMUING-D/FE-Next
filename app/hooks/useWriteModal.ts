@@ -9,7 +9,7 @@ interface WriteModalStore {
 
 const useWriteModal = create<WriteModalStore>()(
   devtools((set) => ({
-    isOpen: true,
+    isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false })
   }))
