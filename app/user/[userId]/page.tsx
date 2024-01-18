@@ -3,13 +3,14 @@
 import Avatar from '@/app/components/Avatar';
 import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
+import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
 import MyPostView from '@/app/components/mypost/MyPostView';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
+import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
 import getUserInfo from '@/app/lib/getUserInfo';
-import revokeUser from '@/app/lib/revokeUser';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -26,6 +27,7 @@ const Mypage = () => {
   const { data: session } = useSession();
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
+  const userRevokeModal = useUserRevokeModal();
   const [userInfo, setUserInfo] = useState<User>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
@@ -38,18 +40,6 @@ const Mypage = () => {
   }, [userId]);
 
   if (!userInfo) return <ErrorPage />;
-
-  const handleRevoke = async () => {
-    if (!confirm('정말 SMUING을 떠나고 싶으신가요?\n다시 생각해보는 건 어때요? 🥺')) {
-      alert('취소되었습니다.');
-    } else {
-      const res = await revokeUser('token');
-      if (res) {
-        alert('탈퇴 처리 되었습니다.');
-        signOut();
-      }
-    }
-  };
 
   return (
     <div className="pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
@@ -179,7 +169,10 @@ const Mypage = () => {
               <div className="text-xl font-semibold dark:text-stone-100">비밀번호 변경</div>
               <div className="text-2xl ml-auto  font-light dark:text-stone-100">{'>'}</div>
             </div>
-            <div className="flex flex-row items-center cursor-pointer" onClick={handleRevoke}>
+            <div
+              className="flex flex-row items-center cursor-pointer"
+              onClick={userRevokeModal.onOpen}
+            >
               <div className="text-xl font-semibold dark:text-stone-100">회원 탈퇴</div>
               <div className="text-2xl ml-auto  font-light dark:text-stone-100">{'>'}</div>
             </div>
@@ -198,6 +191,7 @@ const Mypage = () => {
       </div>
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
       <PasswordEditModal />
+      <UserRevokeModal />
     </div>
   );
 };
