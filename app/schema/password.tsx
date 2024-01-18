@@ -25,6 +25,10 @@ const schema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다',
     path: ['confirmPassword']
+  })
+  .refine((data) => data.userPassword !== data.password, {
+    message: '이전 비밀번호와 다른 비밀번호가 필요합니다',
+    path: ['password']
   });
 
 export default schema;
