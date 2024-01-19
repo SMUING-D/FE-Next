@@ -4,6 +4,7 @@ import { Nunito } from 'next/font/google';
 import ClientOnly from './components/ClientOnly';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
+import WriteModal from './components/modals/WriteModal';
 import Navbar from './components/navbar/Navbar';
 import { MSWComponent } from './components/providers/MSWProvider';
 import RQProvider from './components/providers/RQProvider';
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <ToasterProvider />
             <RegisterModal />
             <LoginModal />
+            <WriteModal />
             <Navbar />
             <div className="pb-20 pt-28">{children}</div>
           </RQProvider>
