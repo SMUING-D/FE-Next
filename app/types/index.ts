@@ -15,6 +15,51 @@ export type Listing = {
   Comments: Array<Comments>;
 };
 
+export type JOB_DETAIL_DTO = {
+  jobId: number;
+  title: string;
+  content: string;
+  userName: string;
+  likes: number;
+  jobImageDtoList: JOB_IMAGE_DTO[];
+  commentList: COMMENT_DTO[];
+  createAt: string;
+  updateAt: string;
+};
+
+export type JOB_IMAGE_DTO = {
+  communityId: number;
+  communityImagePath: string;
+};
+
+export type COMMENT_DTO = {
+  id: number;
+  stars: number;
+  content: string;
+  communityId: number;
+  createdAt: string;
+  updatedAt: string;
+  userDto: USER_DTO;
+  likes: number;
+  commentReplyList: COMMENT_REPLY_DTO[];
+};
+
+export type COMMENT_REPLY_DTO = {
+  id: number;
+  stars: number;
+  content: string;
+  communityId: number;
+  createdAt: string;
+  updatedAt: string;
+  userDto: USER_DTO;
+};
+
+export type USER_DTO = {
+  userId: number;
+  userName: string;
+  profile: string;
+};
+
 export type Images = {
   imageId: number;
   link: string;
