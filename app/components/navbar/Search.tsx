@@ -1,28 +1,41 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEventHandler } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
 const Search = () => {
-  const [userInput, setUserInput] = useState(''); //eslint-disable-line no-unused-vars
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const handleChangeInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(e.target.value);
-  }, []);
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    const newSearchParams = new URLSearchParams(searchParams);
+    const searchValue = e.currentTarget.search.value;
+    console.log(e.currentTarget.search.value);
+
+    if (!searchValue) {
+      router.replace(`?category=${newSearchParams.get('category') || ''}`);
+    } else {
+      newSearchParams.set('search', searchValue);
+      router.replace(`?${newSearchParams.toString()}`);
+    }
+  };
 
   return (
-    <div className="md:w-2/4 border-[1px] p-2 rounded-full shadow-sm">
+    <form onSubmit={onSubmit} className="md:w-2/4 border-[1px] p-2 rounded-full shadow-sm">
       <div className="flex flex-row items-center justify-center ">
         <input
           className="w-full p-1 bg-transparent"
           placeholder="검색어를 입력해주세요"
-          onChange={handleChangeInput}
+          name="search"
+          type="search"
         />
-        <div className="p-2 bg-blue-500 rounded-full text-white">
+        <button type="submit" className="p-2 bg-blue-500 rounded-full text-white cursor-pointer">
           <BiSearch size={18} />
-        </div>
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -1,7 +1,6 @@
 import Categories from '../Categories';
 import Container from '../Container';
 import Logo from './Logo';
-import Search from './Search';
 import ThemeToggle from './ThemeToggle';
 import UserMenu from './UserMenu';
 
@@ -12,9 +11,10 @@ const Navbar = () => {
         <Container>
           <div className="dark:text-white flex flex-row items-center justify-between gap-3 md:gap-3">
             <Logo />
-            <Search />
-            <ThemeToggle />
-            <UserMenu />
+            <div className="flex items-center gap-5">
+              <ThemeToggle />
+              <UserMenu />
+            </div>
           </div>
         </Container>
       </div>
