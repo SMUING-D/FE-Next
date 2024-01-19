@@ -5,6 +5,7 @@ import ClientOnly from './components/ClientOnly';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
 import Navbar from './components/navbar/Navbar';
+import { MSWComponent } from './components/providers/MSWProvider';
 import RQProvider from './components/providers/RQProvider';
 import ToasterProvider from './components/providers/ToasterProvider';
 import './globals.css';
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={`${font.className} dark:bg-medium dark:text-slate-100`}>
         <ClientOnly>
           <RQProvider>
+            <MSWComponent />
             <ToasterProvider />
             <RegisterModal />
             <LoginModal />
