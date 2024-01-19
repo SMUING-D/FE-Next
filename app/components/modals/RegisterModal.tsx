@@ -3,6 +3,7 @@
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -13,43 +14,85 @@ import schema from '../../schema/user';
 import Button from '../Button';
 import Heading from '../Heading';
 import FormError from '../form-error';
+import FileInput from '../inputs/FileInput';
 import Input from '../inputs/Input';
+import SelectBox, { OptionType } from '../select/SelectBox';
+import {
+  COLLEGE_OPTIONS,
+  EDUCATIONAL_STATUS_OPTIOS,
+  GRADUATE_GRADE_OPTIONS,
+  UNGRADUATE_GRADE_OPTIONS
+} from '../select/options/registerOptions';
 import Modal from './Modal';
 
 // step 선언
 enum STEPS {
   ONE = 1,
   TWO = 2,
-  THREE = 3
+  THREE = 3,
+  FOUR = 4,
+  FIVE = 5
 }
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [resetImage, setResetImage] = useState(false);
+  const [selectedGrade, setSelectedGrade] = useState<OptionType | null>(null);
+  const [selectedCollege, setSelectedCollege] = useState<OptionType | null>(null);
+  const [selectedEducationalStatus, setSelectedEducationalStatus] = useState<OptionType | null>(
+    null
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch
+    watch,
+    getValues
   } = useForm<FieldValues>({
     mode: 'onBlur',
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
       email: '',
-      nickname: '',
       password: '',
       confirmPassword: '',
+      name: '',
+      nickname: '',
+      profile: '',
+      studentId: '',
+      educationalStatus: '',
+      grade: '',
       school: '',
       major: '',
-      grade: '',
-      job: '',
-      skill: ''
+      college: '',
+      subMajor: '',
+      desiredEmployment: '',
+      skill: '',
+      introduce: ''
     }
   });
+
+  const {
+    email,
+    password,
+    confirmPassword,
+    name,
+    nickname,
+    profile, // eslint-disable-line @typescript-eslint/no-unused-vars
+    studentId,
+    grade, // eslint-disable-line @typescript-eslint/no-unused-vars
+    school,
+    major,
+    college, // eslint-disable-line @typescript-eslint/no-unused-vars
+    subMajor,
+    desiredEmployment,
+    skill,
+    educationalStatus // eslint-disable-line @typescript-eslint/no-unused-vars
+  } = watch();
 
   // FieldError와 React.ReactElement 타입이 일치하지않아서.
   // FieldError react-hook-form에서 생성된 오브젝트.
@@ -59,22 +102,50 @@ const RegisterModal = () => {
   // 해결 방안 (FieldError와 같은 타입을 -> ReactNode에 호환하는 타입으로 변경)
   // 우리가 사용하는 값들이 문자열 값이니까 toString().
 
-  const name = watch('name');
-  const email = watch('email');
-  const nickname = watch('nickname');
-  const password = watch('password');
-  const confirmPassword = watch('confirmPassword');
-  const school = watch('school');
-  const major = watch('major');
-  const grade = watch('grade');
-  const job = watch('job');
-  const skill = watch('skill');
-
   // 첫페이지일떄는 actionLabel, secondaryLabel X
   // 두번째페이지는, actionLabel 계속하기, secondaryLabel  뒤로가기
   // 세번째페이지는, actionLabel 제출하기 secondaryLabel 뒤로가기
+
+  //Grade Select
+  const handleGradeSelect = (selectedOption: OptionType | null) => {
+    setSelectedGrade(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), grade: selectedOption.value });
+    }
+  };
+
+  //College Select
+  const handleCollegeSelect = (selectedOption: OptionType | null) => {
+    setSelectedCollege(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), college: selectedOption.value });
+    }
+  };
+
+  //EducationalStatus Select
+  const handleEducationalStatusSelect = (selectedOption: OptionType | null) => {
+    setSelectedEducationalStatus(selectedOption);
+    if (selectedOption.value) {
+      reset({ ...getValues(), educationalStatus: selectedOption.value });
+    }
+  };
+
+  //File state 변경
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setResetImage(false);
+    }
+  };
+  const onResetImage = () => {
+    setSelectedFile(undefined);
+    reset({ ...getValues(), profileImg: {} });
+    setResetImage(true);
+  };
+
   const actionLabel = useMemo(() => {
-    if (nowPage === STEPS.THREE) {
+    if (nowPage === STEPS.FIVE) {
       return '제출하기';
     }
     return '계속하기';
@@ -89,6 +160,7 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+    console.log('제출된 데이터: ', data);
 
     axios
       .post(`${process.env.NEXT_PUBLIC_URL}/api/register`, data)
@@ -108,18 +180,29 @@ const RegisterModal = () => {
   };
 
   const nextPage = () => {
-    if (nowPage === STEPS.THREE) {
+    if (nowPage === STEPS.FIVE) {
       handleSubmit(onSubmit)();
     } else {
-      if (
-        nowPage === STEPS.ONE &&
-        (errors.name || errors.nickname || errors.password || errors.confirmPassword)
+      if (nowPage === STEPS.ONE && (errors.email || errors.password || errors.confirmPassword)) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      } else if (nowPage === STEPS.TWO && (errors.name || errors.profile || errors.nickname)) {
+        toast('양식에 맞는 내용을 입력해주세요');
+        return;
+      } else if (
+        nowPage === STEPS.THREE &&
+        (errors.studentId ||
+          errors.grade ||
+          errors.educationalStatus ||
+          errors.school ||
+          !selectedGrade ||
+          !selectedEducationalStatus)
       ) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
       } else if (
-        nowPage === STEPS.TWO &&
-        (errors.email || errors.school || errors.major || errors.grade)
+        nowPage === STEPS.FOUR &&
+        (errors.major || errors.college || errors.subMajor || !selectedCollege)
       ) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
@@ -140,25 +223,15 @@ const RegisterModal = () => {
     <div className="flex flex-col gap-4">
       <Heading title="SMUING에 오신 것을 환영합니다!" subtitle="계정을 생성해 주세요!" />
       <Input
-        id="name"
-        value={name}
-        label="이름"
+        id="email"
+        label="이메일"
+        value={email}
         disabled={isLoading}
         register={register}
         errors={errors}
         required
       />
-      {errors.name && <FormError message={errors.name?.message?.toString()} />}
-      <Input
-        id="nickname"
-        label="닉네임"
-        value={nickname}
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
+      {errors.email && <FormError message={errors.email?.message?.toString()} />}
       <Input
         id="password"
         type="password"
@@ -200,20 +273,94 @@ const RegisterModal = () => {
   if (nowPage === STEPS.TWO) {
     bodyContent = (
       <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">이메일 및 학교 정보를 작성해주세요</h3>
+        <h3 className="font-regular text-neutral-800 mt-2">개인 프로필 관련 정보를 작성해주세요</h3>
         <Input
-          id="email"
-          label="이메일"
-          value={email}
+          id="name"
+          value={name}
+          label="이름"
           disabled={isLoading}
           register={register}
           errors={errors}
           required
         />
-        {errors.email && <FormError message={errors.email?.message?.toString()} />}
+        {errors.name && <FormError message={errors.name?.message?.toString()} />}
+        <Input
+          id="nickname"
+          label="닉네임"
+          value={nickname}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
+        <div className="flex flex-row gap-3 justify-between">
+          <div className="w-24 h-22 overflow-hidden rounded-md border-2">
+            <Image
+              src={
+                selectedFile && !resetImage
+                  ? URL.createObjectURL(selectedFile)
+                  : '/images/placeholder.jpg'
+              }
+              width={100}
+              height={70}
+              className="rounded-md object-cover"
+              alt="profileImg"
+            />
+          </div>
+          <FileInput
+            id="profileImg"
+            disabled={isLoading}
+            register={register}
+            onChange={handleFileChange}
+            errors={errors}
+            resetImage={resetImage}
+            onResetImage={onResetImage}
+          />
+        </div>
+        {errors.school && <FormError message={errors.school?.message?.toString()} />}
+      </div>
+    );
+  }
+  if (nowPage === STEPS.THREE) {
+    bodyContent = (
+      <div className="flex flex-col gap-4">
+        <h3 className="font-regular text-neutral-800 mt-2">학교 관련 정보를 작성해주세요</h3>
+        <Input
+          id="studentId"
+          label="학번"
+          value={studentId}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {errors.studentId && <FormError message={errors.studentId?.message?.toString()} />}
+        <SelectBox
+          id="educationalStatus"
+          options={EDUCATIONAL_STATUS_OPTIOS}
+          onChange={handleEducationalStatusSelect}
+          placeholder="학위"
+          value={selectedEducationalStatus}
+        />
+        {errors.educationalStatus && (
+          <FormError message={errors.educationalStatus?.message?.toString()} />
+        )}
+        <SelectBox
+          id="grade"
+          options={
+            selectedEducationalStatus && selectedEducationalStatus.value === '대학생'
+              ? UNGRADUATE_GRADE_OPTIONS
+              : GRADUATE_GRADE_OPTIONS
+          }
+          onChange={handleGradeSelect}
+          placeholder="학년"
+          value={selectedGrade}
+        />
+        {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
         <Input
           id="school"
-          label="대학교 또는 대학원"
+          label="대학교 및 대학원"
           value={school}
           disabled={isLoading}
           register={register}
@@ -221,9 +368,17 @@ const RegisterModal = () => {
           required
         />
         {errors.school && <FormError message={errors.school?.message?.toString()} />}
+      </div>
+    );
+  }
+
+  if (nowPage === STEPS.FOUR) {
+    bodyContent = (
+      <div className="flex flex-col gap-4">
+        <h3 className="font-regular text-neutral-800 mt-2">전공 관련 정보를 작성해주세요</h3>
         <Input
           id="major"
-          label="학과"
+          label="전공"
           value={major}
           disabled={isLoading}
           register={register}
@@ -231,44 +386,54 @@ const RegisterModal = () => {
           required
         />
         {errors.major && <FormError message={errors.major?.message?.toString()} />}
+        <SelectBox
+          id="college"
+          options={COLLEGE_OPTIONS}
+          onChange={handleCollegeSelect}
+          placeholder="단과대"
+          value={selectedCollege}
+        />
+        {errors.college && <FormError message={errors.college?.message?.toString()} />}
         <Input
-          id="grade"
-          label="학년"
-          value={grade}
-          type="number"
+          id="subMajor"
+          label="부전공"
+          value={subMajor}
           disabled={isLoading}
           register={register}
           errors={errors}
           required
         />
-        {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
+        {errors.subMajor && <FormError message={errors.subMajor?.message?.toString()} />}
       </div>
     );
   }
-  if (nowPage === STEPS.THREE) {
+
+  if (nowPage === STEPS.FIVE) {
     bodyContent = (
       <div className="flex flex-col gap-4">
         <h3 className="font-regular text-neutral-800 mt-2">취업 관련 정보를 작성해주세요</h3>
         <Input
-          id="job"
+          id="desiredEmployment"
           label="취업 희망 분야"
-          value={job}
+          value={desiredEmployment}
           disabled={isLoading}
           register={register}
           errors={errors}
           required
         />
-        {errors.job && <FormError message={errors.job?.message?.toString()} />}
+        {errors.desiredEmployment && (
+          <FormError message={errors.desiredEmployment?.message?.toString()} />
+        )}
         <Input
           id="skill"
-          label="자격증 및 기술 스택"
+          label="자격증 및 기술스택"
           value={skill}
           disabled={isLoading}
           register={register}
           errors={errors}
           required
         />
-        {errors?.skill && <FormError message={errors?.skill?.message?.toString()} />}
+        {errors.skill && <FormError message={errors.skill?.message?.toString()} />}
       </div>
     );
   }

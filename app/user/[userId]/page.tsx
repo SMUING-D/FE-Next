@@ -3,9 +3,12 @@
 import Avatar from '@/app/components/Avatar';
 import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
+import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
+import MyPostView from '@/app/components/mypost/MyPostView';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
+import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
 import getUserInfo from '@/app/lib/getUserInfo';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
@@ -13,7 +16,7 @@ import { useEffect, useState } from 'react';
 
 import { User } from '../../types/index';
 
-type ActiveType = 'MYHOME' | 'SETTINGS';
+type ActiveType = 'MY_HOME' | 'SETTINGS' | 'WRITE_POST' | 'LIKE_POST';
 
 export type paramsType = {
   userId: string;
@@ -21,18 +24,17 @@ export type paramsType = {
 
 const Mypage = () => {
   const { userId } = useParams<paramsType>();
+  const { data: session } = useSession();
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
-  const { data: session } = useSession();
+  const userRevokeModal = useUserRevokeModal();
   const [userInfo, setUserInfo] = useState<User>(null);
-  const [activeTab, setActiveTab] = useState<ActiveType>('MYHOME');
+  const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await getUserInfo('user', userId);
-      if (res) {
-        setUserInfo(res);
-      }
+      if (res) setUserInfo(res);
     };
     fetchData();
   }, [userId]);
@@ -52,33 +54,59 @@ const Mypage = () => {
           </div>
         </div>
 
-        <div className="flex xl:flex-col md:flex-row sm:flex-row min-[320px]:flex-row gap-5">
+        <div className="flex xl:flex-col xl:w-52 md:flex-row md:w-96 sm:flex-row sm:w-96 min-[320px]:flex-row min-[320px]:w-96 gap-5">
           <div
-            className={`text-bold text-lg font-semibold cursor-pointer dark:text-stone-100 ${
-              activeTab === 'MYHOME'
+            className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100 ${
+              activeTab === 'MY_HOME'
                 ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
                 : ''
             }`}
-            onClick={() => setActiveTab('MYHOME')}
+            onClick={() => setActiveTab('MY_HOME')}
           >
             {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '홈'}
           </div>
           {parseInt(userId) === session?.user?.userId && (
-            <div
-              className={`text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
-                activeTab === 'SETTINGS'
-                  ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                  : ''
-              }`}
-              onClick={() => setActiveTab('SETTINGS')}
-            >
-              개인 설정
-            </div>
+            <>
+              <div
+                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                  activeTab === 'SETTINGS'
+                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                    : ''
+                }`}
+                onClick={() => setActiveTab('SETTINGS')}
+              >
+                개인 설정
+              </div>
+              <div
+                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                  activeTab === 'WRITE_POST'
+                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                    : ''
+                }`}
+                onClick={() => {
+                  setActiveTab('WRITE_POST');
+                }}
+              >
+                내가 쓴 글
+              </div>
+              <div
+                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                  activeTab === 'LIKE_POST'
+                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                    : ''
+                }`}
+                onClick={() => {
+                  setActiveTab('LIKE_POST');
+                }}
+              >
+                내가 좋아요 한 글
+              </div>
+            </>
           )}
         </div>
       </div>
       <div className="flex flex-col flex-1 p-2">
-        {activeTab === 'MYHOME' && (
+        {activeTab === 'MY_HOME' && (
           <div className="flex flex-col gap-20">
             <div className="flex flex-col gap-3">
               <div className="text-2xl font-semibold dark:text-stone-100">자기소개</div>
@@ -141,11 +169,29 @@ const Mypage = () => {
               <div className="text-xl font-semibold dark:text-stone-100">비밀번호 변경</div>
               <div className="text-2xl ml-auto  font-light dark:text-stone-100">{'>'}</div>
             </div>
+            <div
+              className="flex flex-row items-center cursor-pointer"
+              onClick={userRevokeModal.onOpen}
+            >
+              <div className="text-xl font-semibold dark:text-stone-100">회원 탈퇴</div>
+              <div className="text-2xl ml-auto  font-light dark:text-stone-100">{'>'}</div>
+            </div>
+          </div>
+        )}
+        {activeTab === 'WRITE_POST' && (
+          <div className="flex flex-col gap-10">
+            <MyPostView userId={userId} queryKey="MY_POSTS" />
+          </div>
+        )}
+        {activeTab === 'LIKE_POST' && (
+          <div className="flex flex-col gap-10">
+            <MyPostView userId={userId} queryKey="MY_LIKE_POSTS" />
           </div>
         )}
       </div>
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
       <PasswordEditModal />
+      <UserRevokeModal />
     </div>
   );
 };

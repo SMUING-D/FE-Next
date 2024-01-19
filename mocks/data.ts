@@ -19,6 +19,7 @@ const postData = [
       job: '',
       experience: ''
     },
+    likes: 1,
     title: '글로벌 시대의 언어 지원: i18n 다국어 처리',
     type: 'info',
     category: '경영경제대학',
@@ -120,6 +121,7 @@ const postData = [
       job: '',
       experience: ''
     },
+    likes: 1,
     title: '더 따뜻한 사람 되고 싶습니다.',
     type: 'info',
     category: '문화예술대학',
@@ -221,6 +223,7 @@ const postData = [
       job: '',
       experience: ''
     },
+    likes: 1,
     title: '시장이 된 백종원, 예산 시장 성공을 만든 5가지 요인',
     type: 'info',
     category: '융합공과대학',
@@ -322,6 +325,7 @@ const postData = [
       job: '',
       experience: ''
     },
+    likes: 1,
     title: '16년 전에도 똑같았습니다 (일론 머스크)',
     type: 'info',
     category: '사범대학',
@@ -422,6 +426,7 @@ const postData = [
       job: '',
       experience: ''
     },
+    likes: 1,
     title: '월스트리트 전설의 투자자 피터린치 (2002년 인터뷰)',
     type: 'info',
     category: '인문사회과학대학',
@@ -525,6 +530,7 @@ const postData = [
       job: '개발자',
       experience: '1~3년'
     },
+    likes: 1,
     title: '월스트리트 전설의 투자자 피터린치 (2002년 인터뷰)',
     type: 'recruit',
     category: '문화예술대학',
@@ -627,6 +633,7 @@ const postData = [
       job: '개발자',
       experience: '1~3년'
     },
+    likes: 1,
     title: '월스트리트 전설의 투자자 피터린치 (2002년 인터뷰)',
     type: 'recruit',
     category: '인문사회과학대학',

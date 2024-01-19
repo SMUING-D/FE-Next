@@ -571,5 +571,24 @@ export const handlers = [
   }),
   http.put('/api/change/password', () => {
     return HttpResponse.json(true);
+  }),
+  http.get('/api/user/write/post/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(postData.slice(0, 10));
+  }),
+  http.get('/api/user/like/post/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(postData);
+  }),
+  http.delete('/api/user/revoke', () => {
+    return HttpResponse.json(true);
+  }),
+  http.get('/api/auth/email/send/:email', ({ params }) => {
+    const email = params.email;
+    console.log(email);
+    return HttpResponse.json('101010');
+  }),
+  http.put('/api/reset/password', () => {
+    return HttpResponse.json(true);
   })
 ];

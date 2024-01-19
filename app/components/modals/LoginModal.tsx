@@ -1,6 +1,7 @@
 'use client';
 
 import useLoginModal from '@/app/hooks/useLoginModal';
+import usePasswordFindModal from '@/app/hooks/usePasswordFindModal';
 import schema from '@/app/schema/login';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
@@ -18,6 +19,7 @@ import Modal from './Modal';
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const passwordFindModal = usePasswordFindModal();
   const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const {
@@ -36,12 +38,10 @@ const LoginModal = () => {
   });
   const { email, password } = watch();
 
-  // const finishLogin = (message: string) => {
-  //   setIsLoading(false);
-  //   loginModal.onClose();
-  //   reset({});
-  //   toast(message);
-  // };
+  const findPassword = () => {
+    loginModal.onClose();
+    passwordFindModal.onOpen();
+  };
 
   const onSubmit: SubmitHandler<FieldValues> = async () => {
     try {
@@ -79,6 +79,12 @@ const LoginModal = () => {
         value={password}
       />
       {errors.password && <FormError message={errors?.password?.message?.toString()} />}
+      <div
+        className="ml-auto font-normal text-sm text-neutral-500 dark:text-white hover:font-semibold cursor-pointer"
+        onClick={findPassword}
+      >
+        비밀번호 찾기
+      </div>
     </div>
   );
 
