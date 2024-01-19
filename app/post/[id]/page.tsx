@@ -1,16 +1,15 @@
 'use client';
 
-import Avatar from '@/app/components/Avatar';
 import ImageSlider from '@/app/components/ImageSlider';
 import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
 import copyURL from '@/app/lib/copyURL/copyURL';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
-import { Listing } from '@/app/types';
-import { format } from 'date-fns';
+import { JOB_DETAIL_DTO } from '@/app/types';
+// import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -21,11 +20,11 @@ type paramsType = {
 
 const PostPage = () => {
   const { data: session } = useSession();
-  const { id } = useParams<paramsType>();
-  const router = useRouter();
+  const { id: jobId } = useParams<paramsType>();
+  // const router = useRouter();
 
   const username = session?.user?.name;
-  const [postData, setPostData] = useState<Listing | undefined>(undefined);
+  const [postData, setPostData] = useState<JOB_DETAIL_DTO>(undefined);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -34,42 +33,42 @@ const PostPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDetailPostData(id);
+      const res = await getDetailPostData(jobId);
       if (res) {
         setPostData(res);
       }
     };
     fetchData();
-  }, [id]);
+  }, [jobId]);
 
-  const postDate = useMemo(() => {
-    if (!postData?.createdAt) {
-      return null;
-    }
-    return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
-  }, [postData?.createdAt]);
+  // const postDate = useMemo(() => {
+  //   if (!postData?.createdAt) {
+  //     return null;
+  //   }
+  //   return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
+  // }, [postData?.createdAt]);
 
   return (
     <div className="pt-10 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
       <div className="flex flex-row items-center">
-        <div className="flex dark:text-zinc-100 mr-3 text-sm text-zinc-500 font-light">
+        {/* <div className="flex dark:text-zinc-100 mr-3 text-sm text-zinc-500 font-light">
           {postData?.category}
-        </div>
+        </div> */}
         <div className="flex border-b-2 border-gray-100 flex-1"></div>
       </div>
 
       <div className="flex flex-row relative gap-3 items-center">
         <div
           className="flex flex-row relative gap-3 items-center cursor-pointer"
-          onClick={() => router.push(`/user/${postData?.User.userId}`)}
+          // onClick={() => router.push(`/user/${postData?.User.userId}`)}
         >
-          <Avatar src={postData?.User.profileImg} />
+          {/* <Avatar src={postData?.User.profileImg} /> */}
           <div className="flex dark:text-zinc-100 text-sm text-zinc-500 font-medium">
-            {postData?.User.username}
+            {postData?.userName}
           </div>
         </div>
 
-        <div className="flex dark:text-zinc-100 text-xs text-zinc-300 font-light">{postDate}</div>
+        {/* <div className="flex dark:text-zinc-100 text-xs text-zinc-300 font-light">{postDate}</div> */}
         <GiHamburgerMenu
           className="relative text-lg ml-auto text-zinc-300 cursor-pointer"
           onClick={toggleOpen}
@@ -77,7 +76,7 @@ const PostPage = () => {
         {isOpen && (
           <div className="dark:text-black absolute rounded-xl shadow-lg w-20 p-4 bg-white overflow-hidden right-0 top-10 text-sm">
             <div className="flex flex-col cursor-pointer gap-3 items-center">
-              {username === postData?.User.username ? (
+              {username === postData?.userName ? (
                 <>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
@@ -132,22 +131,24 @@ const PostPage = () => {
         </div>
       </div>
 
-      {postData?.Images && <ImageSlider imageList={postData?.Images} />}
+      {postData?.jobImageDtoList && <ImageSlider imageList={postData?.jobImageDtoList} />}
 
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
           className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
           onClick={() => (session ? {} : toast('로그인이 필요한 기능입니다'))}
         />
-        <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.likes}</div>
+        {/* <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.likes}</div> */}
         <FaComment className="flex dark:text-zinc-100 text-zinc-400" />
-        <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.Comments.length}</div>
+        <div className="flex dark:text-zinc-100 text-zinc-400">
+          {postData?.jobImageDtoList?.length}
+        </div>
       </div>
       <div className="flex border-b-2 border-gray-100 mb-10"></div>
 
       <div className="flex flex-col gap-14">
         <CommentInput />
-        {postData?.Comments && <CommentView commentsList={postData?.Comments} />}
+        {postData?.commentList && <CommentView commentsList={postData?.commentList} />}
       </div>
     </div>
   );
