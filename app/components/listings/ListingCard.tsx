@@ -14,6 +14,8 @@ import ListingGrid from './ListingGrid';
 const ListingCard = () => {
   const params = useSearchParams();
   const category = params.get('category') || '';
+  const info = params.get('info') || '';
+  const search = params.get('search') || '';
 
   const {
     data: listings,
@@ -25,11 +27,11 @@ const ListingCard = () => {
     Listing[],
     Object,
     InfiniteData<Listing[]>,
-    [_1: string, _2: string],
+    [_1: string, _2: string, _3: string, _4: string],
     number
   >({
-    queryKey: ['posts', category],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, { pageParam }),
+    queryKey: ['posts', category, info, search],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, info, search, { pageParam }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
     getNextPageParam: (lastPage) => lastPage.at(-1)?.postId,

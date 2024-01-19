@@ -2,10 +2,24 @@ type Props = {
   pageParam?: number;
 };
 
-export const getFilteredPosts = async (params: string, { pageParam }: Props) => {
+export const getFilteredPosts = async (
+  params: string,
+  info: string,
+  search: string,
+  { pageParam }: Props
+) => {
   let url = `${process.env.NEXT_PUBLIC_URL}/api/posts?category=${params}&cursor=${pageParam}`;
+
   if (params === '') {
     url = `${process.env.NEXT_PUBLIC_URL}/api/posts?category=전체`;
+  }
+
+  if (info !== '') {
+    url += `&info=${info}`;
+  }
+
+  if (search !== '') {
+    url += `&search=${search}`;
   }
 
   // if (params === '') {
