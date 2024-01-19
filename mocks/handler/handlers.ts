@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 
-import { nomalUser, postData } from './data';
+import { nomalUser, postData } from '../data';
 
 const User = [
   {
@@ -43,54 +43,7 @@ export const handlers = [
     const url = new URL(request.url);
     const category = url.searchParams.get('category') || '전체';
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
-    const info = url.searchParams.get('info');
-    const search = url.searchParams.get('search');
 
-    if (category === '경영경제대학' && info === 'on' && search === '김용민') {
-      return HttpResponse.json([
-        {
-          postId: cursor + 1,
-          User: User[1],
-          title: `${cursor + 1}김용민 게시글`,
-          type: 'recruit',
-          category: '인문사회과학대학',
-          createdAt: new Date(),
-          content: `${cursor + 1} 재밌는 역사 스터디에 오세요!!`,
-          memberCount: 4,
-          dueDate: new Date(),
-          place: '상명대학교 L507 학술정보관',
-          isOnline: '오프라인 | 온라인',
-          Images: [
-            {
-              imageId: 1,
-              link: faker.image.urlLoremFlickr()
-            },
-            {
-              imageId: 2,
-              link: faker.image.urlLoremFlickr()
-            },
-            {
-              imageId: 3,
-              link: faker.image.urlLoremFlickr()
-            },
-            {
-              imageId: 4,
-              link: faker.image.urlLoremFlickr()
-            }
-          ],
-          Comments: [
-            {
-              commentId: 1,
-              User: User[2],
-              content: '재밌당',
-              createdAt: new Date(),
-              likes: 10,
-              reports: 1
-            }
-          ]
-        }
-      ]);
-    }
     if (category === '전체') {
       // Handle 전체 category
       return HttpResponse.json([
@@ -570,25 +523,6 @@ export const handlers = [
     return HttpResponse.json(nomalUser);
   }),
   http.put('/api/change/password', () => {
-    return HttpResponse.json(true);
-  }),
-  http.get('/api/user/write/post/:userId', ({ params }) => {
-    const userId = params.userId;
-    return userId && HttpResponse.json(postData.slice(0, 10));
-  }),
-  http.get('/api/user/like/post/:userId', ({ params }) => {
-    const userId = params.userId;
-    return userId && HttpResponse.json(postData);
-  }),
-  http.delete('/api/user/revoke', () => {
-    return HttpResponse.json(true);
-  }),
-  http.get('/api/auth/email/send/:email', ({ params }) => {
-    const email = params.email;
-    console.log(email);
-    return HttpResponse.json('101010');
-  }),
-  http.put('/api/reset/password', () => {
     return HttpResponse.json(true);
   })
 ];
