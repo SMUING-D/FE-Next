@@ -17,7 +17,7 @@ const ImageSlider = ({ imageList, size = 200 }: ImageSliderProps) => {
   const imageLinkList: string[] = imageList.map((item) => item.communityImagePath);
 
   const openImageViewer = useCallback((index: number) => {
-    setCurrentImage(index);
+    setCurrentImage(index - 1);
     setIsViewerOpen(true);
   }, []);
 
