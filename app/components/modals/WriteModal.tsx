@@ -23,6 +23,20 @@ const WriteModal = () => {
   const [step, setStep] = useState(STEPS.ZERO);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+    // console.log(Array.isArray(selectedFiles)); // false
+    const selectedFilesArray = Array.from(selectedFiles);
+
+    const imagesArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    // 계속 이미지를 업로드하면, 추가할 수 있게 concat method활용
+    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+  };
+
   const {
     register,
     handleSubmit,
@@ -34,6 +48,7 @@ const WriteModal = () => {
     defaultValues: {
       title: '',
       content: '',
+      image: [],
       start_date: '',
       memberCount: 1,
       studyProjectType: '',
@@ -49,6 +64,7 @@ const WriteModal = () => {
   const memberCount = watch('memberCount');
   const studyProjectType = watch('studyProjectType');
   const college = watch('college');
+  // const image = watch('image');
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -62,6 +78,7 @@ const WriteModal = () => {
     if (step !== STEPS.ONE) {
       return onNext();
     }
+    console.log(data);
     setIsLoading(true);
     axios
       .post('/api/posts', data)
@@ -171,6 +188,58 @@ const WriteModal = () => {
           value={content}
           onChange={(event) => setValue('content', event.target.value)}
         />
+        <input
+          {...register('image')}
+          id="picture"
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={onSelectFile}
+        />
+        {selectedImages.length > 0 &&
+          (selectedImages.length > 10 ? (
+            <p>
+              10개 이상 이미지를 올릴 수 없습니다. <br />
+              <span>
+                <b>{selectedImages.length - 10} 개의 이미지를 삭제해주세요</b>
+              </span>
+            </p>
+          ) : (
+            <button
+              onClick={() => {
+                console.log('이미지 업로드');
+              }}
+            >
+              {/* {selectedImages.length === 1 ? '' : 'S'} */}
+              {selectedImages.length}개의 이미지 업로드!
+            </button>
+          ))}
+        <div>
+          <div className="overflow-x-auto flex items-center gap-7">
+            {selectedImages &&
+              selectedImages.map((image) => {
+                return (
+                  <div
+                    className="flex flex-col items-center justify-center w-52 h-[300px]"
+                    key={image}
+                  >
+                    <img
+                      src={image}
+                      alt="upload"
+                      className="object-contain min-w-[150px] h-[150px]"
+                    />
+                    <button
+                      className="bg-red-500 p-3 mt-3 rounded-lg w-[70px] h-[50px] text-white font-bold text-lg"
+                      onClick={() => setSelectedImages(selectedImages.filter((e) => e !== image))}
+                    >
+                      삭제
+                    </button>
+                    {/* <p>{index + 1}</p> */}
+                  </div>
+                );
+              })}
+          </div>
+        </div>
       </div>
     );
   }
