@@ -1,8 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { FaBook, FaFire, FaPaintBrush } from 'react-icons/fa';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaBook, FaHome, FaPaintBrush } from 'react-icons/fa';
 import { GiTeacher } from 'react-icons/gi';
 import { IoSettings } from 'react-icons/io5';
 import { PiPresentationChartFill } from 'react-icons/pi';
@@ -12,51 +11,44 @@ import Container from './Container';
 
 export const categories = [
   {
-    name: 'HOT',
-    label: 'HOT',
-    alias: 'hot',
-    icon: FaFire,
-    description: '인기게시글과 관련된 정보가 담겨져 있습니다!'
-  },
-  {
-    name: '전체',
+    name: '홈',
     label: 'ALL',
-    alias: 'all',
-    icon: FaMagnifyingGlass,
+    alias: '/',
+    icon: FaHome,
     description: '전체 글에 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '인문사회과학대학',
     label: 'College of Humanities and Social Sciences',
-    alias: 'chss',
+    alias: '/chss',
     icon: FaBook,
     description: '인문사회과학대학과 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '사범대학',
     label: 'College of Education',
-    alias: 'coe',
+    alias: '/coe',
     icon: GiTeacher,
     description: '사범대학에 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '경영경제대학',
     label: 'College of Business & Economics',
-    alias: 'cobe',
+    alias: '/cobe',
     icon: PiPresentationChartFill,
     description: '경영경제대학 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '융합공과대학',
     label: 'College of Convergence Engineering',
-    alias: 'coce',
+    alias: '/coce',
     icon: IoSettings,
     description: '융합공과대학과 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '문화예술대학',
     label: 'College of Culture and Arts',
-    alias: 'coca',
+    alias: '/coca',
     icon: FaPaintBrush,
     description: '문화예술대학과 관련된 정보가 담겨져 있습니다!'
   }
@@ -71,7 +63,7 @@ const Categories = () => {
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
-            selected={pathname === `/${item.alias}`}
+            selected={pathname === `${item.alias}`}
             label={item.name}
             alias={item.alias}
             icon={item.icon}
