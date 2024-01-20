@@ -23,7 +23,7 @@ const Search = () => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="md:w-2/4 border-[1px] p-2 rounded-full shadow-sm">
+    <form onSubmit={onSubmit} className="w-3/4 border-[2px] p-2 rounded-full shadow-sm">
       <div className="flex flex-row items-center justify-center ">
         <input
           className="w-full p-1 bg-transparent"
