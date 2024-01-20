@@ -1,5 +1,6 @@
 import Banner from './components/Banner';
 import Container from './components/Container';
+import ListingStudy from './components/listings/ListingStudy';
 
 type HomeProps = {
   searchParams?: {
@@ -13,6 +14,7 @@ const Home: React.FC<HomeProps> = async () => {
   return (
     <Container>
       <Banner />
+      <ListingStudy />
     </Container>
   );
 };
