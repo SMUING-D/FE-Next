@@ -1,5 +1,6 @@
 import Banner from './components/Banner';
 import Container from './components/Container';
+import PopularCategoriesPost from './components/PopularCategoriesPost';
 import ListingStudy from './components/listings/ListingStudy';
 
 type HomeProps = {
@@ -15,6 +16,7 @@ const Home: React.FC<HomeProps> = async () => {
     <Container>
       <Banner />
       <ListingStudy />
+      <PopularCategoriesPost />
     </Container>
   );
 };
