@@ -19,13 +19,13 @@ const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route }
         </button>
       </div>
       <div className="mt-3">
-        {/* 데이터 구조 나오면 그떄 변경 예정 */}
+        {/* 데이터 구조 나오면 데이터 받은 후 각 게시글 세부 포스팅으로 넘어갈 수 있게 구현 예정 */}
         {[1, 2, 3, 4, 5].map((index) => (
           <div
             key={index}
             className="border-b-4 p-2 mt-3 flex items-center justify-between hover:bg-slate-300 hover:rounded-lg cursor-pointer"
           >
-            <h3 className="text-lg">경영경제대학 전과 맞는 선택일까요?</h3>
+            <h3 className="text-lg">하루만에 디자인 한거치고 만족!</h3>
             <p className="text-sm text-slate-500">👁️ 500</p>
           </div>
         ))}
