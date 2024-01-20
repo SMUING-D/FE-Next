@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 
 import ClientOnly from './components/ClientOnly';
+import Footer from './components/Footer';
 import LoginModal from './components/modals/LoginModal';
 import PasswordFindModal from './components/modals/PasswordFindModal';
 import RegisterModal from './components/modals/RegisterModal';
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <WriteModal />
             <Navbar />
             <div className="pb-20 pt-28">{children}</div>
+            <Footer />
           </RQProvider>
         </ClientOnly>
       </body>

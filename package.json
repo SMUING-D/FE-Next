@@ -31,6 +31,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
     "react-intersection-observer": "^9.5.3",
+    "react-rotating-text": "^1.4.1",
     "react-select": "^5.8.0",
     "react-simple-image-viewer": "^1.2.2",
     "react-spinners": "^0.13.8",
