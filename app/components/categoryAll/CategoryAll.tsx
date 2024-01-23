@@ -13,11 +13,10 @@ const CategoryAll = ({ onClick }: CategoryAllProps) => {
   const path = usePathname();
   const college = path.split('/')[1];
   const cache = useQueryClient();
-  const data = cache.getQueryData(['posts', college]);
-  const jobList = data.pages[0].jobList;
-  const studyList = data.pages[0].studyList;
-
-  console.log(data);
+  const studyData = cache.getQueryData(['posts', college, 'study']);
+  const jobData = cache.getQueryData(['posts', college, 'info']);
+  const jobList = jobData.pages[0].jobList;
+  const studyList = studyData.pages[0].studyList;
 
   return (
     <div className="flex flex-col gap-12 mt-10">

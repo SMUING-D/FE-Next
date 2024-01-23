@@ -10,7 +10,11 @@ import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import EmptyState from '../EmptyState';
 import ListingGrid from './ListingGrid';
 
-const ListingCard = () => {
+type ListingcardProps = {
+  listType: string;
+};
+
+const ListingCard = ({ listType }: ListingcardProps) => {
   const path = usePathname();
   // ['', chss]
   const college = path.split('/')[1];
@@ -22,13 +26,15 @@ const ListingCard = () => {
     isFetching,
     isError
   } = useInfiniteQuery({
-    queryKey: ['posts', college],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam }),
+    queryKey: ['posts', college, listType],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType: listType }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
-    getNextPageParam: (lastPage) => lastPage.studyList.at(-1)?.id,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000
+    getNextPageParam:
+      listType === 'study'
+        ? (lastPage) => lastPage.studyList.at(-1)?.id
+        : (lastPage) => lastPage.jobList.at(-1)?.id,
+    staleTime: 60 * 1000
   });
   // lastPage.jobList.at(-1)?.id,
   const { ref, inView } = useInView({
@@ -51,14 +57,21 @@ const ListingCard = () => {
   return (
     <>
       <div className="pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-        {listings?.pages.map((page) =>
-          // Assuming each page has a 'studyList' property
-          page.studyList.map((listing: any) => (
-            <Fragment key={listing.id}>
-              <ListingGrid data={listing} />
-            </Fragment>
-          ))
-        )}
+        {listings?.pages.map((page) => {
+          if (listType === 'study') {
+            return page.studyList.map((listing: any) => (
+              <Fragment key={listing.id}>
+                <ListingGrid data={listing} />
+              </Fragment>
+            ));
+          } else {
+            return page.jobList.map((listing: any) => (
+              <Fragment key={listing.id}>
+                <ListingGrid data={listing} />
+              </Fragment>
+            ));
+          }
+        })}
         <div ref={ref} style={{ height: 50 }}></div>
       </div>
 

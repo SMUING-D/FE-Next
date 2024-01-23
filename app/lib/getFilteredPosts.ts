@@ -2,14 +2,15 @@ import { API_PATH } from '../constants/path';
 
 type Props = {
   pageParam?: number;
+  listType?: string;
 };
 
-export const getFilteredPosts = async (college: string, { pageParam }: Props) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/${college}?cursor=${pageParam}`;
+export const getFilteredPosts = async (college: string, { pageParam, listType }: Props) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/${college}?cursor=${pageParam}&listType=${listType}`;
 
   const res = await fetch(url, {
     next: {
-      tags: ['posts', college]
+      tags: ['posts', college, listType]
     },
     cache: 'no-store'
   });

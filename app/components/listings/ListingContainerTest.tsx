@@ -93,7 +93,7 @@ const ListingContainerTest = () => {
         </div>
         {select !== 'all' && (
           <div className="my-2 w-full">
-            {layout === 'grid' ? <ListingCard /> : <PreviewPostsView />}
+            {layout === 'grid' ? <ListingCard listType={select} /> : <PreviewPostsView />}
           </div>
         )}
       </div>
