@@ -7,8 +7,13 @@ type Props = {
 export const getFilteredPosts = async (college: string, { pageParam }: Props) => {
   const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/${college}?cursor=${pageParam}`;
 
-  console.log(pageParam);
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    next: {
+      tags: ['posts', college]
+    },
+    cache: 'no-store'
+  });
+
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }

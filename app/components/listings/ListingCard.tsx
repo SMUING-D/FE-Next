@@ -38,8 +38,6 @@ const ListingCard = () => {
     delay: 0
   });
 
-  console.log(listings);
-
   useEffect(() => {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
