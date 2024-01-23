@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { BsFillGridFill, BsList } from 'react-icons/bs';
 
+import CategoryAll from '../categoryAll/CategoryAll';
 import Search from '../navbar/Search';
 import PreviewPostsView from '../post/PreviewPostsView';
 import ListingCard from './ListingCard';
@@ -21,28 +22,40 @@ const ListingContainerTest = () => {
       `text-xl rounded-2xl p-2 ${pattern === select ? 'bg-blue-300' : ''}`;
   }, [select]);
 
+  const handleSelect = (value: string) => {
+    if (value === 'study') {
+      setSelect('study');
+      setActiveSelectStyle('study');
+    } else if (value === 'info') {
+      setSelect('info');
+      setActiveSelectStyle('info');
+    }
+  };
+
   return (
     <>
       <div className="p-20 my-10">
         <div className="flex flex-col items-end justify-center">
           <div className="flex items-center justify-center w-full gap-4">
             <Search />
-            <div className="flex justify-between items-center border-b border-base-300">
-              <button
-                type="button"
-                onClick={() => setLayout('grid')}
-                className={setActiveStyle('grid')}
-              >
-                <BsFillGridFill />
-              </button>
-              <button
-                type="button"
-                onClick={() => setLayout('list')}
-                className={setActiveStyle('list')}
-              >
-                <BsList />
-              </button>
-            </div>
+            {select !== 'all' && (
+              <div className="flex justify-between items-center border-b border-base-300">
+                <button
+                  type="button"
+                  onClick={() => setLayout('grid')}
+                  className={setActiveStyle('grid')}
+                >
+                  <BsFillGridFill />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLayout('list')}
+                  className={setActiveStyle('list')}
+                >
+                  <BsList />
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex items-center justify-center gap-5 mt-10">
@@ -74,9 +87,15 @@ const ListingContainerTest = () => {
             <h3>취업 / 정보 교류</h3>
           </button>
         </div>
+
         <div className="my-2 w-full">
-          {layout === 'grid' ? <ListingCard /> : <PreviewPostsView />}
+          {select === 'all' && <CategoryAll onClick={handleSelect} />}
         </div>
+        {select !== 'all' && (
+          <div className="my-2 w-full">
+            {layout === 'grid' ? <ListingCard /> : <PreviewPostsView />}
+          </div>
+        )}
       </div>
     </>
   );

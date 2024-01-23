@@ -1,9 +1,8 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
-import { Listing } from '@/app/types';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
@@ -12,10 +11,8 @@ import EmptyState from '../EmptyState';
 import ListingGrid from './ListingGrid';
 
 const ListingCard = () => {
-  const params = useSearchParams();
-  const category = params.get('category') || '';
-  const info = params.get('info') || '';
-  const search = params.get('search') || '';
+  const pathname = usePathname();
+  const college = pathname.slice(1);
 
   const {
     data: listings,
@@ -23,18 +20,12 @@ const ListingCard = () => {
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery<
-    Listing[],
-    Object,
-    InfiniteData<Listing[]>,
-    [_1: string, _2: string, _3: string, _4: string],
-    number
-  >({
-    queryKey: ['posts', category, info, search],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, info, search, { pageParam }),
+  } = useInfiniteQuery({
+    queryKey: ['posts', college],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.postId,
+    getNextPageParam: (lastPage) => lastPage.jobList.at(-1)?.postId,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000
   });
@@ -59,13 +50,11 @@ const ListingCard = () => {
   return (
     <>
       <div className="pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-        {listings?.pages.map((page, i) => (
-          <Fragment key={i}>
-            {page.map((listing) => (
-              <ListingGrid key={listing.postId} data={listing} />
-            ))}
-          </Fragment>
-        ))}
+        <Fragment>
+          {listings.pages[0].jobList.map((listing: any) => (
+            <ListingGrid key={listing.id} data={listing} />
+          ))}
+        </Fragment>
       </div>
       <div style={{ height: 100 }} ref={ref} />
       {isFetching && (
