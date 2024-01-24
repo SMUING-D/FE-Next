@@ -27,12 +27,12 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               // onClick={() => router.push(`/user/${userDto.id}`)}
             >
               <Avatar src={userDto.profile} />
-              <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-medium">
+              <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-medium whitespace-nowrap">
                 {userDto.userName}
               </div>
             </div>
 
-            <div className="flex text-xs dark:text-zinc-100 text-zinc-300 font-light">
+            <div className="flex text-xs whitespace-nowrap dark:text-zinc-100 text-zinc-300 font-light">
               {createdAt && format(new Date(createdAt), 'yyyy년 MM월 dd일 HH:mm')}
             </div>
             <div className="flex justify-end flex-1 gap-2">

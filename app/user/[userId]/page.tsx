@@ -42,7 +42,7 @@ const Mypage = () => {
   if (!userInfo) return <ErrorPage />;
 
   return (
-    <div className="pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
+    <div className="mt-[60px] pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
       <div className="flex flex-col w-60 gap-10">
         <div className="flex flex-row gap-3">
           <Avatar src={userInfo?.profileImg} />
@@ -54,9 +54,9 @@ const Mypage = () => {
           </div>
         </div>
 
-        <div className="flex xl:flex-col xl:w-52 md:flex-row md:w-96 sm:flex-row sm:w-96 min-[320px]:flex-row min-[320px]:w-96 gap-5">
+        <div className="flex xl:flex-col xl:w-52 md:flex-row md:w-96 sm:flex-row sm:w-[370px] min-[320px]:flex-row min-[320px]:w-96 gap-5">
           <div
-            className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100 ${
+            className={`text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100 ${
               activeTab === 'MY_HOME'
                 ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
                 : ''
@@ -68,7 +68,7 @@ const Mypage = () => {
           {parseInt(userId) === session?.user?.userId && (
             <>
               <div
-                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                className={` text-bold text-sm md:text-lg  font-semibold cursor-pointer dark:text-stone-100  ${
                   activeTab === 'SETTINGS'
                     ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
                     : ''
@@ -78,7 +78,7 @@ const Mypage = () => {
                 개인 설정
               </div>
               <div
-                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
                   activeTab === 'WRITE_POST'
                     ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
                     : ''
@@ -90,7 +90,7 @@ const Mypage = () => {
                 내가 쓴 글
               </div>
               <div
-                className={` text-bold text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
                   activeTab === 'LIKE_POST'
                     ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
                     : ''
