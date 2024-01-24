@@ -1,9 +1,8 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
-import { Listing } from '@/app/types';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
@@ -11,29 +10,29 @@ import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import EmptyState from '../EmptyState';
 import PostPreview from './PostPreview';
 
-const ListingPosts = () => {
-  const params = useSearchParams();
-  const category = params.get('category') || '';
-  const info = params.get('info') || '';
-  const search = params.get('search') || '';
+type ListingPostsProps = {
+  listType: string;
+};
+
+const ListingPosts = ({ listType }: ListingPostsProps) => {
+  const path = usePathname();
+  const college = path.split('/')[1];
+
   const {
     data: listings,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery<
-    Listing[],
-    Object,
-    InfiniteData<Listing[]>,
-    [_1: string, _2: string, _3: string, _4: string],
-    number
-  >({
-    queryKey: ['posts', category, info, search],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, info, search, { pageParam }),
+  } = useInfiniteQuery({
+    queryKey: ['posts', college, listType],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.postId,
+    getNextPageParam:
+      listType === 'study'
+        ? (lastPage) => lastPage.studyList.at(-1)?.id
+        : (lastPage) => lastPage.jobList.at(-1)?.id,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000
   });
@@ -57,14 +56,22 @@ const ListingPosts = () => {
 
   return (
     <>
-      <div className="mt-10">
-        {listings?.pages.map((page, i) => (
-          <Fragment key={i}>
-            {page.map((listing) => (
-              <PostPreview key={listing.postId} data={listing} />
-            ))}
-          </Fragment>
-        ))}
+      <div className="pt-24 w-full max-w-6xl">
+        {listings?.pages.map((page) => {
+          if (listType === 'study') {
+            return page.studyList.map((listing: any) => (
+              <Fragment key={listing.id}>
+                <PostPreview data={listing} />
+              </Fragment>
+            ));
+          } else {
+            return page.jobList.map((listing: any) => (
+              <Fragment key={listing.id}>
+                <PostPreview data={listing} />
+              </Fragment>
+            ));
+          }
+        })}
       </div>
       <div style={{ height: 100 }} ref={ref} />
       {isFetching && (

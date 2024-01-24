@@ -22,7 +22,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
   return (
     <div
       onClick={() => router.push(`/post/${data.postId}`)}
-      className="w-[230px] col-span-1 cursor-pointer group shadow-md p-2 rounded-xl border-[1px] border-gray-100"
+      className="w-[230px] col-span-1 cursor-pointer shadow-md p-2 rounded-xl border-[1px] border-gray-100"
     >
       <div
         className="

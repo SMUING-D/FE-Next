@@ -5,7 +5,7 @@ import { BsFillGridFill, BsList } from 'react-icons/bs';
 
 import CategoryAll from '../categoryAll/CategoryAll';
 import Search from '../navbar/Search';
-import PreviewPostsView from '../post/PreviewPostsView';
+import ListingPosts from '../post/ListingPosts';
 import ListingCard from './ListingCard';
 
 const ListingContainerTest = () => {
@@ -107,7 +107,11 @@ const ListingContainerTest = () => {
         </div>
         {select !== 'all' && (
           <div className="flex justify-center items-center my-2 w-full">
-            {layout === 'grid' ? <ListingCard listType={select} /> : <PreviewPostsView />}
+            {layout === 'grid' ? (
+              <ListingCard listType={select} />
+            ) : (
+              <ListingPosts listType={select} />
+            )}
           </div>
         )}
       </div>
