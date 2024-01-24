@@ -23,6 +23,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
+      <meta name="viewport" content="width=device-width" />
+      <meta name="viewport" content="user-scalable=0;" />
+      <meta content="yes" name="apple-mobile-web-app-capable" />
+      <meta
+        content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no"
+        name="viewport"
+      />
       <body className={`${font.className} dark:bg-medium dark:text-slate-100`}>
         <ClientOnly>
           <RQProvider>

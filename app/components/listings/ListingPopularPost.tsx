@@ -11,7 +11,7 @@ const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route }
   const router = useRouter();
 
   return (
-    <div className="mt-5 rounded-lg shadow-2xl p-8">
+    <div className="w-[350px] md:w-full rounded-lg shadow-2xl p-8">
       <div className="flex justify-between items-center p-2 border-b-4">
         <h3 className="text-lg font-bold">{college}</h3>
         <button className="font-bold hover:scale-95" onClick={() => router.push(route)}>
