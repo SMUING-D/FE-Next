@@ -59,7 +59,7 @@ const ListingContainerTest = () => {
           </div>
         </div>
         <div className="flex w-full justify-center items-center">
-          <div className="flex max-w-xl items-center justify-center gap-5 mt-10 shadow-md p-2 rounded-xl border-[1px] border-gray-100">
+          <div className="flex max-w-xl items-center justify-center gap-5 mt-10 shadow-sm p-2 rounded-xl border-[1px] border-gray-100">
             <button
               type="button"
               onClick={() => {
@@ -68,7 +68,7 @@ const ListingContainerTest = () => {
               className={setActiveSelectStyle('all')}
             >
               <h3
-                className={`${select === 'all' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 md:text-base`}
+                className={`${select === 'all' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
               >
                 전체
               </h3>
@@ -81,7 +81,7 @@ const ListingContainerTest = () => {
               className={setActiveSelectStyle('study')}
             >
               <h3
-                className={`${select === 'study' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 md:text-base`}
+                className={`${select === 'study' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
               >
                 스터디 / 프로젝트 모집
               </h3>
@@ -94,7 +94,7 @@ const ListingContainerTest = () => {
               className={setActiveSelectStyle('info')}
             >
               <h3
-                className={`${select === 'info' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 md:text-base`}
+                className={`${select === 'info' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
               >
                 취업 / 정보 교류
               </h3>

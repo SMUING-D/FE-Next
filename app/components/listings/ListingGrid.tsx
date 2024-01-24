@@ -22,7 +22,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
   return (
     <div
       onClick={() => router.push(`/post/${data.postId}`)}
-      className="w-[230px] col-span-1 cursor-pointer shadow-md p-2 rounded-xl border-[1px] border-gray-100"
+      className="w-[230px] col-span-1 cursor-pointer shadow-md p-2 rounded-xl border-[1px] border-stone-100 dark:border-[0.5px] dark:border-stone-300"
     >
       <div
         className="
@@ -50,10 +50,16 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
         </div>
       </div>
       <div className="flex flex-col p-3">
-        <div className="font-semibold text-md text-neutral-800 truncate">{data.title}</div>
-        <div className="font-normal text-sm text-neutral-500 truncate">{data.content}</div>
+        <div className="font-semibold text-md text-neutral-800 dark:text-neutral-50 truncate">
+          {data.title}
+        </div>
+        <div className="font-normal text-sm text-neutral-500 dark:text-neutral-200 truncate">
+          {data.content}
+        </div>
         <div className="flex flex-row items-center gap-1">
-          <div className="font-light text-xs text-neutral-500 mt-2">{date}</div>
+          <div className="font-light text-xs text-neutral-500 dark:text-neutral-200 mt-2">
+            {date}
+          </div>
         </div>
       </div>
     </div>
