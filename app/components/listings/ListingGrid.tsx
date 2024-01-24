@@ -22,7 +22,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
   return (
     <div
       onClick={() => router.push(`/post/${data.postId}`)}
-      className="w-[230px] col-span-1 cursor-pointer group"
+      className="w-[230px] col-span-1 cursor-pointer group shadow-md p-2 rounded-xl border-[1px] border-gray-100"
     >
       <div
         className="
@@ -30,7 +30,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
                 w-full
                 relative
                 overflow-hidden
-                rounded-xl
+                rounded-lg
               "
       >
         <Image
@@ -49,10 +49,12 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
           <StarButton />
         </div>
       </div>
-      <div className="font-semibold text-lg truncate">{data.title}</div>
-      <div className="font-light text-neutral-500 truncate">{data.content}</div>
-      <div className="flex flex-row items-center gap-1">
-        <div className="font-semibold">{date}</div>
+      <div className="flex flex-col p-3">
+        <div className="font-semibold text-md text-neutral-800 truncate">{data.title}</div>
+        <div className="font-normal text-sm text-neutral-500 truncate">{data.content}</div>
+        <div className="flex flex-row items-center gap-1">
+          <div className="font-light text-xs text-neutral-500 mt-2">{date}</div>
+        </div>
       </div>
     </div>
   );
