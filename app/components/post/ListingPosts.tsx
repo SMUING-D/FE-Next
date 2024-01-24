@@ -1,6 +1,7 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
+import { JOBLIST, STUDYLIST } from '@/app/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
@@ -14,6 +15,11 @@ type ListingPostsProps = {
   listType: string;
 };
 
+type InfiniteQueryResult = {
+  studyList?: STUDYLIST[];
+  jobList?: JOBLIST[];
+};
+
 const ListingPosts = ({ listType }: ListingPostsProps) => {
   const path = usePathname();
   const college = path.split('/')[1];
@@ -24,9 +30,10 @@ const ListingPosts = ({ listType }: ListingPostsProps) => {
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<InfiniteQueryResult>({
     queryKey: ['posts', college, listType],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType }),
+    queryFn: ({ pageParam = 1 }) =>
+      getFilteredPosts(college, { pageParam: Number(pageParam), listType }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
     getNextPageParam:
@@ -59,13 +66,13 @@ const ListingPosts = ({ listType }: ListingPostsProps) => {
       <div className="pt-24 w-full max-w-6xl">
         {listings?.pages.map((page) => {
           if (listType === 'study') {
-            return page.studyList.map((listing: any) => (
+            return page.studyList.map((listing: STUDYLIST) => (
               <Fragment key={listing.id}>
                 <PostPreview data={listing} />
               </Fragment>
             ));
           } else {
-            return page.jobList.map((listing: any) => (
+            return page.jobList.map((listing: JOBLIST) => (
               <Fragment key={listing.id}>
                 <PostPreview data={listing} />
               </Fragment>

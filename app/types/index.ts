@@ -1,19 +1,61 @@
-export type Listing = {
-  postId: number;
-  User?: User;
+export type STUDYLIST = {
+  id: number;
   title: string;
-  type: string;
-  category: string;
-  createdAt: Date;
   content: string;
-  likes: number;
-  memberCount?: number;
-  dueDate?: string;
-  place?: string;
-  isOnline?: string;
-  Images: Array<Images>;
-  Comments: Array<Comments>;
+  startDate: string;
+  memberCount: number;
+  dueDate: string;
+  college: string;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
+  postLike: false;
+  Images: Images[];
+  commentList: COMMENT_LIST[];
 };
+
+export type JOBLIST = {
+  id: number;
+  title: string;
+  content: string;
+  college: string;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
+  postLike: false;
+  Images: Images[];
+  commentList: COMMENT_LIST[];
+};
+
+export type COMMENT_LIST = {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  userDto: USER_DTO;
+  commentReplyList: COMMENT[];
+};
+
+export type COMMENT = {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  userDto: USER_DTO;
+};
+
+export type USER_DTO = {
+  userId: number;
+  userName: string;
+  profile: string;
+};
+
+export type Images = {
+  imageId: number;
+  link: string;
+};
+
+//----------
 
 export type JOB_DETAIL_DTO = {
   jobId: number;
@@ -52,17 +94,6 @@ export type COMMENT_REPLY_DTO = {
   createdAt: string;
   updatedAt: string;
   userDto: USER_DTO;
-};
-
-export type USER_DTO = {
-  userId: number;
-  userName: string;
-  profile: string;
-};
-
-export type Images = {
-  imageId: number;
-  link: string;
 };
 
 export type Comments = {

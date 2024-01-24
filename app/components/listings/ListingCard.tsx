@@ -1,6 +1,7 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
+import { JOBLIST, STUDYLIST } from '@/app/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
@@ -14,6 +15,11 @@ type ListingcardProps = {
   listType: string;
 };
 
+type InfiniteQueryResult = {
+  studyList?: STUDYLIST[];
+  jobList?: JOBLIST[];
+};
+
 const ListingCard = ({ listType }: ListingcardProps) => {
   const path = usePathname();
   // ['', chss]
@@ -25,9 +31,10 @@ const ListingCard = ({ listType }: ListingcardProps) => {
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<InfiniteQueryResult>({
     queryKey: ['posts', college, listType],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType: listType }),
+    queryFn: ({ pageParam = 1 }) =>
+      getFilteredPosts(college, { pageParam: Number(pageParam), listType: listType }),
     initialPageParam: 0,
     // 가장 최근에 불러왔던 게시글
     getNextPageParam:

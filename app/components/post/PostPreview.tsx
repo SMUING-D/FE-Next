@@ -1,11 +1,12 @@
 'use client';
 
+import { JOBLIST, STUDYLIST } from '@/app/types';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 type PostPreviewProps = {
-  data: any;
+  data: STUDYLIST | JOBLIST;
 };
 
 const PostPreview: React.FC<PostPreviewProps> = ({ data }) => {

@@ -1,5 +1,6 @@
 'use client';
 
+import { JOBLIST, STUDYLIST } from '@/app/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
@@ -9,12 +10,20 @@ type CategoryAllProps = {
   onClick: (value: string) => void;
 };
 
+type PostsDataType = {
+  pageParams: number;
+  pages: {
+    studyList: STUDYLIST[];
+    jobList: JOBLIST[];
+  }[];
+};
+
 const CategoryAll = ({ onClick }: CategoryAllProps) => {
   const path = usePathname();
   const college = path.split('/')[1];
   const cache = useQueryClient();
-  const studyData = cache.getQueryData(['posts', college, 'study']);
-  const jobData = cache.getQueryData(['posts', college, 'info']);
+  const studyData = cache.getQueryData<PostsDataType>(['posts', college, 'study']);
+  const jobData = cache.getQueryData<PostsDataType>(['posts', college, 'info']);
   const jobList = jobData.pages[0].jobList.slice(0, 5);
   const studyList = studyData.pages[0].studyList.slice(0, 5);
 

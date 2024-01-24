@@ -1,4 +1,4 @@
-import { Listing } from '@/app/types';
+import { JOBLIST, STUDYLIST } from '@/app/types';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import StarButton from '../StarButton';
 
 type ListingGridProps = {
-  data: Listing;
+  data: STUDYLIST | JOBLIST;
 };
 
 const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
@@ -21,7 +21,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
 
   return (
     <div
-      onClick={() => router.push(`/post/${data.postId}`)}
+      onClick={() => router.push(`/post/${data.id}`)}
       className="w-[230px] col-span-1 cursor-pointer shadow-md p-2 rounded-xl border-[1px] border-stone-100 dark:border-[0.5px] dark:border-stone-300"
     >
       <div

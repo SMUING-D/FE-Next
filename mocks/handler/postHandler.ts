@@ -1,7 +1,7 @@
 import { API_PATH } from '@/app/constants/path';
 import { JOB_POSTS, JOB_POST_DETAIL } from '@/app/constants/postData';
 import { faker } from '@faker-js/faker';
-import { HttpResponse, http } from 'msw';
+import { HttpResponse, PathParams, http } from 'msw';
 
 const SuccessData = {
   isSuccess: true,
@@ -11,7 +11,7 @@ const SuccessData = {
 
 export const PostHandlers = [
   // 전체 조회
-  http.get(`${API_PATH.POSTS}/:college`, ({ request, params }) => {
+  http.get<PathParams>(`${API_PATH.POSTS}/:college`, ({ request, params }) => {
     const url = new URL(request.url);
     const college = params.college;
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
@@ -58,6 +58,7 @@ export const PostHandlers = [
                   createdAt: '2024-01-20 10:05:00',
                   updatedAt: '2024-01-20 10:10:00',
                   userDto: {
+                    userId: 1,
                     userName: '댓글 작성자',
                     profile: '/profile/asdf.jpg'
                   },
@@ -68,6 +69,7 @@ export const PostHandlers = [
                       createdAt: '2024-01-20 10:15:00',
                       updatedAt: '2024-01-20 10:20:00',
                       userDto: {
+                        userId: 1,
                         userName: '대댓글 작성자',
                         profile: '/profile/qwerty.jpg'
                       }
@@ -78,6 +80,7 @@ export const PostHandlers = [
                       createdAt: '2024-01-20 10:25:00',
                       updatedAt: '2024-01-20 10:30:00',
                       userDto: {
+                        userId: 1,
                         userName: '다른 대댓글 작성자',
                         profile: '/profile/zxcv.jpg'
                       }

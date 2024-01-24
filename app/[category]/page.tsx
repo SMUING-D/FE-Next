@@ -1,7 +1,7 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import Container from '../components/Container';
-import ListingContainerTest from '../components/listings/ListingContainerTest';
+import ListingContainer from '../components/listings/ListingContainer';
 import { getFilteredPosts } from '../lib/getFilteredPosts';
 
 type HomeProps = {
@@ -36,7 +36,7 @@ const CategoryDetailPage: React.FC<HomeProps> = async ({ params }) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Container>
-        <ListingContainerTest />
+        <ListingContainer />
       </Container>
     </HydrationBoundary>
   );
