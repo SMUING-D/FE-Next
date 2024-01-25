@@ -49,7 +49,7 @@ const PostPage = () => {
   // }, [postData?.createdAt]);
 
   return (
-    <div className="pt-10 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
+    <div className="pt-20 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-4 px-6 gap-7">
       <div className="flex flex-row items-center">
         {/* <div className="flex dark:text-zinc-100 mr-3 text-sm text-zinc-500 font-light">
           {postData?.category}
@@ -144,7 +144,7 @@ const PostPage = () => {
           {postData?.jobImageDtoList?.length}
         </div>
       </div>
-      <div className="flex border-b-2 border-gray-100 mb-10"></div>
+      <div className="flex border-b-2 border-gray-100 mb-10" />
 
       <div className="flex flex-col gap-14">
         <CommentInput />

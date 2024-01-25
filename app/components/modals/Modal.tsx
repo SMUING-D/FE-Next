@@ -72,7 +72,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <div className="flex items-center justify-center overflow-x-hidden overflow-y-auto fixed inset-0 bg-neutral-600/70 z-50 focus:outline-none">
-        <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/6 my-6 mx-auto h-full lg:h-auto md:h-auto max-h-screen">
+        <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/6 my-6 mx-auto h-100dvh lg:h-auto md:h-auto max-h-screen">
           {/* CONTENT */}
           <div
             className={`translate duration-300 h-full 

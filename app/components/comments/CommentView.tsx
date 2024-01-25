@@ -20,21 +20,18 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
   return (
     <div className="flex flex-col gap-10">
       {commentsList?.map(({ id, content, createdAt, userDto, commentReplyList }) => (
-        <div key={id} className="flex flex-col p-3 border-b-2 border-gray-100 gap-5">
+        <div key={id} className="flex flex-col p-3 border-b-2 border-gray-100 gap-3">
           <div className="flex flex-row gap-3 items-center">
             <div
               className="flex flex-row gap-3 items-center cursor-pointer"
               // onClick={() => router.push(`/user/${userDto.id}`)}
             >
               <Avatar src={userDto.profile} />
-              <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-medium">
+              <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-medium whitespace-nowrap">
                 {userDto.userName}
               </div>
             </div>
 
-            <div className="flex text-xs dark:text-zinc-100 text-zinc-300 font-light">
-              {createdAt && format(new Date(createdAt), 'yyyy년 MM월 dd일 HH:mm')}
-            </div>
             <div className="flex justify-end flex-1 gap-2">
               {userDto.userName === user ? (
                 <FaTrashAlt
@@ -56,14 +53,18 @@ const CommentView = ({ commentsList }: CommentViewProps) => {
               <div className="flex text-xs dark:text-zinc-100 text-zinc-300">
                 {commentReplyList.length}
               </div>
-              <FaHeart
-                className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() => (session ? '' : toast('로그인이 필요한 기능입니다'))}
-              />
-              {/* <div className="flex text-xs dark:text-zinc-100 text-zinc-300">{likes}</div> */}
             </div>
           </div>
           <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal">{content}</div>
+          <div className="flex gap-2">
+            <div className="flex text-xs whitespace-nowrap dark:text-zinc-100 text-zinc-300 font-light">
+              {createdAt && format(new Date(createdAt), 'yy/MM/dd HH:mm')}
+            </div>
+            <FaHeart
+              className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
+              onClick={() => (session ? '' : toast('로그인이 필요한 기능입니다'))}
+            />
+          </div>
         </div>
       ))}
     </div>
