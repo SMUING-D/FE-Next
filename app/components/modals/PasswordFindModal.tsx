@@ -3,6 +3,7 @@
 import usePasswordFindModal from '@/app/hooks/usePasswordFindModal';
 import resetPassword from '@/app/lib/resetPassword';
 import sendAuthMail from '@/app/lib/sendAuthMail';
+import verifyAuthNum from '@/app/lib/verifyAuthNum';
 import schema from '@/app/schema/passwordFind';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo, useState } from 'react';
@@ -25,7 +26,6 @@ const PasswordFindModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [isAuthNum, setisAuthNum] = useState(false);
-  const [authNumber, setIsAuthNumber] = useState('');
 
   const {
     register,
@@ -48,9 +48,9 @@ const PasswordFindModal = () => {
 
   const actionLabel = useMemo(() => {
     if (nowPage === STEPS.TWO) {
-      return '제출하기';
+      return '비밀번호 변경하기';
     }
-    return '계속하기';
+    return '이메일 인증하기';
   }, [nowPage]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -61,12 +61,13 @@ const PasswordFindModal = () => {
   }, [nowPage]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    console.log('제출한 데이터: ', data);
     setIsLoading(true);
     const res = resetPassword({ email, password, confirmPassword });
     if (res) {
       toast('비밀번호가 변경되었습니다.');
       setNowPage(STEPS.ONE);
+      setisAuthNum(false);
       reset();
       passwordFindModal.onClose();
     } else {
@@ -82,23 +83,28 @@ const PasswordFindModal = () => {
       const res = await sendAuthMail(email);
       if (res) {
         setisAuthNum(true);
-        setIsAuthNumber(res); //res -> 인증번호 ex) 101010
       }
     }
   };
 
-  const nextPage = () => {
+  const nextPage = async () => {
     if (nowPage === STEPS.TWO) {
       handleSubmit(onSubmit)();
     } else {
-      if (nowPage === STEPS.ONE && errors.email && errors.authNum) {
-        toast('양식에 맞는 내용을 입력해주세요.');
-        return;
-      } else if (nowPage === STEPS.ONE && authNum !== authNumber) {
-        toast('인증번호가 일치하지 않습니다.');
-        return;
+      if (nowPage === STEPS.ONE) {
+        if (errors.email && errors.authNum) {
+          toast('양식에 맞는 내용을 입력해주세요.');
+          return;
+        } else {
+          const res = await verifyAuthNum(email, authNum);
+          if (res) {
+            setNowPage(nowPage + 1);
+          } else {
+            toast('인증번호가 일치하지 않습니다.');
+            return;
+          }
+        }
       }
-      setNowPage(nowPage + 1);
     }
   };
 
@@ -127,10 +133,10 @@ const PasswordFindModal = () => {
           required
         />
         <div className="w-32 ml-auto">
-          <Button label="인증번호 전송" onClick={onClickPostAuthNum} />
+          <Button label="인증번호 받기" onClick={onClickPostAuthNum} />
         </div>
       </div>
-      {authNumber && <div className="font-medium text-gray-400">인증번호가 전송되었습니다.</div>}
+      {isAuthNum && <div className="font-medium text-gray-400">인증번호가 전송되었습니다.</div>}
       {errors.email && <FormError message={errors.email?.message?.toString()} />}
 
       <Input
@@ -186,6 +192,7 @@ const PasswordFindModal = () => {
         passwordFindModal.onClose();
         reset();
         setNowPage(1);
+        setisAuthNum(false);
       }}
       onSubmit={nextPage}
       title="비밀번호 찾기"
