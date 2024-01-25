@@ -1,5 +1,5 @@
-const sendAuthMail = async (email: string) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/auth/email/send?email=${email}`;
+const verifyAuthNum = async (email: string, authNum: string) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/auth/email/verify?email=${email}&authNum=${authNum}`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -17,4 +17,4 @@ const sendAuthMail = async (email: string) => {
   }
 };
 
-export default sendAuthMail;
+export default verifyAuthNum;

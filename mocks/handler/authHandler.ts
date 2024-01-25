@@ -24,5 +24,18 @@ export const AuthHandlers = [
         'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
       }
     });
+  }),
+  // 인증번호 보내기
+  http.post('/api/auth/email/send', ({ request }) => {
+    const url = new URL(request.url);
+    const email = url.searchParams.get('email');
+    return email && HttpResponse.json('10101');
+  }),
+  // 인증번호 받아서 검증
+  http.post('/api/auth/email/verify', ({ request }) => {
+    const url = new URL(request.url);
+    const email = url.searchParams.get('email');
+    const authNum = url.searchParams.get('authNum');
+    return authNum === '10101' && email ? HttpResponse.json(true) : HttpResponse.json(false);
   })
 ];

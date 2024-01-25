@@ -1,6 +1,8 @@
 'use client';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import sendAuthMail from '@/app/lib/sendAuthMail';
+import verifyAuthNum from '@/app/lib/verifyAuthNum';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Image from 'next/image';
@@ -16,22 +18,13 @@ import Heading from '../Heading';
 import FormError from '../form-error';
 import FileInput from '../inputs/FileInput';
 import Input from '../inputs/Input';
-import SelectBox, { OptionType } from '../select/SelectBox';
-import {
-  COLLEGE_OPTIONS,
-  EDUCATIONAL_STATUS_OPTIOS,
-  GRADUATE_GRADE_OPTIONS,
-  UNGRADUATE_GRADE_OPTIONS
-} from '../select/options/registerOptions';
 import Modal from './Modal';
 
 // step 선언
 enum STEPS {
   ONE = 1,
   TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5
+  THREE = 3
 }
 
 const RegisterModal = () => {
@@ -40,11 +33,7 @@ const RegisterModal = () => {
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resetImage, setResetImage] = useState(false);
-  const [selectedGrade, setSelectedGrade] = useState<OptionType | null>(null);
-  const [selectedCollege, setSelectedCollege] = useState<OptionType | null>(null);
-  const [selectedEducationalStatus, setSelectedEducationalStatus] = useState<OptionType | null>(
-    null
-  );
+  const [isAuthNum, setisAuthNum] = useState(false);
 
   const {
     register,
@@ -58,40 +47,25 @@ const RegisterModal = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       email: '',
+      authNum: '',
       password: '',
       confirmPassword: '',
       name: '',
       nickname: '',
       profile: '',
-      studentId: '',
-      educationalStatus: '',
-      grade: '',
-      school: '',
-      major: '',
-      college: '',
-      subMajor: '',
-      desiredEmployment: '',
-      skill: '',
-      introduce: ''
+      studentId: ''
     }
   });
 
   const {
     email,
+    authNum,
     password,
     confirmPassword,
     name,
     nickname,
     profile, // eslint-disable-line @typescript-eslint/no-unused-vars
-    studentId,
-    grade, // eslint-disable-line @typescript-eslint/no-unused-vars
-    school,
-    major,
-    college, // eslint-disable-line @typescript-eslint/no-unused-vars
-    subMajor,
-    desiredEmployment,
-    skill,
-    educationalStatus // eslint-disable-line @typescript-eslint/no-unused-vars
+    studentId
   } = watch();
 
   // FieldError와 React.ReactElement 타입이 일치하지않아서.
@@ -101,34 +75,6 @@ const RegisterModal = () => {
 
   // 해결 방안 (FieldError와 같은 타입을 -> ReactNode에 호환하는 타입으로 변경)
   // 우리가 사용하는 값들이 문자열 값이니까 toString().
-
-  // 첫페이지일떄는 actionLabel, secondaryLabel X
-  // 두번째페이지는, actionLabel 계속하기, secondaryLabel  뒤로가기
-  // 세번째페이지는, actionLabel 제출하기 secondaryLabel 뒤로가기
-
-  //Grade Select
-  const handleGradeSelect = (selectedOption: OptionType | null) => {
-    setSelectedGrade(selectedOption);
-    if (selectedOption.value) {
-      reset({ ...getValues(), grade: selectedOption.value });
-    }
-  };
-
-  //College Select
-  const handleCollegeSelect = (selectedOption: OptionType | null) => {
-    setSelectedCollege(selectedOption);
-    if (selectedOption.value) {
-      reset({ ...getValues(), college: selectedOption.value });
-    }
-  };
-
-  //EducationalStatus Select
-  const handleEducationalStatusSelect = (selectedOption: OptionType | null) => {
-    setSelectedEducationalStatus(selectedOption);
-    if (selectedOption.value) {
-      reset({ ...getValues(), educationalStatus: selectedOption.value });
-    }
-  };
 
   //File state 변경
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,8 +90,21 @@ const RegisterModal = () => {
     setResetImage(true);
   };
 
+  const onClickPostAuthNum = async () => {
+    if (errors.email || email === '') {
+      toast('이메일을 올바르게 입력해주세요!');
+    } else {
+      const res = await sendAuthMail(email);
+      if (res) {
+        setisAuthNum(true);
+      }
+    }
+  };
+
   const actionLabel = useMemo(() => {
-    if (nowPage === STEPS.FIVE) {
+    if (nowPage === STEPS.ONE) {
+      return '학교 인증하기';
+    } else if (nowPage === STEPS.THREE) {
       return '제출하기';
     }
     return '계속하기';
@@ -168,6 +127,7 @@ const RegisterModal = () => {
         registerModal.onClose();
         reset({});
         setNowPage(STEPS.ONE);
+        setisAuthNum(false);
         toast('가입되었습니다.');
       })
       .catch((error) => {
@@ -179,30 +139,27 @@ const RegisterModal = () => {
       });
   };
 
-  const nextPage = () => {
-    if (nowPage === STEPS.FIVE) {
+  const nextPage = async () => {
+    if (nowPage === STEPS.THREE) {
       handleSubmit(onSubmit)();
     } else {
-      if (nowPage === STEPS.ONE && (errors.email || errors.password || errors.confirmPassword)) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
-      } else if (nowPage === STEPS.TWO && (errors.name || errors.profile || errors.nickname)) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
+      if (nowPage === STEPS.ONE) {
+        if (errors.email) {
+          toast('양식에 맞는 내용을 입력해주세요');
+          return;
+        } else {
+          const res = await verifyAuthNum(email, authNum);
+          if (res) {
+            setNowPage(nowPage + 1);
+          } else {
+            toast('인증번호가 일치하지 않습니다.');
+            return;
+          }
+        }
       } else if (
-        nowPage === STEPS.THREE &&
-        (errors.studentId ||
-          errors.grade ||
-          errors.educationalStatus ||
-          errors.school ||
-          !selectedGrade ||
-          !selectedEducationalStatus)
-      ) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
-      } else if (
-        nowPage === STEPS.FOUR &&
-        (errors.major || errors.college || errors.subMajor || !selectedCollege)
+        (nowPage === STEPS.TWO &&
+          (errors.studentId || errors.password || errors.confirmPassword)) ||
+        (!studentId && !password && !confirmPassword)
       ) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
@@ -221,41 +178,36 @@ const RegisterModal = () => {
 
   let bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="SMUING에 오신 것을 환영합니다!" subtitle="계정을 생성해 주세요!" />
-      <Input
-        id="email"
-        label="이메일"
-        value={email}
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
+      <Heading
+        title="SMUING에 오신 것을 환영합니다!"
+        subtitle="계정을 생성하기 전에 학교 인증을 해주세요!"
       />
+      <div className="flex flex-row gap-2 items-center">
+        <Input
+          id="email"
+          label="이메일"
+          value={email}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <div className="w-32 ml-auto">
+          <Button label="인증번호 전송" onClick={onClickPostAuthNum} />
+        </div>
+      </div>
+      {isAuthNum && <div className="font-medium text-gray-400">인증번호가 전송되었습니다.</div>}
       {errors.email && <FormError message={errors.email?.message?.toString()} />}
       <Input
-        id="password"
-        type="password"
-        label="비밀번호"
-        value={password}
-        disabled={isLoading}
+        id="authNum"
+        label="인증 번호"
+        value={authNum}
+        disabled={!isAuthNum}
         register={register}
         errors={errors}
         required
       />
-      {errors.password && <FormError message={errors.password?.message?.toString()} />}
-      <Input
-        id="confirmPassword"
-        type="password"
-        label="비밀번호 확인"
-        value={confirmPassword}
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      {errors.confirmPassword && (
-        <FormError message={errors.confirmPassword?.message?.toString()} />
-      )}
+      {errors.authNum && <FormError message={errors.authNum?.message?.toString()} />}
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex gap-2 items-center justify-center">
           <div>이미 계정이 있으신가요?</div>
@@ -273,7 +225,48 @@ const RegisterModal = () => {
   if (nowPage === STEPS.TWO) {
     bodyContent = (
       <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">개인 프로필 관련 정보를 작성해주세요</h3>
+        <h3 className="font-regular text-neutral-800 mt-2">학번 및 비밀번호를 설정해주세요</h3>
+        <Input
+          id="studentId"
+          label="학번"
+          value={studentId}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {errors.studentId && <FormError message={errors.studentId?.message?.toString()} />}
+        <Input
+          id="password"
+          type="password"
+          label="비밀번호"
+          value={password}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {errors.password && <FormError message={errors.password?.message?.toString()} />}
+        <Input
+          id="confirmPassword"
+          type="password"
+          label="비밀번호 확인"
+          value={confirmPassword}
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {errors.confirmPassword && (
+          <FormError message={errors.confirmPassword?.message?.toString()} />
+        )}
+      </div>
+    );
+  }
+  if (nowPage === STEPS.THREE) {
+    bodyContent = (
+      <div className="flex flex-col gap-4">
+        <h3 className="font-regular text-neutral-800 mt-2">기본 개인정보를 작성해주세요</h3>
         <Input
           id="name"
           value={name}
@@ -322,121 +315,6 @@ const RegisterModal = () => {
       </div>
     );
   }
-  if (nowPage === STEPS.THREE) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">학교 관련 정보를 작성해주세요</h3>
-        <Input
-          id="studentId"
-          label="학번"
-          value={studentId}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.studentId && <FormError message={errors.studentId?.message?.toString()} />}
-        <SelectBox
-          id="educationalStatus"
-          options={EDUCATIONAL_STATUS_OPTIOS}
-          onChange={handleEducationalStatusSelect}
-          placeholder="학위"
-          value={selectedEducationalStatus}
-        />
-        {errors.educationalStatus && (
-          <FormError message={errors.educationalStatus?.message?.toString()} />
-        )}
-        <SelectBox
-          id="grade"
-          options={
-            selectedEducationalStatus && selectedEducationalStatus.value === '대학생'
-              ? UNGRADUATE_GRADE_OPTIONS
-              : GRADUATE_GRADE_OPTIONS
-          }
-          onChange={handleGradeSelect}
-          placeholder="학년"
-          value={selectedGrade}
-        />
-        {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
-        <Input
-          id="school"
-          label="대학교 및 대학원"
-          value={school}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.school && <FormError message={errors.school?.message?.toString()} />}
-      </div>
-    );
-  }
-
-  if (nowPage === STEPS.FOUR) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">전공 관련 정보를 작성해주세요</h3>
-        <Input
-          id="major"
-          label="전공"
-          value={major}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.major && <FormError message={errors.major?.message?.toString()} />}
-        <SelectBox
-          id="college"
-          options={COLLEGE_OPTIONS}
-          onChange={handleCollegeSelect}
-          placeholder="단과대"
-          value={selectedCollege}
-        />
-        {errors.college && <FormError message={errors.college?.message?.toString()} />}
-        <Input
-          id="subMajor"
-          label="부전공"
-          value={subMajor}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.subMajor && <FormError message={errors.subMajor?.message?.toString()} />}
-      </div>
-    );
-  }
-
-  if (nowPage === STEPS.FIVE) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">취업 관련 정보를 작성해주세요</h3>
-        <Input
-          id="desiredEmployment"
-          label="취업 희망 분야"
-          value={desiredEmployment}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.desiredEmployment && (
-          <FormError message={errors.desiredEmployment?.message?.toString()} />
-        )}
-        <Input
-          id="skill"
-          label="자격증 및 기술스택"
-          value={skill}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.skill && <FormError message={errors.skill?.message?.toString()} />}
-      </div>
-    );
-  }
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
@@ -454,6 +332,7 @@ const RegisterModal = () => {
         registerModal.onClose();
         reset();
         setNowPage(1);
+        setisAuthNum(false);
       }}
       onSubmit={nextPage}
       title="회원가입"
