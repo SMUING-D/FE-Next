@@ -1,4 +1,4 @@
-import { COMMENT_DTO } from '@/app/types';
+import { COMMENT_LIST } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -12,7 +12,7 @@ import ReplyCommentInput from '../replyComments/ReplyCommentInput';
 import ReplyCommentListView from '../replyComments/ReplyCommentListView';
 
 type CommentViewProps = {
-  commentsList: COMMENT_DTO[];
+  commentsList: COMMENT_LIST[];
 };
 
 const CommentView = ({ commentsList }: CommentViewProps) => {

@@ -49,7 +49,7 @@ const WriteModal = () => {
       title: '',
       content: '',
       image: [],
-      start_date: '',
+      startDate: '',
       memberCount: 1,
       studyProjectType: '',
       dueDate: '',
@@ -59,7 +59,7 @@ const WriteModal = () => {
 
   const title = watch('title');
   const content = watch('content');
-  const start_date = watch('start_date');
+  const startDate = watch('startDate');
   const dueDate = watch('dueDate');
   const memberCount = watch('memberCount');
   const studyProjectType = watch('studyProjectType');
@@ -144,9 +144,9 @@ const WriteModal = () => {
         onChange={(value) => setValue('memberCount', value)}
       />
       <Input
-        id="start_date"
+        id="startDate"
         type="date"
-        value={start_date}
+        value={startDate}
         label="시작일"
         register={register}
         disabled={isLoading}

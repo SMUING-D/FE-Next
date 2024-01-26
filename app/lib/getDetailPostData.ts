@@ -1,8 +1,8 @@
 import { API_PATH } from '../constants/path';
-import { JOB_DETAIL_DTO } from '../types';
+import { POST_DTO } from '../types';
 
-export const getDetailPostData = async (jobId: string): Promise<JOB_DETAIL_DTO> => {
-  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/${jobId}`;
+export const getDetailPostData = async (postId: string): Promise<POST_DTO> => {
+  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/${postId}`;
 
   const res = await fetch(url);
 

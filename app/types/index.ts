@@ -10,7 +10,7 @@ export type STUDY_LIST = {
   createdAt: string;
   updatedAt: string;
   postLike: false;
-  Images: Images[];
+  Images: IMAGES_DTO[];
   commentList: COMMENT_LIST[];
 };
 
@@ -23,7 +23,22 @@ export type JOB_LIST = {
   createdAt: string;
   updatedAt: string;
   postLike: false;
-  Images: Images[];
+  Images: IMAGES_DTO[];
+  commentList: COMMENT_LIST[];
+};
+
+export type POST_DTO = {
+  id: number;
+  title: string;
+  content: string;
+  college: string;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
+  postLike: boolean;
+  likeCount: number;
+  userDto: USER_DTO;
+  Images: IMAGES_DTO[];
   commentList: COMMENT_LIST[];
 };
 
@@ -50,66 +65,16 @@ export type USER_DTO = {
   profile: string;
 };
 
-export type Images = {
+export type IMAGES_DTO = {
   imageId: number;
   link: string;
 };
 
-//----------
+export type USER_ROLE = 'ADMIN' | 'USER';
 
-export type JOB_DETAIL_DTO = {
-  jobId: number;
-  title: string;
-  content: string;
-  userName: string;
-  likes: number;
-  jobImageDtoList: JOB_IMAGE_DTO[];
-  commentList: COMMENT_DTO[];
-  createAt: string;
-  updateAt: string;
-};
-
-export type JOB_IMAGE_DTO = {
-  communityId: number;
-  communityImagePath: string;
-};
-
-export type COMMENT_DTO = {
-  id: number;
-  stars: number;
-  content: string;
-  communityId: number;
-  createdAt: string;
-  updatedAt: string;
-  userDto: USER_DTO;
-  likes: number;
-  commentReplyList: COMMENT_REPLY_DTO[];
-};
-
-export type COMMENT_REPLY_DTO = {
-  id: number;
-  stars: number;
-  content: string;
-  communityId: number;
-  createdAt: string;
-  updatedAt: string;
-  userDto: USER_DTO;
-};
-
-export type Comments = {
-  commentId: string;
-  User: User;
-  content: string;
-  createdAt: Date;
-  likes: number;
-  reports: number;
-};
-
-export type UserRole = 'ADMIN' | 'USER';
-
-export type User = {
+export type USER = {
   userId: number;
-  role: UserRole;
+  role: USER_ROLE;
   nickname: string;
   username: string;
   profileImg?: string;

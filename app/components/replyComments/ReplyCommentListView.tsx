@@ -1,6 +1,6 @@
 import likeReplyComment from '@/app/lib/post/likeReplyComment';
 import reportReplyComment from '@/app/lib/post/reportReplyComment';
-import { COMMENT_REPLY_DTO } from '@/app/types';
+import { COMMENT } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
@@ -11,7 +11,7 @@ import Avatar from '../Avatar';
 
 type ReplyCommentListViewProps = {
   postId: number;
-  commentReplyList: COMMENT_REPLY_DTO[];
+  commentReplyList: COMMENT[];
 };
 
 const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListViewProps) => {

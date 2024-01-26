@@ -68,7 +68,7 @@ const ListingContainer = () => {
               className={setActiveSelectStyle('all')}
             >
               <h3
-                className={`${select === 'all' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
+                className={`${select === 'all' ? 'text-stone-50 font-bold' : 'text-stone-700 font-normal'} text-sm  dark:text-stone-50 md:text-base`}
               >
                 전체
               </h3>
@@ -81,7 +81,7 @@ const ListingContainer = () => {
               className={setActiveSelectStyle('study')}
             >
               <h3
-                className={`${select === 'study' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
+                className={`${select === 'study' ? 'text-stone-50 font-bold' : 'text-stone-700 font-normal'} text-sm  dark:text-stone-50 md:text-base`}
               >
                 스터디 / 프로젝트 모집
               </h3>
@@ -94,7 +94,7 @@ const ListingContainer = () => {
               className={setActiveSelectStyle('info')}
             >
               <h3
-                className={`${select === 'info' && 'text-stone-50 font-bold'} font-normal text-sm text-stone-700 dark:text-stone-50 md:text-base`}
+                className={`${select === 'info' ? 'text-stone-50 font-bold' : 'text-stone-700 font-normal'} text-sm dark:text-stone-50 md:text-base`}
               >
                 취업 / 정보 교류
               </h3>

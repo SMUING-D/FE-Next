@@ -133,7 +133,7 @@ const PasswordFindModal = () => {
           required
         />
         <div className="w-32 ml-auto">
-          <Button label="인증번호 받기" onClick={onClickPostAuthNum} />
+          <Button label="인증 요청" onClick={onClickPostAuthNum} />
         </div>
       </div>
       {isAuthNum && <div className="font-medium text-gray-400">인증번호가 전송되었습니다.</div>}

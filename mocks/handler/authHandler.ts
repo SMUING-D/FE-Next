@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, http } from 'msw';
 
+import { TEST_USER_DATA } from '../data';
+
 const User = [
   {
     email: 'dara@naver.com',
@@ -37,5 +39,22 @@ export const AuthHandlers = [
     const email = url.searchParams.get('email');
     const authNum = url.searchParams.get('authNum');
     return authNum === '10101' && email ? HttpResponse.json(true) : HttpResponse.json(false);
+  }),
+  http.post('/api/register', () => {
+    return HttpResponse.json(User[0], {
+      headers: {
+        'Set-Cookie': 'connect.sid=msw-cookie;HttpOnly;Path=/'
+      }
+    });
+  }),
+  http.get('/api/user/info/:userId', ({ params }) => {
+    const userId = params.userId;
+    return userId && HttpResponse.json(TEST_USER_DATA);
+  }),
+  http.put('/api/edit/user/info', () => {
+    return HttpResponse.json(TEST_USER_DATA);
+  }),
+  http.put('/api/change/password', () => {
+    return HttpResponse.json(true);
   })
 ];
