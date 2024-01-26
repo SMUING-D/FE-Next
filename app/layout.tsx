@@ -35,10 +35,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <RQProvider>
             <MSWComponent />
             <ToasterProvider />
-            <RegisterModal />
-            <LoginModal />
-            <PasswordFindModal />
-            <WriteModal />
+            <div id="portal">
+              <RegisterModal />
+              <LoginModal />
+              <PasswordFindModal />
+              <WriteModal />
+            </div>
             <Navbar />
             <div className="flex flex-col h-[100dvh]">
               <div className="pb-20 pt-28 flex-1">{children}</div>
