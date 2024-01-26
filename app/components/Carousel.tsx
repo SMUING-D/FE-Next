@@ -40,6 +40,7 @@ const Carousel = () => {
     const slider = document.getElementById('slider');
     slider.scrollLeft = slider.scrollLeft + 500;
   };
+
   return (
     <div className="flex items-center">
       <MdChevronLeft
@@ -51,13 +52,13 @@ const Carousel = () => {
         id="slider"
         className="w-full h-full overflow-y-hidden overflow-x-scroll scroll whitespace-nowrap scroll-smooth"
       >
-        {data.map((item) => (
+        {data.map(({ id, img }) => (
           <Image
             width={220}
             height={220}
-            key={item.id}
+            key={id}
             className="rounded-xl inline-block p-2 cursor-pointer hover:scale hover:scale-95 ease-in-out duration-300"
-            src={item.img}
+            src={img}
             alt=""
           />
         ))}
