@@ -34,7 +34,7 @@ const ListingContainer = () => {
 
   return (
     <>
-      <div className="p-20 my-10">
+      <div className="pt-10 pb-10 my-10">
         <div className="flex flex-col items-end justify-center">
           <div className="flex items-center justify-center w-full gap-4">
             <Search />

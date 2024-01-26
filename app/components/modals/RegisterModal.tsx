@@ -1,5 +1,6 @@
 'use client';
 
+import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import sendAuthMail from '@/app/lib/sendAuthMail';
 import verifyAuthNum from '@/app/lib/verifyAuthNum';
@@ -29,6 +30,7 @@ enum STEPS {
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -212,7 +214,10 @@ const RegisterModal = () => {
         <div className="flex gap-2 items-center justify-center">
           <div>이미 계정이 있으신가요?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={() => {
+              registerModal.onClose();
+              loginModal.onOpen();
+            }}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             로그인
