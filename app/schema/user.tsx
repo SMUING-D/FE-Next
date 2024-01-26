@@ -41,27 +41,7 @@ const schema = z
       .min(1, { message: '학번을 작성해주세요' })
       .refine((value) => value.length === 9, {
         message: '학번은 정확히 9자리여야 합니다.'
-      }),
-    grade: z.coerce.string().min(1, { message: '학년을 선택해주세요' }),
-    school: z
-      .string()
-      .min(1, { message: '학교를 입력해주세요' })
-      .transform((v) => v.replace(/ /g, ' ')),
-    major: z
-      .string()
-      .min(1, { message: '전공을 입력해주세요' })
-      .transform((v) => v.replace(/ /g, ' ')),
-    college: z
-      .string()
-      .min(1, { message: '단과대를 선택해주세요' })
-      .transform((v) => v.replace(/ /g, ' ')),
-    subMajor: z.string().transform((v) => v.replace(/ /g, ' ')),
-    desiredEmployment: z.string().transform((v) => v.replace(/ /g, ' ')),
-    skill: z.string().transform((v) => v.replace(/ /g, ' ')),
-    educationalStatus: z
-      .string()
-      .min(1, { message: '학위를 선택해주세요' })
-      .transform((v) => v.replace(/ /g, ' '))
+      })
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다',
