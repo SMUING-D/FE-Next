@@ -1,8 +1,8 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
-import { JOBLIST, STUDYLIST } from '@/app/types';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { JOB_LIST, STUDY_LIST } from '@/app/types';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -16,8 +16,8 @@ type ListingPostsProps = {
 };
 
 type InfiniteQueryResult = {
-  studyList?: STUDYLIST[];
-  jobList?: JOBLIST[];
+  studyList?: STUDY_LIST[];
+  jobList?: JOB_LIST[];
 };
 
 const ListingPosts = ({ listType }: ListingPostsProps) => {
@@ -30,7 +30,12 @@ const ListingPosts = ({ listType }: ListingPostsProps) => {
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery<InfiniteQueryResult>({
+  } = useInfiniteQuery<
+    InfiniteQueryResult,
+    Object,
+    InfiniteData<InfiniteQueryResult>,
+    [_1: string, _2: string, _3: string]
+  >({
     queryKey: ['posts', college, listType],
     queryFn: ({ pageParam = 1 }) =>
       getFilteredPosts(college, { pageParam: Number(pageParam), listType }),
@@ -64,21 +69,19 @@ const ListingPosts = ({ listType }: ListingPostsProps) => {
   return (
     <>
       <div className="pt-24 w-full max-w-6xl">
-        {listings?.pages.map((page) => {
-          if (listType === 'study') {
-            return page.studyList.map((listing: STUDYLIST) => (
-              <Fragment key={listing.id}>
-                <PostPreview data={listing} />
-              </Fragment>
-            ));
-          } else {
-            return page.jobList.map((listing: JOBLIST) => (
-              <Fragment key={listing.id}>
-                <PostPreview data={listing} />
-              </Fragment>
-            ));
-          }
-        })}
+        {listings?.pages.map((page) =>
+          listType === 'study'
+            ? page.studyList.map((listing: STUDY_LIST) => (
+                <Fragment key={listing.id}>
+                  <PostPreview data={listing} />
+                </Fragment>
+              ))
+            : page.jobList.map((listing: JOB_LIST) => (
+                <Fragment key={listing.id}>
+                  <PostPreview data={listing} />
+                </Fragment>
+              ))
+        )}
       </div>
       <div style={{ height: 100 }} ref={ref} />
       {isFetching && (

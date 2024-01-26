@@ -1,4 +1,4 @@
-import { JOBLIST, STUDYLIST } from '@/app/types';
+import { JOB_LIST, STUDY_LIST } from '@/app/types';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import StarButton from '../StarButton';
 
 type ListingGridProps = {
-  data: STUDYLIST | JOBLIST;
+  data: STUDY_LIST | JOB_LIST;
 };
 
 const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
