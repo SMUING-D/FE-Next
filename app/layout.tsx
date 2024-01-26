@@ -40,8 +40,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <PasswordFindModal />
             <WriteModal />
             <Navbar />
-            <div className="pb-20 pt-28">{children}</div>
-            <Footer />
+            <div className="flex flex-col h-[100dvh]">
+              <div className="pb-20 pt-28 flex-1">{children}</div>
+              <Footer />
+            </div>
           </RQProvider>
         </ClientOnly>
       </body>
