@@ -2,7 +2,7 @@
 
 import getUserLikePost from '@/app/lib/getUserLikePost';
 import getUserWritePost from '@/app/lib/getUserWritePost';
-import { Listing } from '@/app/types';
+import { POST_DTO } from '@/app/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -55,8 +55,8 @@ const MyPostView = ({ userId, queryKey }: MyPostViewProps) => {
       <div className="flex flex-col gap-5 font-normal">
         {writePosts?.pages.map((page, i) => (
           <Fragment key={i}>
-            {page.map((myPostData: Listing) => (
-              <div key={myPostData.postId}>
+            {page.map((myPostData: POST_DTO) => (
+              <div key={myPostData.id}>
                 <MyPost myPostData={myPostData} />
               </div>
             ))}

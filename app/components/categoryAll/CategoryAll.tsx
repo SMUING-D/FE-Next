@@ -1,6 +1,6 @@
 'use client';
 
-import { JOBLIST, STUDYLIST } from '@/app/types';
+import { JOB_LIST, STUDY_LIST } from '@/app/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
@@ -13,8 +13,8 @@ type CategoryAllProps = {
 type PostsDataType = {
   pageParams: number;
   pages: {
-    studyList: STUDYLIST[];
-    jobList: JOBLIST[];
+    studyList: STUDY_LIST[];
+    jobList: JOB_LIST[];
   }[];
 };
 
