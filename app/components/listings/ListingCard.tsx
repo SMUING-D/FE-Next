@@ -1,8 +1,8 @@
 'use client';
 
 import { getFilteredPosts } from '@/app/lib/getFilteredPosts';
-import { JOBLIST, STUDYLIST } from '@/app/types';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { JOB_LIST, STUDY_LIST } from '@/app/types';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -11,16 +11,16 @@ import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import EmptyState from '../EmptyState';
 import ListingGrid from './ListingGrid';
 
-type ListingcardProps = {
+type ListingCardProps = {
   listType: string;
 };
 
 type InfiniteQueryResult = {
-  studyList?: STUDYLIST[];
-  jobList?: JOBLIST[];
+  studyList?: STUDY_LIST[];
+  jobList?: JOB_LIST[];
 };
 
-const ListingCard = ({ listType }: ListingcardProps) => {
+const ListingCard = ({ listType }: ListingCardProps) => {
   const path = usePathname();
   // ['', chss]
   const college = path.split('/')[1];
@@ -31,7 +31,12 @@ const ListingCard = ({ listType }: ListingcardProps) => {
     hasNextPage,
     isFetching,
     isError
-  } = useInfiniteQuery<InfiniteQueryResult>({
+  } = useInfiniteQuery<
+    InfiniteQueryResult,
+    Object,
+    InfiniteData<InfiniteQueryResult>,
+    [_1: string, _2: string, _3: string]
+  >({
     queryKey: ['posts', college, listType],
     queryFn: ({ pageParam = 1 }) =>
       getFilteredPosts(college, { pageParam: Number(pageParam), listType: listType }),
@@ -64,21 +69,19 @@ const ListingCard = ({ listType }: ListingcardProps) => {
   return (
     <>
       <div className="pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-        {listings?.pages.map((page) => {
-          if (listType === 'study') {
-            return page.studyList.map((listing: any) => (
-              <Fragment key={listing.id}>
-                <ListingGrid data={listing} />
-              </Fragment>
-            ));
-          } else {
-            return page.jobList.map((listing: any) => (
-              <Fragment key={listing.id}>
-                <ListingGrid data={listing} />
-              </Fragment>
-            ));
-          }
-        })}
+        {listings?.pages.map((page) =>
+          listType === 'study'
+            ? page.studyList.map((listing: STUDY_LIST) => (
+                <Fragment key={listing.id}>
+                  <ListingGrid data={listing} />
+                </Fragment>
+              ))
+            : page.jobList.map((listing: JOB_LIST) => (
+                <Fragment key={listing.id}>
+                  <ListingGrid data={listing} />
+                </Fragment>
+              ))
+        )}
         <div ref={ref} style={{ height: 50 }}></div>
       </div>
 

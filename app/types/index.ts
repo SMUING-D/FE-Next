@@ -1,4 +1,4 @@
-export type STUDYLIST = {
+export type STUDY_LIST = {
   id: number;
   title: string;
   content: string;
@@ -14,7 +14,7 @@ export type STUDYLIST = {
   commentList: COMMENT_LIST[];
 };
 
-export type JOBLIST = {
+export type JOB_LIST = {
   id: number;
   title: string;
   content: string;
