@@ -301,19 +301,17 @@ const RegisterModal = () => {
         />
         {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
         <div className="flex flex-row gap-3 justify-between">
-          <div className="w-24 h-22 overflow-hidden rounded-md border-2">
-            <Image
-              src={
-                selectedFile && !resetImage
-                  ? URL.createObjectURL(selectedFile)
-                  : '/images/placeholder.jpg'
-              }
-              width={100}
-              height={70}
-              className="rounded-md object-cover"
-              alt="profileImg"
-            />
-          </div>
+          <Image
+            src={
+              selectedFile && !resetImage
+                ? URL.createObjectURL(selectedFile)
+                : '/images/placeholder.jpg'
+            }
+            width={50}
+            height={50}
+            className="rounded-md object-cover w-[70px] h-[70px]"
+            alt="profileImg"
+          />
           <FileInput
             id="profileImg"
             disabled={isLoading}

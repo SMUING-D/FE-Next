@@ -164,17 +164,15 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
       />
       {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
       <div className="flex flex-row gap-3 justify-between">
-        <div className="w-24 h-24 overflow-hidden rounded-md border-2">
-          {resetImage ? null : (
-            <Image
-              src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
-              width={100}
-              height={100}
-              className="rounded-md"
-              alt="profileImg"
-            />
-          )}
-        </div>
+        {resetImage ? null : (
+          <Image
+            src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
+            width={50}
+            height={50}
+            className="rounded-md object-cover w-[70px] h-[70px]"
+            alt="profileImg"
+          />
+        )}
         <FileInput
           id="profileImg"
           disabled={isLoading}
