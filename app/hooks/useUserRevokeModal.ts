@@ -6,6 +6,7 @@ interface UserRevokeModalStore {
   onOpen: () => void;
   onClose: () => void;
 }
+
 const useUserRevokeModal = create<UserRevokeModalStore>()(
   devtools((set) => ({
     isOpen: false,

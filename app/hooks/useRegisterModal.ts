@@ -6,10 +6,7 @@ interface RegisterModalStore {
   onOpen: () => void;
   onClose: () => void;
 }
-/**
- * ()를 선언하면, 타입 에러 해결
- * https://stackoverflow.com/questions/74223036/how-to-use-zustand-devtools-with-typescript
- */
+
 const useRegisterModal = create<RegisterModalStore>()(
   devtools((set) => ({
     isOpen: false,

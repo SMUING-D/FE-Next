@@ -6,6 +6,7 @@ interface UserModalStore {
   onOpen: () => void;
   onClose: () => void;
 }
+
 const useUserInfoEditModal = create<UserModalStore>()(
   devtools((set) => ({
     isOpen: false,
