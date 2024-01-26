@@ -6,8 +6,9 @@ const verifyAuthNum = async (email: string, authNum: string) => {
       'Content-Type': 'application/json'
     }
   });
+
   if (!res.ok) {
-    throw new Error('Faild to fetch data');
+    throw new Error('Failed to fetch data');
   }
 
   if (res) {

@@ -6,6 +6,7 @@ const sendAuthMail = async (email: string) => {
       'Content-Type': 'application/json'
     }
   });
+
   if (!res.ok) {
     throw new Error('Faild to fetch data');
   }

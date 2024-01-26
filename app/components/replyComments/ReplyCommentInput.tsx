@@ -3,7 +3,7 @@
 // import postReplyComment from '@/app/lib/post/postReplyComment';
 import Button from '../Button';
 
-const ReplyCommentInput = ({}) => {
+const ReplyCommentInput = () => {
   const postReComment = async () => {
     // const res = await postReplyComment(userId, reComments, postId, commentId);
   };

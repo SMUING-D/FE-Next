@@ -49,24 +49,52 @@ const UserMenu = () => {
             {session ? (
               <>
                 <MenuItem
-                  onClick={() => router.push(`/user/${session?.user?.userId}`)}
+                  onClick={() => {
+                    router.push(`/user/${session?.user?.userId}`);
+                    setIsOpen(false);
+                  }}
                   label="마이 페이지"
                 />
                 {/* STUDY / Post 나눌지 고려 */}
-                <MenuItem onClick={writeModal.onOpen} label="스터디/프로젝트 모집" />
-                <MenuItem onClick={writeModal.onOpen} label="게시글 작성" />
+                <MenuItem
+                  onClick={() => {
+                    writeModal.onOpen();
+                    setIsOpen(false);
+                  }}
+                  label="스터디/프로젝트 모집"
+                />
+                <MenuItem
+                  onClick={() => {
+                    writeModal.onOpen();
+                    setIsOpen(false);
+                  }}
+                  label="게시글 작성"
+                />
                 <MenuItem
                   onClick={() => {
                     signOut();
                     toast('로그아웃 되었습니다.');
+                    setIsOpen(false);
                   }}
                   label="로그아웃"
                 />
               </>
             ) : (
               <>
-                <MenuItem onClick={loginModal.onOpen} label="로그인" />
-                <MenuItem onClick={registerModal.onOpen} label="회원 가입" />
+                <MenuItem
+                  onClick={() => {
+                    loginModal.onOpen();
+                    setIsOpen(false);
+                  }}
+                  label="로그인"
+                />
+                <MenuItem
+                  onClick={() => {
+                    registerModal.onOpen();
+                    setIsOpen(false);
+                  }}
+                  label="회원 가입"
+                />
               </>
             )}
           </div>

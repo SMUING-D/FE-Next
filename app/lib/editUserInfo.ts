@@ -3,6 +3,7 @@ import { FieldValues } from 'react-hook-form';
 const editUserInfo = async (token: string, data: FieldValues) => {
   data;
   const url = `${process.env.NEXT_PUBLIC_URL}/api/edit/user/info`;
+
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -10,8 +11,9 @@ const editUserInfo = async (token: string, data: FieldValues) => {
       Authorization: `Bearer ${token}`
     }
   });
+
   if (!res.ok) {
-    throw new Error('Faild to fetch data');
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();

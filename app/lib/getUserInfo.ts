@@ -7,8 +7,9 @@ const getUserInfo = async (token: string, userId: number | string) => {
       Authorization: `Bearer ${token}`
     }
   });
+
   if (!res.ok) {
-    throw new Error('Faild to fetch data');
+    throw new Error('Failed to fetch data');
   }
 
   if (res) {

@@ -12,6 +12,7 @@ const changePassword = async ({
   confirmPassword
 }: ChangePasswordProps): Promise<boolean> => {
   const url = `${process.env.NEXT_PUBLIC_URL}/api/change/password`;
+
   const requestBody = {
     email,
     userPassword,
@@ -23,8 +24,9 @@ const changePassword = async ({
     method: 'PUT',
     body: JSON.stringify(requestBody)
   });
+
   if (!res.ok) {
-    throw new Error('Faild to fetch data');
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();

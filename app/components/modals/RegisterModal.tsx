@@ -33,7 +33,7 @@ const RegisterModal = () => {
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resetImage, setResetImage] = useState(false);
-  const [isAuthNum, setisAuthNum] = useState(false);
+  const [isAuthNum, setIsAuthNum] = useState(false);
 
   const {
     register,
@@ -96,7 +96,7 @@ const RegisterModal = () => {
     } else {
       const res = await sendAuthMail(email);
       if (res) {
-        setisAuthNum(true);
+        setIsAuthNum(true);
       }
     }
   };
@@ -127,7 +127,7 @@ const RegisterModal = () => {
         registerModal.onClose();
         reset({});
         setNowPage(STEPS.ONE);
-        setisAuthNum(false);
+        setIsAuthNum(false);
         toast('가입되었습니다.');
       })
       .catch((error) => {
@@ -332,7 +332,7 @@ const RegisterModal = () => {
         registerModal.onClose();
         reset();
         setNowPage(1);
-        setisAuthNum(false);
+        setIsAuthNum(false);
       }}
       onSubmit={nextPage}
       title="회원가입"
