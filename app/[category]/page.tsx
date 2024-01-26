@@ -1,28 +1,32 @@
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 
 import Container from '../components/Container';
-import ListingContainerTest from '../components/listings/ListingContainerTest';
+import ListingContainer from '../components/listings/ListingContainer';
 import { getFilteredPosts } from '../lib/getFilteredPosts';
 
 type HomeProps = {
-  searchParams?: {
-    category?: string;
-    info?: '' | 'on';
-    search?: string;
+  params: {
+    category: string;
   };
 };
 
-const CategoryDetailPage: React.FC<HomeProps> = async ({ searchParams }) => {
+const CategoryDetailPage: React.FC<HomeProps> = async ({ params }) => {
+  const { category } = params;
+
   const queryClient = new QueryClient();
-  const category = searchParams?.category || '';
-  const info = searchParams?.info || '';
-  const search = searchParams?.search || '';
+  const college = category;
 
   // 서버에서 불러온 데이터를 클라이언트의 리액트 쿼리가 물려받음.(하이드레이트)
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['posts', category, info, search],
-    queryFn: ({ pageParam = 1 }) => getFilteredPosts(category, info, search, { pageParam }), // searchParams 전달
+    queryKey: ['posts', college, 'info'],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType: 'info' }), // searchParams, listType 전달
     // 커서 값
+    initialPageParam: 0
+  });
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['posts', college, 'study'],
+    queryFn: ({ pageParam = 1 }) => getFilteredPosts(college, { pageParam, listType: 'study' }),
     initialPageParam: 0
   });
 
@@ -32,7 +36,7 @@ const CategoryDetailPage: React.FC<HomeProps> = async ({ searchParams }) => {
   return (
     <HydrationBoundary state={dehydratedState}>
       <Container>
-        <ListingContainerTest />
+        <ListingContainer />
       </Container>
     </HydrationBoundary>
   );
