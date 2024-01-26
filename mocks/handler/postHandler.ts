@@ -3494,55 +3494,57 @@ export const PostHandlers = [
     }
   }),
   // 게시글 전체조회
-  http.post(`${API_PATH.JOBS}`, () => {
+  http.post(`${API_PATH.POSTS}`, () => {
     return HttpResponse.json(JOB_POSTS);
   }),
   // 게시글 상세조회
-  http.get(`${API_PATH.JOBS}/:jobId`, () => {
+  http.get(`${API_PATH.POSTS}/:jobId`, () => {
     return HttpResponse.json(JOB_POST_DETAIL);
   }),
   // 게시글 작성
-  http.post(`${API_PATH.JOBS}`, () => {
+  http.post(`${API_PATH.POSTS}`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 삭제
-  http.delete(`${API_PATH.JOBS}/:jobId`, () => {
+  http.delete(`${API_PATH.POSTS}/:jobId`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 수정
-  http.patch(`${API_PATH.JOBS}/:jobId`, () => {
+  http.patch(`${API_PATH.POSTS}/:jobId`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 댓글 작성
-  http.post(`${API_PATH.JOBS}/:postId/comments`, () => {
+  http.post(`${API_PATH.POSTS}/:postId/comments`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 댓글 신고
-  http.post(`${API_PATH.JOBS}/comments/:commentId/reports`, () => {
+  http.post(`${API_PATH.POSTS}/comments/:commentId/reports`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 댓글 좋아요
-  http.post(`${API_PATH.JOBS}/comments/:commentId/likes`, () => {
+  http.post(`${API_PATH.POSTS}/comments/:commentId/likes`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 댓글 삭제
-  http.delete(`${API_PATH.JOBS}/comments/:commentId`, () => {
+  http.delete(`${API_PATH.POSTS}/comments/:commentId`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 대댓글 작성
-  http.post(`${API_PATH.JOBS}/comments/:reComments/comments`, () => {
-    return HttpResponse.json(SuccessData);
+  http.post(`${API_PATH.POSTS}/comments/:reComments/comments`, ({ request }) => {
+    const url = new URL(request.url);
+    const postId = url.searchParams.get('postId');
+    return postId && HttpResponse.json(SuccessData);
   }),
   // 게시글 대댓글 좋아요
-  http.post(`${API_PATH.JOBS}/comments/comments/:commentId/likes`, () => {
+  http.post(`${API_PATH.POSTS}/comments/comments/:commentId/likes`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 대댓글 신고
-  http.post(`${API_PATH.JOBS}/comments/comments/:commentId/reports`, () => {
+  http.post(`${API_PATH.POSTS}/comments/comments/:commentId/reports`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 대댓글 삭제
-  http.delete(`${API_PATH.JOBS}/comments/comments/:commentId`, () => {
+  http.delete(`${API_PATH.POSTS}/comments/comments/:commentId`, () => {
     return HttpResponse.json(SuccessData);
   })
 ];
