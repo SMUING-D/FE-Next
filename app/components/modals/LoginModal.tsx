@@ -3,9 +3,10 @@
 import useLoginModal from '@/app/hooks/useLoginModal';
 import usePasswordFindModal from '@/app/hooks/usePasswordFindModal';
 import schema from '@/app/schema/login';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AiFillGithub } from 'react-icons/ai';
@@ -21,6 +22,13 @@ const LoginModal = () => {
   const loginModal = useLoginModal();
   const passwordFindModal = usePasswordFindModal();
   const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const {
     register,

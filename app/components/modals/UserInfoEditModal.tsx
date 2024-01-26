@@ -3,10 +3,11 @@
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import editUserInfo from '@/app/lib/editUserInfo';
 import schema from '@/app/schema/userInfo';
-import { User } from '@/app/types';
+import { USER } from '@/app/types';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -24,12 +25,19 @@ enum STEPS {
   FIVE = 5
 }
 
-const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
+const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
   const userInfoEditModal = useUserInfoEditModal();
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resetImage, setResetImage] = useState(false);
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const {
     register,
@@ -43,6 +51,7 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: User }) => {
     resolver: zodResolver(schema),
     defaultValues: userInfo
   });
+
   const {
     username,
     nickname,

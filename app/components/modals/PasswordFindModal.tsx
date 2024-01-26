@@ -5,8 +5,9 @@ import resetPassword from '@/app/lib/resetPassword';
 import sendAuthMail from '@/app/lib/sendAuthMail';
 import verifyAuthNum from '@/app/lib/verifyAuthNum';
 import schema from '@/app/schema/passwordFind';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -26,6 +27,13 @@ const PasswordFindModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [nowPage, setNowPage] = useState(STEPS.ONE);
   const [isAuthNum, setisAuthNum] = useState(false);
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const {
     register,

@@ -1,9 +1,10 @@
 'use client';
 
 import useWriteModal from '@/app/hooks/useWriteModal';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -22,8 +23,14 @@ const WriteModal = () => {
   const writeModal = useWriteModal();
   const [step, setStep] = useState(STEPS.ZERO);
   const [isLoading, setIsLoading] = useState(false);
-
   const [selectedImages, setSelectedImages] = useState([]);
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;

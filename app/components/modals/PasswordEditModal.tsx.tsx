@@ -3,9 +3,10 @@
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import changePassword from '@/app/lib/changePassword';
 import schema from '@/app/schema/password';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -19,6 +20,13 @@ const PasswordEditModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const email = session?.user?.email;
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const {
     register,

@@ -4,10 +4,11 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import sendAuthMail from '@/app/lib/sendAuthMail';
 import verifyAuthNum from '@/app/lib/verifyAuthNum';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AiFillGithub } from 'react-icons/ai';
@@ -36,6 +37,13 @@ const RegisterModal = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [resetImage, setResetImage] = useState(false);
   const [isAuthNum, setIsAuthNum] = useState(false);
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const {
     register,

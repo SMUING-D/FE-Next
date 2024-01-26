@@ -1,7 +1,8 @@
 import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
 import revokeUser from '@/app/lib/revokeUser';
+import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import Heading from '../Heading';
@@ -10,6 +11,13 @@ import Modal from './Modal';
 const UserRevokeModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userRevokeModal = useUserRevokeModal();
+
+  useEffect(() => {
+    const prevScrollY = preventScroll();
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
 
   const onRevoke = async () => {
     setIsLoading(true);
