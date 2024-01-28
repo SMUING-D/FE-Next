@@ -32,9 +32,9 @@ const Modal: React.FC<ModalProps> = ({
   secondaryAction,
   secondaryActionLabel
 }) => {
-  usePreventScroll(isOpen);
+  const [showModal, setShowModal] = useState(!isOpen);
+  usePreventScroll(showModal);
 
-  const [showModal, setShowModal] = useState(isOpen);
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
