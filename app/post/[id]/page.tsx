@@ -147,7 +147,7 @@ const PostPage = () => {
 
       <div className="flex flex-col gap-14">
         <CommentInput />
-        {postData?.commentList && <CommentView commentsList={postData?.commentList} />}
+        <CommentView />
       </div>
     </div>
   );

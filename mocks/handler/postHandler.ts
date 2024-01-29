@@ -3739,6 +3739,171 @@ export const PostHandlers = [
   http.post(`${API_PATH.POSTS}/:postId/comments`, () => {
     return HttpResponse.json(SuccessData);
   }),
+  // 댓글 불러오기
+  http.get(`${API_PATH.POSTS}/comments/:postId`, ({ request, params }) => {
+    const url = new URL(request.url);
+    const postId = params.postId;
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    if (postId) {
+      return HttpResponse.json({
+        commentList: [
+          {
+            id: cursor + 1,
+            content: `${cursor} 댓글 내용`,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '댓글 작성자',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: [
+              {
+                id: 1,
+                content: '대댓글 내용',
+                commentReplyLikeCount: 20,
+                isCommentReplyLike: true,
+                isReport: false,
+                isBan: false,
+                createdAt: '2024-01-20 10:15:00',
+                updatedAt: '2024-01-20 10:20:00',
+                userDto: {
+                  userId: 2,
+                  userName: '대댓글 작성자',
+                  profile:
+                    'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                }
+              },
+              {
+                id: 2,
+                content: '다른 대댓글 내용',
+                commentReplyLikeCount: 30,
+                createdAt: '2024-01-20 10:25:00',
+                updatedAt: '2024-01-20 10:30:00',
+                isCommentReplyLike: true,
+                isReport: false,
+                isBan: false,
+                userDto: {
+                  userId: 3,
+                  userName: '다른 대댓글 작성자',
+                  profile:
+                    'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                }
+              }
+            ]
+          },
+          {
+            id: cursor + 2,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          },
+          {
+            id: cursor + 3,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          },
+          {
+            id: cursor + 4,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          },
+          {
+            id: cursor + 5,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          },
+          {
+            id: cursor + 6,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          },
+          {
+            id: cursor + 7,
+            content: `${cursor} 다른 댓글 내용 `,
+            createdAt: '2024-01-20 10:05:00',
+            updatedAt: '2024-01-20 10:10:00',
+            isCommentLike: true,
+            isReport: false,
+            isBan: false,
+            commentLikeCount: 10,
+            userDto: {
+              userId: 1,
+              userName: '박선균',
+              profile:
+                'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            },
+            commentReplyList: []
+          }
+        ]
+      });
+    }
+  }),
   // 댓글 신고
   http.post(`${API_PATH.POSTS}/comments/:commentId/reports`, () => {
     return HttpResponse.json(SuccessData);
@@ -3751,6 +3916,47 @@ export const PostHandlers = [
   http.delete(`${API_PATH.POSTS}/comments/:commentId`, () => {
     return HttpResponse.json(SuccessData);
   }),
+  // 대댓글 불러오기
+  // http.get(`${API_PATH.POSTS}/comments/comments/:postId/:commentId`, ({ request }) => {
+  //   const url = new URL(request.url);
+  //   const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+  //   return HttpResponse.json({
+  //     commentReplyList: [
+  //       {
+  //         id: cursor + 1,
+  //         content: `${cursor} 대댓글 내용`,
+  //         commentReplyLikeCount: 20,
+  //         isCommentReplyLike: true,
+  //         isReport: false,
+  //         isBan: false,
+  //         createdAt: '2024-01-20 10:15:00',
+  //         updatedAt: '2024-01-20 10:20:00',
+  //         userDto: {
+  //           userId: 2,
+  //           userName: '대댓글 작성자',
+  //           profile:
+  //             'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  //         }
+  //       },
+  //       {
+  //         id: cursor + 2,
+  //         content: `${cursor} 다른 대댓글 내용`,
+  //         commentReplyLikeCount: 30,
+  //         createdAt: '2024-01-20 10:25:00',
+  //         updatedAt: '2024-01-20 10:30:00',
+  //         isCommentReplyLike: true,
+  //         isReport: false,
+  //         isBan: false,
+  //         userDto: {
+  //           userId: 3,
+  //           userName: '다른 대댓글 작성자',
+  //           profile:
+  //             'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  //         }
+  //       }
+  //     ]
+  //   });
+  // }),
   // 게시글 대댓글 작성
   http.post(`${API_PATH.POSTS}/comments/:reComments/comments`, ({ request }) => {
     const url = new URL(request.url);
