@@ -24,10 +24,17 @@ type InfiniteQueryResult = {
 const CommentView = () => {
   const pathname = usePathname();
   const postId = pathname.slice(pathname.length - 1, pathname.length);
-
   const { data: session } = useSession();
-  const [isOpenReplyCommentInput, setIsOpenReplyCommentInput] = useState(false);
   const user = session?.user?.name;
+  const [openReplyCommentInputs, setOpenReplyCommentInputs] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+
+  const toggleReplyCommentInput = (commentId: number) => {
+    setOpenReplyCommentInputs((prevState) => ({
+      [commentId]: !prevState[commentId] || false
+    }));
+  };
 
   const {
     data: commentsList,
@@ -99,9 +106,7 @@ const CommentView = () => {
                   <FaComments
                     className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
                     onClick={() =>
-                      session
-                        ? setIsOpenReplyCommentInput(!isOpenReplyCommentInput)
-                        : toast('로그인이 필요한 기능입니다')
+                      session ? toggleReplyCommentInput(id) : toast('로그인이 필요한 기능입니다')
                     }
                   />
                   <div className="flex text-xs dark:text-zinc-100 text-zinc-300">
@@ -123,7 +128,9 @@ const CommentView = () => {
                 <div className="flex text-xs font-nomal dark:text-zinc-100 text-zinc-300">2</div>
               </div>
             </div>
-            {isOpenReplyCommentInput && <ReplyCommentInput />}
+            {openReplyCommentInputs[id] && (
+              <ReplyCommentInput postId={parseInt(postId)} commentId={id} />
+            )}
             <ReplyCommentListView postId={id} commentReplyList={commentReplyList} />
           </div>
         ))
