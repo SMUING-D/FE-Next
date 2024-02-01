@@ -9,7 +9,7 @@ import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import { POST_DTO } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
@@ -20,6 +20,8 @@ type paramsType = {
 };
 
 const PostPage = () => {
+  const pathname = usePathname();
+  const postType = pathname.split('/')[2];
   const { data: session } = useSession();
   const { id: postId } = useParams<paramsType>();
   // const router = useRouter();
@@ -34,13 +36,13 @@ const PostPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDetailPostData(postId);
+      const res = await getDetailPostData(postId, postType);
       if (res) {
         setPostData(res);
       }
     };
     fetchData();
-  }, [postId]);
+  }, [postId, postType]);
 
   const postDate = useMemo(() => {
     if (!postData?.createdAt) {
@@ -123,23 +125,37 @@ const PostPage = () => {
         )}
       </div>
 
-      <div className="flex flex-col p-2 gap-5">
+      <div className="flex flex-col p-2 gap-10">
         <div className="flex text-2xl dark:text-zinc-100 text-zinc-700 font-bold">
           {postData?.title}
         </div>
-        <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal mb-15">
+
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-row gap-2 items-center">
+            <div className="text-lg font-semibold text-zinc-700">모집 기간</div>
+            <div className="text-md font-medium text-zinc-500">
+              {postData?.startDate} ~ {postData?.dueDate}
+            </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <div className="text-lg font-semibold text-zinc-700">모집 인원</div>
+            <div className="text-md font-medium text-zinc-500">{postData?.memberCount} 명</div>
+          </div>
+        </div>
+
+        <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal mb-15 whitespace-pre-line">
           {postData?.content}
         </div>
       </div>
 
-      {postData?.Images && <ImageSlider imageList={postData?.Images} />}
+      {postData?.postImageList && <ImageSlider imageList={postData?.postImageList} />}
 
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
           className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
           onClick={() => (session ? {} : toast('로그인이 필요한 기능입니다'))}
         />
-        <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.likeCount}</div>
+        <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.postLikeCount}</div>
         <FaComment className="flex dark:text-zinc-100 text-zinc-400" />
         <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.commentList?.length}</div>
       </div>

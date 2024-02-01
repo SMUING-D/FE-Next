@@ -8,9 +8,10 @@ import StarButton from '../StarButton';
 
 type ListingGridProps = {
   data: STUDY_LIST | JOB_LIST;
+  type: 'job' | 'study';
 };
 
-const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
+const ListingGrid: React.FC<ListingGridProps> = ({ data, type }) => {
   const router = useRouter();
   const date = useMemo(() => {
     if (!data.createdAt) {
@@ -21,7 +22,7 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data }) => {
 
   return (
     <div
-      onClick={() => router.push(`/post/${data.id}`)}
+      onClick={() => router.push(`/post/${type}/${data.id}`)}
       className="w-[230px] col-span-1 cursor-pointer shadow-md p-2 rounded-xl border-[1px] border-stone-100 dark:border-[0.5px] dark:border-stone-300"
     >
       <div

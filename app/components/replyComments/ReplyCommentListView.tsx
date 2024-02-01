@@ -37,7 +37,7 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
   };
 
   return (
-    <div className="flex flex-col gap-3 ml-20 mt-5">
+    <div className="flex flex-col gap-3 ml-12 mt-5">
       {commentReplyList?.map(({ id, content, createdAt, userDto }) => (
         <div key={id} className="flex flex-col">
           <div className="flex flex-col p-3 border-b-2 border-gray-100 gap-3">
