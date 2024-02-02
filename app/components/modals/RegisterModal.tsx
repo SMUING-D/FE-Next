@@ -219,14 +219,14 @@ const RegisterModal = () => {
       />
       {errors.authNum && <FormError message={errors.authNum?.message?.toString()} />}
       <div className="text-neutral-500 text-center mt-4 font-light">
-        <div className="flex gap-2 items-center justify-center">
-          <div>이미 계정이 있으신가요?</div>
+        <div className="flex gap-5 items-center justify-center">
+          <div className="dark:text-slate-100">이미 계정이 있으신가요?</div>
           <div
             onClick={() => {
               registerModal.onClose();
               loginModal.onOpen();
             }}
-            className="text-neutral-800 cursor-pointer hover:underline"
+            className="text-neutral-800 dark:text-slate-100 cursor-pointer hover:underline"
           >
             로그인
           </div>
@@ -279,7 +279,9 @@ const RegisterModal = () => {
   if (nowPage === STEPS.THREE) {
     bodyContent = (
       <div className="flex flex-col gap-4">
-        <h3 className="font-regular text-neutral-800 mt-2">기본 개인정보를 작성해주세요</h3>
+        <h3 className="font-regular text-neutral-800 mt-2 dark:text-slate-100">
+          기본 개인정보를 작성해주세요
+        </h3>
         <Input
           id="name"
           value={name}

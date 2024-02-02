@@ -191,7 +191,7 @@ const WriteModal = () => {
         />
         <textarea
           placeholder="게시글 내용을 자유롭게 입력해주세요!"
-          className="text-lg p-4 border-2 color-black"
+          className="text-lg p-4 border-2 color-black dark:text-black"
           value={content}
           onChange={(event) => setValue('content', event.target.value)}
         />

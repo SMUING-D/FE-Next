@@ -35,7 +35,7 @@ const CategoryAll = ({ onClick }: CategoryAllProps) => {
         </div>
         <div className="grid grid-rows-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-2">
           {studyList.map((studyData: any, index: any) => (
-            <ListingGrid key={index} data={studyData} type="study" />
+            <ListingGrid key={index} data={studyData} />
           ))}
         </div>
         <div
@@ -49,7 +49,7 @@ const CategoryAll = ({ onClick }: CategoryAllProps) => {
         <div className="font-bold text-stone-700 dark:text-stone-50 text-xl">취업 정보 교류</div>
         <div className="grid grid-rows-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-2">
           {jobList.map((jobData: any, index: any) => (
-            <ListingGrid key={index} data={jobData} type="job" />
+            <ListingGrid key={index} data={jobData} />
           ))}
         </div>
         <div
