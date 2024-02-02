@@ -14,7 +14,7 @@ type ImageSliderProps = {
 const ImageSlider = ({ imageList, size = 200 }: ImageSliderProps) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const imageLinkList: string[] = imageList.map((item) => item.link);
+  const imageLinkList: string[] = imageList.map((item) => item.postImagePath);
 
   const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index - 1);
@@ -30,13 +30,13 @@ const ImageSlider = ({ imageList, size = 200 }: ImageSliderProps) => {
     <div className="flex flex-row p-2 gap-1 overflow-x-auto scrollbar-hide">
       {imageList?.map((images) => (
         <Image
-          key={images.imageId}
+          key={images.id}
           className="flex rounded-md"
-          src={images.link}
+          src={images.postImagePath}
           width={size}
           height={size}
           alt="profle"
-          onClick={() => openImageViewer(images.imageId)}
+          onClick={() => openImageViewer(images.id)}
         />
       ))}
 

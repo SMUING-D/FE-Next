@@ -1,5 +1,6 @@
-import likeReplyComment from '@/app/lib/post/likeReplyComment';
-import reportReplyComment from '@/app/lib/post/reportReplyComment';
+import deleteComment from '@/app/lib/post/deleteComment';
+import likeComment from '@/app/lib/post/likeComment';
+import reportComment from '@/app/lib/post/reportComment';
 import { COMMENT } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
@@ -14,12 +15,12 @@ type ReplyCommentListViewProps = {
   commentReplyList: COMMENT[];
 };
 
-const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListViewProps) => {
+const ReplyCommentListView = ({ commentReplyList }: ReplyCommentListViewProps) => {
   const { data: session } = useSession();
-  const user = session?.user?.name;
+  const userId = session?.user?.userId;
 
   const reportReComment = async (commentId: number) => {
-    const res = await reportReplyComment(postId, commentId);
+    const res = await reportComment(commentId);
     if (res) {
       toast('대댓글이 신고되었습니다');
     } else {
@@ -27,17 +28,18 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
     }
   };
 
-  const likeReComment = async (commentId: number) => {
-    const res = await likeReplyComment(postId, commentId);
-    if (res) {
-      toast('대댓글이 좋아요 되었습니다');
-    } else {
-      toast('오류가 발생했습니다. 이후에 다시 시도해주세요');
-    }
+  const handleLikeComment = async (id: number) => {
+    const res = await likeComment(id);
+    if (res) toast('좋아요');
+  };
+
+  const handleDeleteComment = async (id: number) => {
+    const res = await deleteComment(id);
+    if (res) toast('대댓글이 삭제되었습니다.');
   };
 
   return (
-    <div className="flex flex-col gap-3 ml-20 mt-5">
+    <div className="flex flex-col gap-3 ml-12 mt-5">
       {commentReplyList?.map(({ id, content, createdAt, userDto }) => (
         <div key={id} className="flex flex-col">
           <div className="flex flex-col p-3 border-b-2 border-gray-100 gap-3">
@@ -53,14 +55,14 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
               </div>
 
               <div className="flex justify-end flex-1 gap-2">
-                {userDto.userName === user ? (
+                {userDto.userId === userId ? (
                   <FaTrashAlt
-                    className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                    onClick={() => ''}
+                    className="flex mr-2 dark:text-zinc-100 text-zinc-600 cursor-pointer"
+                    onClick={() => handleDeleteComment(id)}
                   />
                 ) : (
                   <PiSirenFill
-                    className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                    className="flex mr-2 dark:text-zinc-100 text-zinc-600 cursor-pointer"
                     onClick={() =>
                       session ? reportReComment(id) : toast('로그인이 필요한 기능입니다')
                     }
@@ -71,13 +73,15 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
             <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal">
               {content}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-3 pb-1">
               <div className="flex text-xs whitespace-nowrap dark:text-zinc-100 text-zinc-300 font-light">
                 {createdAt && format(new Date(createdAt), 'yy/MM/dd HH:mm')}
               </div>
               <FaHeart
-                className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() => (session ? likeReComment(id) : toast('로그인이 필요한 기능입니다'))}
+                className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer ml-1"
+                onClick={() =>
+                  session ? handleLikeComment(id) : toast('로그인이 필요한 기능입니다')
+                }
               />
               <div className="flex text-xs font-nomal dark:text-zinc-100 text-zinc-300">2</div>
             </div>

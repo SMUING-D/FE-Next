@@ -33,12 +33,16 @@ export type POST_DTO = {
   content: string;
   college: string;
   viewCount: number;
+  memberCount?: number;
+  startDate?: string;
+  dueDate?: string;
   createdAt: string;
   updatedAt: string;
   postLike: boolean;
-  likeCount: number;
+  postLikeCount: number;
+  isPostLike: boolean;
   userDto: USER_DTO;
-  Images: IMAGES_DTO[];
+  postImageList: IMAGES_DTO[];
   commentList: COMMENT_LIST[];
 };
 
@@ -66,8 +70,8 @@ export type USER_DTO = {
 };
 
 export type IMAGES_DTO = {
-  imageId: number;
-  link: string;
+  id: number;
+  postImagePath: string;
 };
 
 export type USER_ROLE = 'ADMIN' | 'USER';
