@@ -6,10 +6,11 @@ import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
 import copyURL from '@/app/lib/copyURL/copyURL';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
+import deletePost from '@/app/lib/post/deletePost';
 import { POST_DTO } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
@@ -24,9 +25,8 @@ const PostPage = () => {
   const postType = pathname.split('/')[2];
   const { data: session } = useSession();
   const { id: postId } = useParams<paramsType>();
-  // const router = useRouter();
-
-  const username = session?.user?.name;
+  const router = useRouter();
+  const userId = session?.user?.userId;
   const [postData, setPostData] = useState<POST_DTO>(undefined);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,6 +50,19 @@ const PostPage = () => {
     }
     return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
   }, [postData?.createdAt]);
+
+  const handleDeletePost = async () => {
+    const res = await deletePost(parseInt(postId));
+    if (res) {
+      alert('게시글이 삭제되었습니다.');
+      router.back();
+    }
+  };
+
+  const handleReportPost = async () => {
+    // const res = await reportPost(parseInt(postId));
+    alert('게시글이 신고되었습니다.');
+  };
 
   return (
     <div className="pt-20 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-4 px-6 gap-7">
@@ -79,7 +92,7 @@ const PostPage = () => {
         {isOpen && (
           <div className="dark:text-black absolute rounded-xl shadow-lg w-20 p-4 bg-white overflow-hidden right-0 top-10 text-sm">
             <div className="flex flex-col cursor-pointer gap-3 items-center">
-              {username === postData?.userDto?.userName ? (
+              {userId === postData?.userDto?.userId ? (
                 <>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
@@ -89,7 +102,7 @@ const PostPage = () => {
                   </div>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={() => {}}
+                    onClick={handleDeletePost}
                   >
                     삭제
                   </div>
@@ -105,9 +118,7 @@ const PostPage = () => {
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
                     onClick={() =>
-                      session
-                        ? toast('게시글이 신고되었습니다')
-                        : toast('로그인이 필요한 기능입니다')
+                      session ? handleReportPost() : toast('로그인이 필요한 기능입니다')
                     }
                   >
                     신고

@@ -3733,7 +3733,7 @@ export const PostHandlers = [
         postLike: false,
         postLikeCount: 1,
         userDto: {
-          userId: 5,
+          userId: 2,
           userName: '취업 게시글 작성자',
           profile:
             'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -3818,7 +3818,7 @@ export const PostHandlers = [
         postLikeCount: 10,
         userDto: {
           userId: 1,
-          userName: '댓글 작성자',
+          userName: '글쓴이 이름임',
           profile:
             'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
         },
@@ -3914,8 +3914,11 @@ export const PostHandlers = [
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 삭제
-  http.delete(`${API_PATH.POSTS}/:postId`, () => {
-    return HttpResponse.json(SuccessData);
+  http.delete(`${API_PATH.POSTS}/:postId`, ({ params }) => {
+    const postId = params.postId;
+    if (postId) {
+      return HttpResponse.json(SuccessData);
+    }
   }),
   // 게시글 수정
   http.patch(`${API_PATH.POSTS}/:postId`, () => {
@@ -3944,7 +3947,7 @@ export const PostHandlers = [
             isBan: false,
             commentLikeCount: 10,
             userDto: {
-              userId: 1,
+              userId: 2,
               userName: '댓글 작성자',
               profile:
                 'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -4094,11 +4097,11 @@ export const PostHandlers = [
   http.post(`${API_PATH.POSTS}/comments/:commentId/reports`, () => {
     return HttpResponse.json(SuccessData);
   }),
-  // 댓글 좋아요
+  // 댓글/대댓글 좋아요
   http.post(`${API_PATH.POSTS}/comments/:commentId/likes`, () => {
     return HttpResponse.json(SuccessData);
   }),
-  // 댓글 삭제
+  // 댓글/대댓글 삭제
   http.delete(`${API_PATH.POSTS}/comments/:commentId`, () => {
     return HttpResponse.json(SuccessData);
   }),
@@ -4144,21 +4147,8 @@ export const PostHandlers = [
   //   });
   // }),
   // 게시글 대댓글 작성
-  http.post(`${API_PATH.POSTS}/comments/:reComments/comments`, ({ request }) => {
-    const url = new URL(request.url);
-    const postId = url.searchParams.get('postId');
-    return postId && HttpResponse.json(SuccessData);
-  }),
-  // 게시글 대댓글 좋아요
-  http.post(`${API_PATH.POSTS}/comments/comments/:commentId/likes`, () => {
-    return HttpResponse.json(SuccessData);
-  }),
-  // 게시글 대댓글 신고
-  http.post(`${API_PATH.POSTS}/comments/comments/:commentId/reports`, () => {
-    return HttpResponse.json(SuccessData);
-  }),
-  // 게시글 대댓글 삭제
-  http.delete(`${API_PATH.POSTS}/comments/comments/:commentId`, () => {
-    return HttpResponse.json(SuccessData);
+  http.post(`${API_PATH.POSTS}/comments/:commentId/comments`, ({ params }) => {
+    const commentId = params.commentId;
+    return commentId && HttpResponse.json(SuccessData);
   })
 ];

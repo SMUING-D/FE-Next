@@ -73,12 +73,12 @@ const ListingCard = ({ listType }: ListingCardProps) => {
           listType === 'study'
             ? page.studyList.map((listing: STUDY_LIST) => (
                 <Fragment key={listing.id}>
-                  <ListingGrid data={listing} />
+                  <ListingGrid data={listing} type="study" />
                 </Fragment>
               ))
             : page.jobList.map((listing: JOB_LIST) => (
                 <Fragment key={listing.id}>
-                  <ListingGrid data={listing} />
+                  <ListingGrid data={listing} type="job" />
                 </Fragment>
               ))
         )}

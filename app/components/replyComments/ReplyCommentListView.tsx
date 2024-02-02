@@ -1,8 +1,10 @@
-import likeReplyComment from '@/app/lib/post/likeReplyComment';
+import deleteComment from '@/app/lib/post/deleteComment';
+import likeComment from '@/app/lib/post/likeComment';
 import reportReplyComment from '@/app/lib/post/reportReplyComment';
 import { COMMENT } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaHeart, FaTrashAlt } from 'react-icons/fa';
 import { PiSirenFill } from 'react-icons/pi';
@@ -16,7 +18,9 @@ type ReplyCommentListViewProps = {
 
 const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListViewProps) => {
   const { data: session } = useSession();
-  const user = session?.user?.name;
+  const userId = session?.user?.userId;
+  const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [isError, setIsError] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const reportReComment = async (commentId: number) => {
     const res = await reportReplyComment(postId, commentId);
@@ -27,12 +31,29 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
     }
   };
 
-  const likeReComment = async (commentId: number) => {
-    const res = await likeReplyComment(postId, commentId);
-    if (res) {
-      toast('대댓글이 좋아요 되었습니다');
-    } else {
-      toast('오류가 발생했습니다. 이후에 다시 시도해주세요');
+  const handleLikeComment = async (id: number) => {
+    try {
+      setIsLoading(true);
+      const res = await likeComment(id);
+      if (res) toast('좋아요');
+    } catch (e) {
+      setIsError(true);
+      toast.error('댓글 좋아요 중 오류가 발생했습니다. 다시 시도해주세요');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteComment = async (id: number) => {
+    try {
+      setIsLoading(true);
+      const res = await deleteComment(id);
+      if (res) toast('대댓글이 삭제되었습니다.');
+    } catch (e) {
+      setIsError(true);
+      toast.error('댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,10 +74,10 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
               </div>
 
               <div className="flex justify-end flex-1 gap-2">
-                {userDto.userName === user ? (
+                {userDto.userId === userId ? (
                   <FaTrashAlt
                     className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                    onClick={() => ''}
+                    onClick={() => handleDeleteComment(id)}
                   />
                 ) : (
                   <PiSirenFill
@@ -77,7 +98,9 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
               </div>
               <FaHeart
                 className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-                onClick={() => (session ? likeReComment(id) : toast('로그인이 필요한 기능입니다'))}
+                onClick={() =>
+                  session ? handleLikeComment(id) : toast('로그인이 필요한 기능입니다')
+                }
               />
               <div className="flex text-xs font-nomal dark:text-zinc-100 text-zinc-300">2</div>
             </div>
