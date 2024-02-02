@@ -57,12 +57,12 @@ const ReplyCommentListView = ({ commentReplyList }: ReplyCommentListViewProps) =
               <div className="flex justify-end flex-1 gap-2">
                 {userDto.userId === userId ? (
                   <FaTrashAlt
-                    className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                    className="flex mr-2 dark:text-zinc-100 text-zinc-600 cursor-pointer"
                     onClick={() => handleDeleteComment(id)}
                   />
                 ) : (
                   <PiSirenFill
-                    className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                    className="flex mr-2 dark:text-zinc-100 text-zinc-600 cursor-pointer"
                     onClick={() =>
                       session ? reportReComment(id) : toast('로그인이 필요한 기능입니다')
                     }
@@ -73,12 +73,12 @@ const ReplyCommentListView = ({ commentReplyList }: ReplyCommentListViewProps) =
             <div className="flex text-sm dark:text-zinc-100 text-zinc-500 font-normal">
               {content}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-3 pb-1">
               <div className="flex text-xs whitespace-nowrap dark:text-zinc-100 text-zinc-300 font-light">
                 {createdAt && format(new Date(createdAt), 'yy/MM/dd HH:mm')}
               </div>
               <FaHeart
-                className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
+                className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer ml-1"
                 onClick={() =>
                   session ? handleLikeComment(id) : toast('로그인이 필요한 기능입니다')
                 }
