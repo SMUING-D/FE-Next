@@ -1,10 +1,7 @@
 import { API_PATH } from '@/app/constants/path';
 
-const reportReplyComment = async (
-  postId: number,
-  commentId: number //대댓글 id
-) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/comments/comments/${commentId}/reports?postId=${postId}`;
+const reportComment = async (commentId: number) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}${API_PATH.POSTS}/comments/${commentId}/reports`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -22,4 +19,4 @@ const reportReplyComment = async (
   }
 };
 
-export default reportReplyComment;
+export default reportComment;

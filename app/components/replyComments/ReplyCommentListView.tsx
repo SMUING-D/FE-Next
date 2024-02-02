@@ -1,10 +1,9 @@
 import deleteComment from '@/app/lib/post/deleteComment';
 import likeComment from '@/app/lib/post/likeComment';
-import reportReplyComment from '@/app/lib/post/reportReplyComment';
+import reportComment from '@/app/lib/post/reportComment';
 import { COMMENT } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaHeart, FaTrashAlt } from 'react-icons/fa';
 import { PiSirenFill } from 'react-icons/pi';
@@ -16,14 +15,12 @@ type ReplyCommentListViewProps = {
   commentReplyList: COMMENT[];
 };
 
-const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListViewProps) => {
+const ReplyCommentListView = ({ commentReplyList }: ReplyCommentListViewProps) => {
   const { data: session } = useSession();
   const userId = session?.user?.userId;
-  const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  const [isError, setIsError] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const reportReComment = async (commentId: number) => {
-    const res = await reportReplyComment(postId, commentId);
+    const res = await reportComment(commentId);
     if (res) {
       toast('대댓글이 신고되었습니다');
     } else {
@@ -32,29 +29,13 @@ const ReplyCommentListView = ({ postId, commentReplyList }: ReplyCommentListView
   };
 
   const handleLikeComment = async (id: number) => {
-    try {
-      setIsLoading(true);
-      const res = await likeComment(id);
-      if (res) toast('좋아요');
-    } catch (e) {
-      setIsError(true);
-      toast.error('댓글 좋아요 중 오류가 발생했습니다. 다시 시도해주세요');
-    } finally {
-      setIsLoading(false);
-    }
+    const res = await likeComment(id);
+    if (res) toast('좋아요');
   };
 
   const handleDeleteComment = async (id: number) => {
-    try {
-      setIsLoading(true);
-      const res = await deleteComment(id);
-      if (res) toast('대댓글이 삭제되었습니다.');
-    } catch (e) {
-      setIsError(true);
-      toast.error('댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsLoading(false);
-    }
+    const res = await deleteComment(id);
+    if (res) toast('대댓글이 삭제되었습니다.');
   };
 
   return (

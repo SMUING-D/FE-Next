@@ -7,6 +7,7 @@ import CommentView from '@/app/components/comments/CommentView';
 import copyURL from '@/app/lib/copyURL/copyURL';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import deletePost from '@/app/lib/post/deletePost';
+import likePost from '@/app/lib/post/likePost';
 import { POST_DTO } from '@/app/types';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
@@ -50,6 +51,13 @@ const PostPage = () => {
     }
     return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
   }, [postData?.createdAt]);
+
+  const handleLikePost = async () => {
+    const res = await likePost(parseInt(postId));
+    if (res) {
+      toast('게시글 좋아요');
+    }
+  };
 
   const handleDeletePost = async () => {
     const res = await deletePost(parseInt(postId));
@@ -164,7 +172,7 @@ const PostPage = () => {
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
           className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-          onClick={() => (session ? {} : toast('로그인이 필요한 기능입니다'))}
+          onClick={() => (session ? handleLikePost() : toast('로그인이 필요한 기능입니다'))}
         />
         <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.postLikeCount}</div>
         <FaComment className="flex dark:text-zinc-100 text-zinc-400" />

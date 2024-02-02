@@ -3913,6 +3913,11 @@ export const PostHandlers = [
   http.post(`${API_PATH.POSTS}`, () => {
     return HttpResponse.json(SuccessData);
   }),
+  // 게시글 좋아요
+  http.post(`${API_PATH.POSTS}/:postId/likes`, ({ params }) => {
+    const postId = params.postId;
+    return postId && HttpResponse.json(SuccessData);
+  }),
   // 게시글 삭제
   http.delete(`${API_PATH.POSTS}/:postId`, ({ params }) => {
     const postId = params.postId;

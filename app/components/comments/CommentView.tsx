@@ -3,6 +3,7 @@
 import { getPostComment } from '@/app/lib/getPostComment';
 import deleteComment from '@/app/lib/post/deleteComment';
 import likeComment from '@/app/lib/post/likeComment';
+import reportComment from '@/app/lib/post/reportComment';
 import { COMMENT_LIST } from '@/app/types';
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
@@ -31,8 +32,6 @@ const CommentView = () => {
   const [openReplyCommentInputs, setOpenReplyCommentInputs] = useState<{ [key: number]: boolean }>(
     {}
   );
-  const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  const [isReqeustError, setIsRequestError] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const toggleReplyCommentInput = (commentId: number) => {
     setOpenReplyCommentInputs((prevState) => ({
@@ -75,29 +74,18 @@ const CommentView = () => {
   }
 
   const handleLikeComment = async (id: number) => {
-    try {
-      setIsLoading(true);
-      const res = await likeComment(id);
-      if (res) toast('좋아요');
-    } catch (e) {
-      setIsRequestError(true);
-      toast.error('댓글 좋아요 중 오류가 발생했습니다. 다시 시도해주세요');
-    } finally {
-      setIsLoading(false);
-    }
+    const res = await likeComment(id);
+    if (res) toast('좋아요');
   };
 
   const handleDeleteComment = async (id: number) => {
-    try {
-      setIsLoading(true);
-      const res = await deleteComment(id);
-      if (res) toast('댓글이 삭제되었습니다.');
-    } catch (e) {
-      setIsRequestError(true);
-      toast.error('댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsLoading(false);
-    }
+    const res = await deleteComment(id);
+    if (res) toast('댓글이 삭제되었습니다.');
+  };
+
+  const handleReportComment = async (id: number) => {
+    const res = await reportComment(id);
+    if (res) toast('댓글이 신고되었습니다.');
   };
 
   return (
@@ -127,9 +115,7 @@ const CommentView = () => {
                     <PiSirenFill
                       className="flex mr-2 dark:text-zinc-100 text-zinc-400 cursor-pointer"
                       onClick={() =>
-                        session
-                          ? toast('댓글이 신고되었습니다')
-                          : toast('로그인이 필요한 기능입니다')
+                        session ? handleReportComment(id) : toast('로그인이 필요한 기능입니다')
                       }
                     />
                   )}
