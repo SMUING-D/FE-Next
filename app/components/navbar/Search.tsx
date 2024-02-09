@@ -12,7 +12,6 @@ const Search = () => {
     e.preventDefault();
     const newSearchParams = new URLSearchParams(searchParams);
     const searchValue = e.currentTarget.search.value;
-    console.log(e.currentTarget.search.value);
 
     if (!searchValue) {
       router.replace(`?category=${newSearchParams.get('category') || ''}`);

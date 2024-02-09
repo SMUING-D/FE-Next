@@ -20,35 +20,35 @@ export const categories = [
   {
     name: '인문사회과학대학',
     label: 'College of Humanities and Social Sciences',
-    alias: '/chss',
+    alias: '/society',
     icon: FaBook,
     description: '인문사회과학대학과 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '사범대학',
     label: 'College of Education',
-    alias: '/coe',
+    alias: '/educate',
     icon: GiTeacher,
     description: '사범대학에 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '경영경제대학',
     label: 'College of Business & Economics',
-    alias: '/cobe',
+    alias: '/economy',
     icon: PiPresentationChartFill,
     description: '경영경제대학 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '융합공과대학',
     label: 'College of Convergence Engineering',
-    alias: '/coce',
+    alias: '/engineering',
     icon: IoSettings,
     description: '융합공과대학과 관련된 정보가 담겨져 있습니다!'
   },
   {
     name: '문화예술대학',
     label: 'College of Culture and Arts',
-    alias: '/coca',
+    alias: '/art',
     icon: FaPaintBrush,
     description: '문화예술대학과 관련된 정보가 담겨져 있습니다!'
   }

@@ -18,7 +18,7 @@ export const PostHandlers = [
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
     const listType = (url.searchParams.get('listType') as string) || '';
 
-    if (college === 'chss') {
+    if (college === 'society') {
       if (listType === 'study') {
         return HttpResponse.json({
           studyList: [
@@ -762,7 +762,7 @@ export const PostHandlers = [
         });
       }
     }
-    if (college === 'coe') {
+    if (college === 'educate') {
       return HttpResponse.json({
         studyList: [
           {
@@ -1500,7 +1500,7 @@ export const PostHandlers = [
         ]
       });
     }
-    if (college === 'cobe') {
+    if (college === 'engineering') {
       return HttpResponse.json({
         studyList: [
           {
@@ -2238,7 +2238,7 @@ export const PostHandlers = [
         ]
       });
     }
-    if (college === 'coce') {
+    if (college === 'art') {
       return HttpResponse.json({
         studyList: [
           {
@@ -2976,7 +2976,7 @@ export const PostHandlers = [
         ]
       });
     }
-    if (college === 'coca') {
+    if (college === 'economy') {
       return HttpResponse.json({
         studyList: [
           {
@@ -4094,7 +4094,10 @@ export const PostHandlers = [
             },
             commentReplyList: []
           }
-        ]
+        ],
+        nextCursor: 6,
+        isLast: true,
+        remainComments: 20
       });
     }
   }),
