@@ -3,11 +3,13 @@
 import Image from 'next/image';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
+import { POST_DTO } from '../types';
+
 const defaltImg =
   'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2274&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 type CarouselProps = {
-  popularPosts: [];
+  popularPosts: POST_DTO[];
 };
 
 const Carousel = ({ popularPosts }: CarouselProps) => {

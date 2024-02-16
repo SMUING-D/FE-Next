@@ -93,3 +93,31 @@ export type USER = {
   job?: string;
   experience?: string;
 };
+
+export type ALL_POSTS = {
+  isSuccess: boolean;
+  code: string;
+  messgae: string;
+  result: {
+    popularPosts: POST_DTO[];
+    categories: POST_DTO[];
+  };
+};
+
+export type CATEGORIES_DTO = {
+  EDUCATE?: {
+    posts: POST_DTO[];
+  };
+  ART: {
+    posts: POST_DTO[];
+  };
+  SOCIETY: {
+    posts: POST_DTO[];
+  };
+  ECONOMY: {
+    posts: POST_DTO[];
+  };
+  ENGINEERING: {
+    posts: POST_DTO[];
+  };
+};

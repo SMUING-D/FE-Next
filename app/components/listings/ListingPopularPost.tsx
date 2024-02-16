@@ -1,11 +1,12 @@
 'use client';
 
+import { POST_DTO } from '@/app/types';
 import { useRouter } from 'next/navigation';
 
 type ListingPopularPostType = {
   college: string;
   route: string;
-  posts: [];
+  posts: POST_DTO[];
 };
 
 const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route, posts }) => {

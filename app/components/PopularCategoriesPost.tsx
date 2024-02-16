@@ -3,10 +3,11 @@
 import { useEffect, useState } from 'react';
 
 import { getAllPost } from '../lib/getAllPost';
+import { CATEGORIES_DTO } from '../types';
 import ListingPopularPost from './listings/ListingPopularPost';
 
 const PopularCategoriesPost = () => {
-  const [categoriesPosts, setCategoriesPosts] = useState();
+  const [categoriesPosts, setCategoriesPosts] = useState<CATEGORIES_DTO>();
 
   useEffect(() => {
     const fetchData = async () => {
