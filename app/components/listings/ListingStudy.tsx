@@ -1,8 +1,24 @@
+'use client';
+
+import { getAllPost } from '@/app/lib/getAllPost';
+import { useEffect, useState } from 'react';
 import { FaBook } from 'react-icons/fa';
 
 import Carousel from '../Carousel';
 
 const ListingStudy = () => {
+  const [popularPosts, setPopularPosts] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAllPost();
+      if (res) {
+        setPopularPosts(res.result.popularPosts);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <div>
@@ -15,7 +31,7 @@ const ListingStudy = () => {
       </div>
       <hr />
       <div className="flex items-center justify-center">
-        <Carousel />
+        <Carousel popularPosts={popularPosts} />
       </div>
     </>
   );

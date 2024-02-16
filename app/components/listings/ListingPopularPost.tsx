@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 type ListingPopularPostType = {
   college: string;
   route: string;
+  posts: [];
 };
 
-const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route }) => {
+const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route, posts }) => {
   const router = useRouter();
 
   return (
@@ -19,18 +20,19 @@ const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route }
         </button>
       </div>
       <div className="mt-3">
-        {/* 데이터 구조 나오면 데이터 받은 후 각 게시글 세부 포스팅으로 넘어갈 수 있게 구현 예정 */}
-        {[1, 2, 3, 4, 5].map((index) => (
-          <div
-            key={index}
-            className="border-b-4 p-2 mt-3 flex items-center justify-between hover:bg-slate-300 hover:rounded-lg cursor-pointer"
-          >
-            <h3 className="text-lg truncate w-4/5">
-              하루만에 디자인 한거치고 만족! 텍스트가 길어지면 뒤에 부분은 안보이게 설정해봐요!
-            </h3>
-            <p className="text-sm text-slate-500">👁️ 500</p>
-          </div>
-        ))}
+        {posts && posts.length > 0 ? (
+          posts.map((data, index) => (
+            <div
+              key={index}
+              className="border-b-4 p-2 mt-3 flex items-center justify-between hover:bg-slate-300 hover:rounded-lg cursor-pointer"
+            >
+              <h3 className="text-lg truncate w-4/5">{data?.content}</h3>
+              <p className="text-sm text-slate-500">{data?.viewCount}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-lg truncate w-4/5 text-slate-500">게시글이 없습니다.</p>
+        )}
       </div>
     </div>
   );
