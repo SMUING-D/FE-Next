@@ -1,5 +1,5 @@
-const getUserWritePost = async (userId: number | string) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/user/write/post/${userId}`;
+const getUserWritePost = async (cursor: number) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/posts/myPage?cursor=${cursor}`;
   const res = await fetch(url);
 
   if (!res.ok) {

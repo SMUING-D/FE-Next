@@ -18,7 +18,7 @@ type MyPostViewProps = {
   queryKey: MyPostQueryKeyType;
 };
 
-const MyPostView = ({ userId, queryKey }: MyPostViewProps) => {
+const MyPostView = ({ queryKey }: MyPostViewProps) => {
   const {
     data: writePosts,
     fetchNextPage,
@@ -26,11 +26,18 @@ const MyPostView = ({ userId, queryKey }: MyPostViewProps) => {
     isFetching,
     isError
   } = useInfiniteQuery({
-    queryKey: [queryKey, userId],
+    queryKey: [queryKey],
     queryFn:
-      queryKey === 'MY_POSTS' ? () => getUserWritePost(userId) : () => getUserLikePost(userId),
+      queryKey === 'MY_POSTS'
+        ? ({ pageParam = 0 }) => getUserWritePost(pageParam)
+        : ({ pageParam = 0 }) => getUserLikePost(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.at(-1)?.postId,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.result.isLast === false) {
+        return lastPage.result.nextCursor;
+      }
+      return null;
+    },
     staleTime: 60 * 1000,
     gcTime: 300 * 1000
   });
@@ -55,7 +62,7 @@ const MyPostView = ({ userId, queryKey }: MyPostViewProps) => {
       <div className="flex flex-col gap-5 font-normal">
         {writePosts?.pages.map((page, i) => (
           <Fragment key={i}>
-            {page.map((myPostData: POST_DTO) => (
+            {page.result.pageDtos.map((myPostData: POST_DTO) => (
               <div key={myPostData.id}>
                 <MyPost myPostData={myPostData} />
               </div>

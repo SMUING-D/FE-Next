@@ -1,5 +1,5 @@
-const getUserLikePost = async (userId: number | string) => {
-  const url = `${process.env.NEXT_PUBLIC_URL}/api/user/like/post/${userId}`;
+const getUserLikePost = async (pageParam: number) => {
+  const url = `${process.env.NEXT_PUBLIC_URL}/api/posts/likes?cursor=${pageParam}`;
   const res = await fetch(url);
 
   if (!res.ok) {

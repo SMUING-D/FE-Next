@@ -7,18 +7,19 @@ const MyPost = ({ myPostData }: { myPostData: POST_DTO }) => {
   const router = useRouter();
 
   const onClickPost = (postId: number) => {
-    router.push(`/post/${postId}`);
+    router.push(`/post/job/${postId}`); //type 정보 필요
   };
   const { id, title, createdAt, likeCount } = myPostData;
+
   return (
     <div
       key={id}
       className="flex flex-col border-b-2 p-5 cursor-pointer"
-      onClick={() => onClickPost(id)}
+      onClick={() => (id ? onClickPost(id) : onClickPost(myPostData?.postId))}
     >
       <div>{title}</div>
       <div className="flex flex-row ml-0 text-gray-500 font-light dark:text-gray-50">
-        {format(createdAt, 'yyyy년 MM월 dd일')}
+        {createdAt && format(createdAt, 'yyyy년 MM월 dd일')}
         <div className="flex ml-auto gap-2 items-center text-gray-500">
           <FaHeart className="flex dark:text-zinc-100 text-gray-500 cursor-pointer" />
           <div className="flex dark:text-zinc-100 text-gray-500">{likeCount || 0}</div>

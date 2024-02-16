@@ -4362,5 +4362,59 @@ export const PostHandlers = [
   http.post(`${API_PATH.POSTS}/comments/:commentId/comments`, ({ params }) => {
     const commentId = params.commentId;
     return commentId && HttpResponse.json(SuccessData);
+  }),
+  // 내가 좋아요 한 글 불러오기
+  http.get(`${API_PATH.POSTS}/likes`, ({ request }) => {
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '성공입니다.',
+      result: {
+        pageDtos: [
+          {
+            postId: cursor + 1,
+            title: '내가 좋아요 한 글',
+            date: '2011-01-01T00:00:00'
+          },
+          {
+            postId: cursor + 2,
+            title: '불러오기',
+            date: '2011-01-01T00:00:00'
+          }
+        ],
+        nextCursor: 2,
+        isLast: true
+      }
+    });
+  }),
+  // 내가 쓴 글 불러오기
+  http.get(`${API_PATH.POSTS}/myPage`, ({ request }) => {
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '성공입니다.',
+      result: {
+        pageDtos: [
+          {
+            postId: cursor + 1,
+            title: '내가 쓴 글',
+            date: '2011-01-01T00:00:00'
+          },
+          {
+            postId: cursor + 2,
+            title: '불러오기',
+            date: '2011-01-01T00:00:00'
+          }
+        ],
+        nextCursor: 2,
+        isLast: true
+      }
+    });
   })
 ];
