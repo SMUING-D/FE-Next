@@ -1,16 +1,18 @@
 'use client';
 
-import useWriteModal from '@/app/hooks/useWriteModal';
+import useJobWriteModal from '@/app/hooks/useJobWriteModal';
+import writeJobPost from '@/app/lib/post/writeJobPost';
 import { allowScroll, preventScroll } from '@/app/utils/scroll';
-import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import Heading from '../Heading';
-import Counter from '../inputs/Counter';
 import Input from '../inputs/Input';
+import SelectBox, { OptionType } from '../select/SelectBox';
+import { COLLEGE_OPTIONS } from '../select/options/registerOptions';
 import Modal from './Modal';
 
 enum STEPS {
@@ -18,12 +20,32 @@ enum STEPS {
   ONE = 1
 }
 
-const WriteModal = () => {
+const JobWriteModal = () => {
   const router = useRouter();
-  const writeModal = useWriteModal();
+  const jobWriteModal = useJobWriteModal();
   const [step, setStep] = useState(STEPS.ZERO);
+  const [collegeName, setCollegeName] = useState<OptionType>();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset
+  } = useForm<FieldValues>({
+    defaultValues: {
+      title: '',
+      content: '',
+      postImageDtoList: [],
+      type: 'job',
+      college: ''
+    }
+  });
+
+  const { title, content, college } = watch();
 
   useEffect(() => {
     const prevScrollY = preventScroll();
@@ -44,66 +66,46 @@ const WriteModal = () => {
     setSelectedImages((previousImages) => previousImages.concat(imagesArray));
   };
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset
-  } = useForm<FieldValues>({
-    defaultValues: {
-      title: '',
-      content: '',
-      image: [],
-      startDate: '',
-      memberCount: 1,
-      studyProjectType: '',
-      dueDate: '',
-      college: ''
-    }
-  });
+  const handleSelectCollege = (e: OptionType) => {
+    const college = e.value;
+    setValue('college', college);
+    setCollegeName(e);
+  };
 
-  const title = watch('title');
-  const content = watch('content');
-  const startDate = watch('startDate');
-  const dueDate = watch('dueDate');
-  const memberCount = watch('memberCount');
-  const studyProjectType = watch('studyProjectType');
-  const college = watch('college');
-  // const image = watch('image');
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const { title, content, postImageDtoList, type, college } = data;
+    if (step !== STEPS.ONE) {
+      return onNext();
+    }
+    try {
+      setIsLoading(true);
+      const res = await writeJobPost({ title, content, postImageDtoList, type, college });
+      if (res) {
+        console.log('제출된 데이터: ', data);
+        toast.success('게시글 작성에 성공하였습니다.');
+        router.refresh();
+        reset();
+        setCollegeName(null);
+        setStep(STEPS.ZERO);
+        jobWriteModal.onClose();
+      }
+    } catch (e) {
+      toast.error('에러가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onBack = () => {
     setStep((value) => value - 1);
   };
 
   const onNext = () => {
-    setStep((value) => value + 1);
-  };
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.ONE) {
-      return onNext();
+    if (!college) {
+      toast('단과대를 선택해주세요!');
+    } else {
+      setStep((value) => value + 1);
     }
-    console.log(data);
-    setIsLoading(true);
-    axios
-      .post('/api/posts', data)
-      .then(() => {
-        toast.success('게시글 작성에 성공하였습니다.');
-
-        router.refresh();
-        // Initialize Form
-        reset();
-        setStep(STEPS.ZERO);
-        writeModal.onClose();
-      })
-      .catch(() => {
-        toast.error('게시글 작성에 실패하셨습니다.');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const actionLabel = useMemo(() => {
@@ -122,53 +124,28 @@ const WriteModal = () => {
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading
-        title="어떤 종류의 게시글을 작성하고 싶으신가요?"
-        subtitle="카테고리를 선택해주세요"
-      />
-      <Input
-        id="studyProjectType"
-        value={studyProjectType}
-        label="카테고리 선택"
-        register={register}
-        disabled={isLoading}
-        errors={errors}
-        required
-      />
-      <Input
+      <Heading title={'취업 정보 공유를 위한\n글을 작성해보세요 !'} />
+      <SelectBox
         id="college"
-        value={college}
-        label="단과대 선택"
-        register={register}
-        disabled={isLoading}
-        errors={errors}
-        required
-      />
-      <Counter
-        title="모집 인원 수"
-        subtitle="몇명을 모집하고 싶으신가요?"
-        value={memberCount}
-        onChange={(value) => setValue('memberCount', value)}
+        placeholder="단과대 선택"
+        value={collegeName}
+        onChange={handleSelectCollege}
+        options={COLLEGE_OPTIONS}
       />
       <Input
-        id="startDate"
-        type="date"
-        value={startDate}
-        label="시작일"
+        id="title"
+        value={title}
+        label="제목"
         register={register}
         disabled={isLoading}
         errors={errors}
         required
       />
-      <Input
-        id="dueDate"
-        type="date"
-        value={dueDate}
-        label="종료일"
-        register={register}
-        disabled={isLoading}
-        errors={errors}
-        required
+      <textarea
+        placeholder="게시글 내용을 자유롭게 입력해주세요!"
+        className="text-lg p-4 border-2 color-black dark:text-black"
+        value={content}
+        onChange={(event) => setValue('content', event.target.value)}
       />
     </div>
   );
@@ -176,27 +153,9 @@ const WriteModal = () => {
   if (step === STEPS.ONE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading
-          title="어떤 종류의 게시글을 작성하고 싶으신가요?"
-          subtitle="카테고리를 선택해주세요"
-        />
-        <Input
-          id="title"
-          value={title}
-          label="제목"
-          register={register}
-          disabled={isLoading}
-          errors={errors}
-          required
-        />
-        <textarea
-          placeholder="게시글 내용을 자유롭게 입력해주세요!"
-          className="text-lg p-4 border-2 color-black dark:text-black"
-          value={content}
-          onChange={(event) => setValue('content', event.target.value)}
-        />
+        <Heading title="관련 이미지를 업로드하세요." />
         <input
-          {...register('image')}
+          {...register('postImageDtoList')}
           id="picture"
           type="file"
           accept="image/*"
@@ -230,10 +189,12 @@ const WriteModal = () => {
                     className="flex flex-col items-center justify-center w-52 h-[300px]"
                     key={image}
                   >
-                    <img
+                    <Image
                       src={image}
                       alt="upload"
                       className="object-contain min-w-[150px] h-[150px]"
+                      width={150}
+                      height={150}
                     />
                     <button
                       className="bg-red-500 p-3 mt-3 rounded-lg w-[70px] h-[50px] text-white font-bold text-lg"
@@ -253,16 +214,22 @@ const WriteModal = () => {
 
   return (
     <Modal
-      isOpen={writeModal.isOpen}
-      onClose={writeModal.onClose}
+      isOpen={jobWriteModal.isOpen}
+      onClose={() => {
+        jobWriteModal.onClose();
+        reset();
+        setCollegeName(null);
+        setStep(STEPS.ZERO);
+        setSelectedImages([]);
+      }}
       onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.ZERO ? undefined : onBack}
-      title="게시글 작성하기"
+      title="취업 정보 공유글 작성"
       body={bodyContent}
     />
   );
 };
 
-export default WriteModal;
+export default JobWriteModal;

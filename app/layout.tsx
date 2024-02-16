@@ -3,10 +3,11 @@ import { Nunito } from 'next/font/google';
 
 import ClientOnly from './components/ClientOnly';
 import Footer from './components/Footer';
+import JobWriteModal from './components/modals/JobWriteModal';
 import LoginModal from './components/modals/LoginModal';
 import PasswordFindModal from './components/modals/PasswordFindModal';
 import RegisterModal from './components/modals/RegisterModal';
-import WriteModal from './components/modals/WriteModal';
+import StudyWriteModal from './components/modals/StudyWriteModal';
 import Navbar from './components/navbar/Navbar';
 import { MSWComponent } from './components/providers/MSWProvider';
 import RQProvider from './components/providers/RQProvider';
@@ -39,7 +40,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <RegisterModal />
               <LoginModal />
               <PasswordFindModal />
-              <WriteModal />
+              <StudyWriteModal />
+              <JobWriteModal />
             </div>
             <Navbar />
             <div className="flex flex-col h-[100dvh]">
