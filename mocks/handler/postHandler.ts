@@ -2,8 +2,6 @@ import { API_PATH } from '@/app/constants/path';
 import { faker } from '@faker-js/faker';
 import { HttpResponse, PathParams, http } from 'msw';
 
-import { TEST_COLLEGE_DATA } from '../data';
-
 const SuccessData = {
   isSuccess: true,
   code: 200,
@@ -11,7 +9,7 @@ const SuccessData = {
 };
 
 export const PostHandlers = [
-  // 전체 조회
+  // 전체 조회 (단과대 게시글)
   http.get<PathParams>(`${API_PATH.POSTS}/:college`, ({ request, params }) => {
     const url = new URL(request.url);
     const college = params.college;
@@ -3905,9 +3903,215 @@ export const PostHandlers = [
       });
     }
   }),
-  //단과대 게시글
-  http.get(`${API_PATH.POSTS}/:college`, () => {
-    return HttpResponse.json(TEST_COLLEGE_DATA);
+  http.get(`${API_PATH.POSTS}`, () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '성공입니다.',
+      result: {
+        popularPosts: [
+          {
+            postLike: false,
+            id: 6,
+            title: '현장은 이렇더라',
+            content: '카카오는 이렇더라',
+            startDate: null,
+            memberCount: 5,
+            dueDate: '15:25:33.672552800',
+            college: 'EDUCATE',
+            viewCount: 0,
+            createdAt: '2024-02-04T15:19:52.575627',
+            updatedAt: '2024-02-04T15:19:52.575627',
+            isPostLike: false,
+            postLikeCount: 5,
+            userDto: {
+              userId: 1,
+              userName: '길동이',
+              profile: '프로필 내용'
+            },
+            postImage:
+              'https://images.unsplash.com/photo-1708000590735-6aee991a7b29?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8'
+          },
+          {
+            postLike: false,
+            id: 5,
+            title: '현장은 이렇더라',
+            content: '카카오는 이렇더라',
+            startDate: null,
+            memberCount: 5,
+            dueDate: '15:25:33.676561300',
+            college: 'EDUCATE',
+            viewCount: 0,
+            createdAt: '2024-02-04T15:19:48.000164',
+            updatedAt: '2024-02-04T15:19:48.000164',
+            isPostLike: false,
+            postLikeCount: 5,
+            userDto: {
+              userId: 1,
+              userName: '길동이',
+              profile: '프로필 내용'
+            },
+            postImage:
+              'https://images.unsplash.com/photo-1707660380407-c1edb3396c00?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D'
+          },
+          {
+            postLike: false,
+            id: 4,
+            title: '현장은 이렇더라',
+            content: '카카오는 이렇더라',
+            startDate: null,
+            memberCount: 5,
+            dueDate: '15:25:33.677554100',
+            college: 'EDUCATE',
+            viewCount: 0,
+            createdAt: '2024-02-04T15:19:46.732684',
+            updatedAt: '2024-02-04T15:19:46.732684',
+            isPostLike: false,
+            postLikeCount: 5,
+            userDto: {
+              userId: 1,
+              userName: '길동이',
+              profile: '프로필 내용'
+            },
+            postImage: null
+          }
+        ],
+        categories: {
+          EDUCATE: {
+            posts: [
+              {
+                dueDate: null,
+                postLikeCount: 0,
+                postLike: false,
+                id: 6,
+                title: '현장은 이렇더라',
+                content: '카카오는 이렇더라',
+                college: 'EDUCATE',
+                memberCount: null,
+                viewCount: 0,
+                createdAt: '2024-02-04T15:19:52.575627',
+                updatedAt: '2024-02-04T15:19:52.575627',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              },
+              {
+                dueDate: null,
+                postLikeCount: 0,
+                postLike: false,
+                id: 5,
+                title: '현장은 이렇더라',
+                content: '카카오는 이렇더라',
+                college: 'EDUCATE',
+                memberCount: null,
+                viewCount: 0,
+                createdAt: '2024-02-04T15:19:48.000164',
+                updatedAt: '2024-02-04T15:19:48.000164',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              },
+              {
+                dueDate: null,
+                postLikeCount: 0,
+                postLike: false,
+                id: 4,
+                title: '현장은 이렇더라',
+                content: '카카오는 이렇더라',
+                college: 'EDUCATE',
+                memberCount: null,
+                viewCount: 0,
+                createdAt: '2024-02-04T15:19:46.732684',
+                updatedAt: '2024-02-04T15:19:46.732684',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              }
+            ]
+          },
+          ART: {
+            posts: [
+              {
+                dueDate: '2024-03-04T21:00:00',
+                postLikeCount: 0,
+                postLike: false,
+                id: 1,
+                title: 'fix title',
+                content: null,
+                college: 'ART',
+                memberCount: '5',
+                viewCount: 100,
+                createdAt: '2024-02-04T21:00:00',
+                updatedAt: '2024-02-04T13:18:43.07499',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              }
+            ]
+          },
+          SOCIETY: {
+            posts: [
+              {
+                dueDate: '2024-03-05T21:00:00',
+                postLikeCount: 0,
+                postLike: false,
+                id: 2,
+                title: 'Sample title 2',
+                content: 'Sample content 2',
+                college: 'SOCIETY',
+                memberCount: '8',
+                viewCount: 150,
+                createdAt: '2024-02-05T21:00:00',
+                updatedAt: '2024-02-05T21:00:00',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              },
+              {
+                dueDate: null,
+                postLikeCount: 0,
+                postLike: false,
+                id: 3,
+                title: '현장은 이렇더라',
+                content: '카카오는 이렇더라',
+                college: 'SOCIETY',
+                memberCount: null,
+                viewCount: 0,
+                createdAt: '2024-02-04T13:11:11.934218',
+                updatedAt: '2024-02-04T13:11:11.934218',
+                isPostLike: false,
+                userDto: {
+                  userId: 1,
+                  userName: '길동이',
+                  profile: '프로필 내용'
+                }
+              }
+            ]
+          },
+          ECONOMY: {
+            posts: []
+          },
+          ENGINEERING: {
+            posts: []
+          }
+        }
+      }
+    });
   }),
   // 게시글 작성
   http.post(`${API_PATH.POSTS}`, () => {
@@ -4158,5 +4362,59 @@ export const PostHandlers = [
   http.post(`${API_PATH.POSTS}/comments/:commentId/comments`, ({ params }) => {
     const commentId = params.commentId;
     return commentId && HttpResponse.json(SuccessData);
+  }),
+  // 내가 좋아요 한 글 불러오기
+  http.get(`${API_PATH.POSTS}/likes`, ({ request }) => {
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '성공입니다.',
+      result: {
+        pageDtos: [
+          {
+            postId: cursor + 1,
+            title: '내가 좋아요 한 글',
+            date: '2011-01-01T00:00:00'
+          },
+          {
+            postId: cursor + 2,
+            title: '불러오기',
+            date: '2011-01-01T00:00:00'
+          }
+        ],
+        nextCursor: 2,
+        isLast: true
+      }
+    });
+  }),
+  // 내가 쓴 글 불러오기
+  http.get(`${API_PATH.POSTS}/myPage`, ({ request }) => {
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 'COMMON200',
+      message: '성공입니다.',
+      result: {
+        pageDtos: [
+          {
+            postId: cursor + 1,
+            title: '내가 쓴 글',
+            date: '2011-01-01T00:00:00'
+          },
+          {
+            postId: cursor + 2,
+            title: '불러오기',
+            date: '2011-01-01T00:00:00'
+          }
+        ],
+        nextCursor: 2,
+        isLast: true
+      }
+    });
   })
 ];

@@ -1,8 +1,9 @@
 'use client';
 
+import useJobWriteModal from '@/app/hooks/useJobWriteModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
-import useWriteModal from '@/app/hooks/useWriteModal';
+import useStudyWriteModal from '@/app/hooks/useStudyWriteModal';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -15,13 +16,21 @@ import MenuItem from './MenuItem';
 const UserMenu = () => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  const writeModal = useWriteModal();
+  const studyWriteModal = useStudyWriteModal();
+  const jobWriteModal = useJobWriteModal();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isWriteOpen, setIsWriteOpen] = useState(false);
   const { data: session } = useSession();
+
+  const toggleWriteOpen = useCallback(() => {
+    setIsWriteOpen((prev) => !prev);
+    setIsOpen(false);
+  }, []);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
+    setIsWriteOpen(false);
   }, []);
 
   return (
@@ -29,7 +38,7 @@ const UserMenu = () => {
       <div className="flex flex-row items-center gap-3">
         <div
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          onClick={writeModal.onOpen}
+          onClick={toggleWriteOpen}
         >
           글쓰기
         </div>
@@ -55,21 +64,6 @@ const UserMenu = () => {
                   }}
                   label="마이 페이지"
                 />
-                {/* STUDY / Post 나눌지 고려 */}
-                <MenuItem
-                  onClick={() => {
-                    writeModal.onOpen();
-                    setIsOpen(false);
-                  }}
-                  label="스터디/프로젝트 모집"
-                />
-                <MenuItem
-                  onClick={() => {
-                    writeModal.onOpen();
-                    setIsOpen(false);
-                  }}
-                  label="게시글 작성"
-                />
                 <MenuItem
                   onClick={() => {
                     signOut();
@@ -78,6 +72,22 @@ const UserMenu = () => {
                   }}
                   label="로그아웃"
                 />
+                <div className="block md:hidden">
+                  <MenuItem
+                    onClick={() => {
+                      studyWriteModal.onOpen();
+                      setIsOpen(false);
+                    }}
+                    label="스터디/프로젝트 모집"
+                  />
+                  <MenuItem
+                    onClick={() => {
+                      jobWriteModal.onOpen();
+                      setIsOpen(false);
+                    }}
+                    label="취업 정보 공유"
+                  />
+                </div>
               </>
             ) : (
               <>
@@ -97,6 +107,26 @@ const UserMenu = () => {
                 />
               </>
             )}
+          </div>
+        </div>
+      )}
+      {isWriteOpen && (
+        <div className="dark:text-black absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-12 top-12 text-sm">
+          <div className="flex flex-col cursor-pointer">
+            <MenuItem
+              onClick={() => {
+                studyWriteModal.onOpen();
+                setIsOpen(false);
+              }}
+              label={'스터디 및\n프로젝트 모집'}
+            />
+            <MenuItem
+              onClick={() => {
+                jobWriteModal.onOpen();
+                setIsOpen(false);
+              }}
+              label={'취업 정보 공유'}
+            />
           </div>
         </div>
       )}

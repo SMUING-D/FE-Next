@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface WriteModalStore {
+interface useJobWriteModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-const useWriteModal = create<WriteModalStore>()(
+const useJobWriteModal = create<useJobWriteModalStore>()(
   devtools((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
@@ -15,4 +15,4 @@ const useWriteModal = create<WriteModalStore>()(
   }))
 );
 
-export default useWriteModal;
+export default useJobWriteModal;
