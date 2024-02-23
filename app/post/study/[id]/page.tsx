@@ -5,14 +5,14 @@ import ImageSlider from '@/app/components/ImageSlider';
 import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
 import copyURL from '@/app/lib/copyURL/copyURL';
-import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import deletePost from '@/app/lib/post/deletePost';
-import likePost from '@/app/lib/post/likePost';
-import { POST_DTO } from '@/app/types';
+import { getPostLike } from '@/app/lib/post/likePost';
+import { useGetDetailPostData } from '@/app/lib/post/query/query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -22,28 +22,31 @@ type paramsType = {
 };
 
 const PostPage = () => {
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const postType = pathname.split('/')[2];
   const { data: session } = useSession();
   const { id: postId } = useParams<paramsType>();
   const router = useRouter();
   const userId = session?.user?.userId;
-  const [postData, setPostData] = useState<POST_DTO>(undefined);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getDetailPostData(postId, postType);
-      if (res) {
-        setPostData(res);
-      }
-    };
-    fetchData();
-  }, [postId, postType]);
+  const { data: postData } = useGetDetailPostData(postId, postType);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: getPostLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+    },
+    onError: () => {
+      toast.error('좋아요에 실패하였습니다.');
+    }
+  });
 
   const postDate = useMemo(() => {
     if (!postData?.createdAt) {
@@ -51,13 +54,6 @@ const PostPage = () => {
     }
     return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
   }, [postData?.createdAt]);
-
-  const handleLikePost = async () => {
-    const res = await likePost(parseInt(postId));
-    if (res) {
-      toast('게시글 좋아요');
-    }
-  };
 
   const handleDeletePost = async () => {
     const res = await deletePost(parseInt(postId));
@@ -171,9 +167,16 @@ const PostPage = () => {
 
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
-          className="flex dark:text-zinc-100 text-zinc-400 cursor-pointer"
-          onClick={() => (session ? handleLikePost() : toast('로그인이 필요한 기능입니다'))}
+          className={`flex dark:text-zinc-100 ${postData.isPostLike ? 'text-rose-400' : 'text-zinc-400'} cursor-pointer`}
+          onClick={async () => {
+            try {
+              await mutateAsync(postId);
+            } catch (e) {
+              console.error(e);
+            }
+          }}
         />
+        {/* 좋아요 */}
         <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.postLikeCount}</div>
         <FaComment className="flex dark:text-zinc-100 text-zinc-400" />
         <div className="flex dark:text-zinc-100 text-zinc-400">{postData?.commentList?.length}</div>
