@@ -11,10 +11,6 @@ import usePostDeleteModal from '@/app/hooks/usePostDeleteModal';
 import usePostReportModal from '@/app/hooks/usePostReportModal';
 import useStudyEditModal from '@/app/hooks/useStudyEditModal';
 import copyURL from '@/app/lib/copyURL/copyURL';
-import { getDetailPostData } from '@/app/lib/getDetailPostData';
-import likePost from '@/app/lib/post/likePost';
-import { POST_DTO } from '@/app/types';
-import deletePost from '@/app/lib/post/deletePost';
 import { getPostLike } from '@/app/lib/post/likePost';
 import { useGetDetailPostData } from '@/app/lib/post/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -67,13 +63,6 @@ const PostPage = () => {
     }
     return `${format(postData?.createdAt, 'yyyy년 MM월 dd일 HH:mm')}`;
   }, [postData?.createdAt]);
-
-  const handleLikePost = async () => {
-    const res = await likePost(parseInt(postId));
-    if (res) {
-      toast('게시글 좋아요');
-    }
-  };
 
   return (
     <div className="pt-20 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-4 px-6 gap-7">
