@@ -4,8 +4,10 @@ import Avatar from '@/app/components/Avatar';
 import ImageSlider from '@/app/components/ImageSlider';
 import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
+import JobEditModal from '@/app/components/modals/JobEditModal';
 import PostDeleteModal from '@/app/components/modals/PostDeleteModal';
 import PostReportModal from '@/app/components/modals/PostReportModal';
+import useJobEditModal from '@/app/hooks/useJobEditModal';
 import usePostDeleteModal from '@/app/hooks/usePostDeleteModal';
 import usePostReportModal from '@/app/hooks/usePostReportModal';
 import copyURL from '@/app/lib/copyURL/copyURL';
@@ -36,6 +38,7 @@ const PostPage = () => {
 
   const postDeleteModal = usePostDeleteModal();
   const postReportModal = usePostReportModal();
+  const jobEditModal = useJobEditModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -97,7 +100,7 @@ const PostPage = () => {
                 <>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={() => {}}
+                    onClick={jobEditModal.onOpen}
                   >
                     수정
                   </div>
@@ -166,6 +169,7 @@ const PostPage = () => {
 
       <PostDeleteModal postId={postId} />
       <PostReportModal postId={postId} />
+      <JobEditModal postData={postData} />
     </div>
   );
 };

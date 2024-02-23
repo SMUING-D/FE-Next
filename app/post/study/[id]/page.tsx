@@ -6,8 +6,10 @@ import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
 import PostDeleteModal from '@/app/components/modals/PostDeleteModal';
 import PostReportModal from '@/app/components/modals/PostReportModal';
+import StudyEditModal from '@/app/components/modals/StudyEditModal';
 import usePostDeleteModal from '@/app/hooks/usePostDeleteModal';
 import usePostReportModal from '@/app/hooks/usePostReportModal';
+import useStudyEditModal from '@/app/hooks/useStudyEditModal';
 import copyURL from '@/app/lib/copyURL/copyURL';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
 import likePost from '@/app/lib/post/likePost';
@@ -36,6 +38,7 @@ const PostPage = () => {
 
   const postDeleteModal = usePostDeleteModal();
   const postReportModal = usePostReportModal();
+  const studyEditModal = useStudyEditModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -97,7 +100,7 @@ const PostPage = () => {
                 <>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={() => {}}
+                    onClick={studyEditModal.onOpen}
                   >
                     수정
                   </div>
@@ -178,6 +181,7 @@ const PostPage = () => {
         <CommentView />
       </div>
 
+      <StudyEditModal postData={postData} />
       <PostDeleteModal postId={postId} />
       <PostReportModal postId={postId} />
     </div>

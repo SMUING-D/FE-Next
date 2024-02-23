@@ -3808,14 +3808,14 @@ export const PostHandlers = [
         startDate: '2024-01-20',
         memberCount: 5,
         dueDate: '2024-01-27',
-        college: '단과대명',
+        college: '사범대학',
         viewCount: 100,
         createdAt: '2024-01-20 10:00:00',
         updatedAt: '2024-01-21 12:30:00',
         isPostLike: false,
         postLikeCount: 10,
         userDto: {
-          userId: 1,
+          userId: 2,
           userName: '글쓴이 이름임',
           profile:
             'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
