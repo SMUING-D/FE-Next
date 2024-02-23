@@ -26,8 +26,13 @@ const ListingPopularPost: React.FC<ListingPopularPostType> = ({ college, route, 
             <div
               key={index}
               className="border-b-4 p-2 mt-3 flex items-center justify-between hover:bg-slate-300 hover:rounded-lg cursor-pointer"
+              onClick={() =>
+                data?.memberCount
+                  ? router.push(`/post/study/${data?.id}`)
+                  : router.push(`/post/job/${data?.id}`)
+              }
             >
-              <h3 className="text-lg truncate w-4/5">{data?.content}</h3>
+              <h3 className="text-lg truncate w-4/5">{data?.title}</h3>
               <p className="text-sm text-slate-500">{data?.viewCount}</p>
             </div>
           ))

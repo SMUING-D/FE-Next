@@ -3903,6 +3903,7 @@ export const PostHandlers = [
       });
     }
   }),
+  //메인 화면 게시글 가져오기
   http.get(`${API_PATH.POSTS}`, () => {
     return HttpResponse.json({
       isSuccess: true,
@@ -3984,7 +3985,8 @@ export const PostHandlers = [
                 postLikeCount: 0,
                 postLike: false,
                 id: 6,
-                title: '현장은 이렇더라',
+                title:
+                  '현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라',
                 content: '카카오는 이렇더라',
                 college: 'EDUCATE',
                 memberCount: null,

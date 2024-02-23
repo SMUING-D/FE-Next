@@ -42,8 +42,9 @@ export type POST_DTO = {
   postLikeCount: number;
   isPostLike: boolean;
   userDto: USER_DTO;
-  postImageList: IMAGES_DTO[];
   commentList: COMMENT_LIST[];
+  postImageList?: IMAGES_DTO[];
+  postImage?: string;
 };
 
 export type COMMENT_LIST = {
