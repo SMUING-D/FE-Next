@@ -4430,5 +4430,12 @@ export const PostHandlers = [
         isLast: true
       }
     });
+  }),
+  http.patch(`${API_PATH.POSTS}/:postId/likes`, () => {
+    return HttpResponse.json({
+      isSuccess: true,
+      code: 200,
+      message: '성공입니다'
+    });
   })
 ];
