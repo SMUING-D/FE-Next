@@ -63,7 +63,7 @@ const Mypage = () => {
             }`}
             onClick={() => setActiveTab('MY_HOME')}
           >
-            {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '홈'}
+            {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '유저 정보'}
           </div>
           {parseInt(userId) === session?.user?.userId && (
             <>

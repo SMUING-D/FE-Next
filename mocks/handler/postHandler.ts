@@ -3808,14 +3808,14 @@ export const PostHandlers = [
         startDate: '2024-01-20',
         memberCount: 5,
         dueDate: '2024-01-27',
-        college: '단과대명',
+        college: '사범대학',
         viewCount: 100,
         createdAt: '2024-01-20 10:00:00',
         updatedAt: '2024-01-21 12:30:00',
         isPostLike: false,
         postLikeCount: 10,
         userDto: {
-          userId: 1,
+          userId: 2,
           userName: '글쓴이 이름임',
           profile:
             'https://images.unsplash.com/photo-1643746624529-0962b942e1ef?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -3903,6 +3903,7 @@ export const PostHandlers = [
       });
     }
   }),
+  //메인 화면 게시글 가져오기
   http.get(`${API_PATH.POSTS}`, () => {
     return HttpResponse.json({
       isSuccess: true,
@@ -3984,7 +3985,8 @@ export const PostHandlers = [
                 postLikeCount: 0,
                 postLike: false,
                 id: 6,
-                title: '현장은 이렇더라',
+                title:
+                  '현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라현장은 이렇더라',
                 content: '카카오는 이렇더라',
                 college: 'EDUCATE',
                 memberCount: null,
@@ -4131,6 +4133,10 @@ export const PostHandlers = [
   }),
   // 게시글 수정
   http.patch(`${API_PATH.POSTS}/:postId`, () => {
+    return HttpResponse.json(SuccessData);
+  }),
+  // 게시글 신고 (확정 x)
+  http.post(`${API_PATH.POSTS}/report/:postId`, () => {
     return HttpResponse.json(SuccessData);
   }),
   // 게시글 댓글 작성
@@ -4376,12 +4382,16 @@ export const PostHandlers = [
         pageDtos: [
           {
             postId: cursor + 1,
-            title: '내가 좋아요 한 글',
+            title: '내가 좋아요 한 글 제목 1',
+            viewCount: 9,
+            postLike: 10,
             date: '2011-01-01T00:00:00'
           },
           {
             postId: cursor + 2,
-            title: '불러오기',
+            title: '내가 좋아요 한 글 제목 2',
+            viewCount: 9,
+            postLike: 10,
             date: '2011-01-01T00:00:00'
           }
         ],
@@ -4403,12 +4413,16 @@ export const PostHandlers = [
         pageDtos: [
           {
             postId: cursor + 1,
-            title: '내가 쓴 글',
+            title: '내가 쓴 글 제목 1',
+            viewCount: 9,
+            postLike: 1,
             date: '2011-01-01T00:00:00'
           },
           {
             postId: cursor + 2,
-            title: '불러오기',
+            title: '내가 쓴 글 제목 2',
+            viewCount: 0,
+            postLike: 1,
             date: '2011-01-01T00:00:00'
           }
         ],

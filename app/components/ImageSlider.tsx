@@ -31,7 +31,7 @@ const ImageSlider = ({ imageList, size = 200 }: ImageSliderProps) => {
       {imageList?.map((images) => (
         <Image
           key={images.id}
-          className="flex rounded-md"
+          className="flex rounded-md cursor-pointer"
           src={images.postImagePath}
           width={size}
           height={size}
