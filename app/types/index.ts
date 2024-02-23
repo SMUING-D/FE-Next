@@ -28,7 +28,8 @@ export type JOB_LIST = {
 };
 
 export type POST_DTO = {
-  id: number;
+  id?: number;
+  postId?: number;
   title: string;
   content: string;
   college: string;

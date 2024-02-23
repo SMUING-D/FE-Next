@@ -4382,12 +4382,16 @@ export const PostHandlers = [
         pageDtos: [
           {
             postId: cursor + 1,
-            title: '내가 좋아요 한 글',
+            title: '내가 좋아요 한 글 제목 1',
+            viewCount: 9,
+            postLike: 10,
             date: '2011-01-01T00:00:00'
           },
           {
             postId: cursor + 2,
-            title: '불러오기',
+            title: '내가 좋아요 한 글 제목 2',
+            viewCount: 9,
+            postLike: 10,
             date: '2011-01-01T00:00:00'
           }
         ],
@@ -4409,12 +4413,16 @@ export const PostHandlers = [
         pageDtos: [
           {
             postId: cursor + 1,
-            title: '내가 쓴 글',
+            title: '내가 쓴 글 제목 1',
+            viewCount: 9,
+            postLike: 1,
             date: '2011-01-01T00:00:00'
           },
           {
             postId: cursor + 2,
-            title: '불러오기',
+            title: '내가 쓴 글 제목 2',
+            viewCount: 0,
+            postLike: 1,
             date: '2011-01-01T00:00:00'
           }
         ],
