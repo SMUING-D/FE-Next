@@ -4,9 +4,12 @@ import Avatar from '@/app/components/Avatar';
 import ImageSlider from '@/app/components/ImageSlider';
 import CommentInput from '@/app/components/comments/CommentInput';
 import CommentView from '@/app/components/comments/CommentView';
+import PostDeleteModal from '@/app/components/modals/PostDeleteModal';
+import PostReportModal from '@/app/components/modals/PostReportModal';
+import usePostDeleteModal from '@/app/hooks/usePostDeleteModal';
+import usePostReportModal from '@/app/hooks/usePostReportModal';
 import copyURL from '@/app/lib/copyURL/copyURL';
 import { getDetailPostData } from '@/app/lib/getDetailPostData';
-import deletePost from '@/app/lib/post/deletePost';
 import likePost from '@/app/lib/post/likePost';
 import { POST_DTO } from '@/app/types';
 import { format } from 'date-fns';
@@ -30,6 +33,9 @@ const PostPage = () => {
   const userId = session?.user?.userId;
   const [postData, setPostData] = useState<POST_DTO>(undefined);
   const [isOpen, setIsOpen] = useState(false);
+
+  const postDeleteModal = usePostDeleteModal();
+  const postReportModal = usePostReportModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -59,19 +65,6 @@ const PostPage = () => {
     }
   };
 
-  const handleDeletePost = async () => {
-    const res = await deletePost(parseInt(postId));
-    if (res) {
-      alert('게시글이 삭제되었습니다.');
-      router.back();
-    }
-  };
-
-  const handleReportPost = async () => {
-    // const res = await reportPost(parseInt(postId));
-    alert('게시글이 신고되었습니다.');
-  };
-
   return (
     <div className="pt-20 flex flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-4 px-6 gap-7">
       <div className="flex flex-row items-center">
@@ -84,7 +77,7 @@ const PostPage = () => {
       <div className="flex flex-row relative gap-3 items-center">
         <div
           className="flex flex-row relative gap-3 items-center cursor-pointer"
-          // onClick={() => router.push(`/user/${postData?.userDto.userId}`)}
+          onClick={() => router.push(`/user/${postData?.userDto.userId}`)}
         >
           <Avatar src={postData?.userDto?.profile} />
           <div className="flex dark:text-zinc-100 text-sm text-zinc-500 font-medium">
@@ -110,7 +103,7 @@ const PostPage = () => {
                   </div>
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
-                    onClick={handleDeletePost}
+                    onClick={postDeleteModal.onOpen}
                   >
                     삭제
                   </div>
@@ -126,7 +119,7 @@ const PostPage = () => {
                   <div
                     className="text-md text-zinc-600 font-semibold cursor-pointer"
                     onClick={() =>
-                      session ? handleReportPost() : toast('로그인이 필요한 기능입니다')
+                      session ? postReportModal.onOpen() : toast('로그인이 필요한 기능입니다')
                     }
                   >
                     신고
@@ -184,6 +177,9 @@ const PostPage = () => {
         <CommentInput />
         <CommentView />
       </div>
+
+      <PostDeleteModal postId={postId} />
+      <PostReportModal postId={postId} />
     </div>
   );
 };

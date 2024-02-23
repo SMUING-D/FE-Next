@@ -4135,6 +4135,10 @@ export const PostHandlers = [
   http.patch(`${API_PATH.POSTS}/:postId`, () => {
     return HttpResponse.json(SuccessData);
   }),
+  // 게시글 신고 (확정 x)
+  http.post(`${API_PATH.POSTS}/report/:postId`, () => {
+    return HttpResponse.json(SuccessData);
+  }),
   // 게시글 댓글 작성
   http.post(`${API_PATH.POSTS}/:postId/comments`, () => {
     return HttpResponse.json(SuccessData);

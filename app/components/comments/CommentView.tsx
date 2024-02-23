@@ -94,7 +94,6 @@ const CommentView = () => {
 
   return (
     <>
-      (
       <div className="flex flex-col gap-3">
         {commentsList?.pages.map((page) =>
           page?.commentList?.map(({ id, content, createdAt, userDto, commentReplyList }) => (
