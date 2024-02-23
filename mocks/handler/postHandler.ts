@@ -3731,7 +3731,7 @@ export const PostHandlers = [
         postLike: false,
         postLikeCount: 1,
         userDto: {
-          userId: 2,
+          userId: 1,
           userName: '취업 게시글 작성자',
           profile:
             'https://images.unsplash.com/photo-1515041219749-89347f83291a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'

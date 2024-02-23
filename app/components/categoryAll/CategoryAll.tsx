@@ -24,8 +24,8 @@ const CategoryAll = ({ onClick }: CategoryAllProps) => {
   const cache = useQueryClient();
   const studyData = cache.getQueryData<PostsDataType>(['posts', college, 'study']);
   const jobData = cache.getQueryData<PostsDataType>(['posts', college, 'info']);
-  const jobList = jobData.pages[0].jobList.slice(0, 5);
-  const studyList = studyData.pages[0].studyList.slice(0, 5);
+  const jobList = jobData?.pages[0]?.jobList?.slice(0, 5);
+  const studyList = studyData?.pages[0]?.studyList?.slice(0, 5);
 
   return (
     <div className="flex flex-col gap-12 mt-20 items-center justify-center">

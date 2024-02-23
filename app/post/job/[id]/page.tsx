@@ -149,7 +149,7 @@ const PostPage = () => {
 
       <div className="flex flex-row justify-end gap-4 items-center">
         <FaHeart
-          className={`flex dark:text-zinc-100 ${postData.isPostLike ? 'text-rose-400' : 'text-zinc-400'} cursor-pointer`}
+          className={`flex dark:text-zinc-100 ${postData?.isPostLike ? 'text-rose-400' : 'text-zinc-400'} cursor-pointer`}
           onClick={async () => {
             try {
               await mutateAsync(postId);
