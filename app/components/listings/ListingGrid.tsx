@@ -4,8 +4,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
-import StarButton from '../StarButton';
-
 type ListingGridProps = {
   data: STUDY_LIST | JOB_LIST;
   type: 'job' | 'study';
@@ -46,9 +44,6 @@ const ListingGrid: React.FC<ListingGridProps> = ({ data, type }) => {
           src={data.Images[0].link}
           alt={`${data.title}이미지`}
         />
-        <div className="absolute top-3 right-3">
-          <StarButton />
-        </div>
       </div>
       <div className="flex flex-col p-3">
         <div className="font-semibold text-md text-neutral-800 dark:text-neutral-50 truncate">
