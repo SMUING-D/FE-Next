@@ -28,9 +28,18 @@ const COLLEGE_OPTIONS = [
   { value: '문화예술대학', label: '문화예술대학' }
 ];
 
+const GRADE_OPTIONS = [
+  { value: 'ONE', label: '1' },
+  { value: 'TWO', label: '2' },
+  { value: 'THREE', label: '3' },
+  { value: 'FOUR', label: '4' },
+  { value: 'GRADUATE', label: '졸업' }
+];
+
 export {
   EDUCATIONAL_STATUS_OPTIOS,
   UNGRADUATE_GRADE_OPTIONS,
   GRADUATE_GRADE_OPTIONS,
-  COLLEGE_OPTIONS
+  COLLEGE_OPTIONS,
+  GRADE_OPTIONS
 };

@@ -313,6 +313,7 @@ const TEST_COLLEGE_DATA = {
 const TEST_USER_DATA = {
   userId: 2,
   role: 'USER',
+  student_id: 202010677,
   nickname: 'djssyd',
   username: '접시',
   profileImg:
@@ -321,7 +322,7 @@ const TEST_USER_DATA = {
   school: '상명대학교',
   major: '경영학과',
   minor: '글로벌경영학과',
-  grade: 4,
+  grade: 'FOUR',
   introduce:
     '지금과 같습니다. 현재와 다른 이벤트들이 넘쳤던 시기지만. 적용되는 진리는 하나이죠. 피터린치가 한 말중에... "사람들은 바뀌지 않고, 과거에도 같은 일이 있었고, 지금도 그렇고, 미래에도 그럴 것이다" 라는 말은 의미심장하게 다가옵니다. 한 문장 한 문장을 곱씹게 되어 스스로에게도 많이 도움이 되는 영상이었습니다. 많은 분들께 도움이 되시길 진심으로 바랍니다.',
   majorCollege: '경영경제대학',

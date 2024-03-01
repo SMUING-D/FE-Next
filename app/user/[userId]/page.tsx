@@ -2,11 +2,13 @@
 
 import Avatar from '@/app/components/Avatar';
 import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
+import UserAdditionalInfoModal from '@/app/components/modals/UserAdditionalInfoModal';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
 import MyPostView from '@/app/components/mypost/MyPostView';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
+import useUserAdditionalInfoModal from '@/app/hooks/useUserAdditionalInfoModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
 import getUserInfo from '@/app/lib/getUserInfo';
@@ -14,7 +16,7 @@ import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { User } from '../../types/index';
+import { USER } from '../../types/index';
 
 type ActiveType = 'MY_HOME' | 'SETTINGS' | 'WRITE_POST' | 'LIKE_POST';
 
@@ -25,10 +27,11 @@ export type paramsType = {
 const Mypage = () => {
   const { userId } = useParams<paramsType>();
   const { data: session } = useSession();
+  const userAdditionalInfoModal = useUserAdditionalInfoModal();
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
   const userRevokeModal = useUserRevokeModal();
-  const [userInfo, setUserInfo] = useState<User>(null);
+  const [userInfo, setUserInfo] = useState<USER>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
   useEffect(() => {
@@ -164,6 +167,13 @@ const Mypage = () => {
             </div>
             <div
               className="flex flex-row items-center cursor-pointer"
+              onClick={userAdditionalInfoModal.onOpen}
+            >
+              <div className="text-xl font-semibold dark:text-stone-100">부가 정보 수정</div>
+              <div className="text-2xl ml-auto  font-light dark:text-stone-100">{'>'}</div>
+            </div>
+            <div
+              className="flex flex-row items-center cursor-pointer"
               onClick={passwordEditModal.onOpen}
             >
               <div className="text-xl font-semibold dark:text-stone-100">비밀번호 변경</div>
@@ -189,6 +199,7 @@ const Mypage = () => {
           </div>
         )}
       </div>
+      {userInfo && <UserAdditionalInfoModal userInfo={userInfo} />}
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
       <PasswordEditModal />
       <UserRevokeModal />
