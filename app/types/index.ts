@@ -37,6 +37,7 @@ export type POST_DTO = {
   memberCount?: number;
   startDate?: string;
   dueDate?: string;
+  date?: string;
   createdAt: string;
   updatedAt: string;
   postLike: boolean;
