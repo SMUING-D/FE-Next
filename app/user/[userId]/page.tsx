@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 
 import { USER } from '../../types/index';
 
-type ActiveType = 'MY_HOME' | 'SETTINGS' | 'WRITE_POST' | 'LIKE_POST';
+type ActiveType = 'MY_HOME' | 'SETTINGS' | 'WRITE_POST' | 'LIKE_POST' | 'STUDY_MANAGEMENT';
 
 export type paramsType = {
   userId: string;
@@ -45,8 +45,8 @@ const Mypage = () => {
   if (!userInfo) return <ErrorPage />;
 
   return (
-    <div className="mt-[60px] pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
-      <div className="flex flex-col w-60 gap-10">
+    <div className="w-full mt-[60px] pt-10 flex xl:flex-row md:flex-col sm:flex-col min-[320px]:flex-col max-w-[1200px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4 gap-7">
+      <div className="xl:w-60 min-[320px]:w-full flex flex-col gap-10">
         <div className="flex flex-row gap-3">
           <Avatar src={userInfo?.profileImg} />
           <div className="flex flex-col justify-center">
@@ -56,56 +56,69 @@ const Mypage = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex xl:flex-col xl:w-52 md:flex-row md:w-96 sm:flex-row sm:w-[370px] min-[320px]:flex-row min-[320px]:w-96 gap-5">
-          <div
-            className={`text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100 ${
-              activeTab === 'MY_HOME'
-                ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                : ''
-            }`}
-            onClick={() => setActiveTab('MY_HOME')}
-          >
-            {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '유저 정보'}
+        <div className="w-full overflow-scroll overflow-y-hidden overflow-x-hidden hover:overflow-x-visible">
+          <div className="flex xl:flex-col xl:w-52 md:flex-row md:w-[480px] sm:flex-row sm:w-[400px] min-[320px]:flex-row min-[320px]:w-[400px] gap-5">
+            <div
+              className={`text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100 ${
+                activeTab === 'MY_HOME'
+                  ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                  : ''
+              }`}
+              onClick={() => setActiveTab('MY_HOME')}
+            >
+              {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '유저 정보'}
+            </div>
+            {parseInt(userId) === session?.user?.userId && (
+              <>
+                <div
+                  className={` text-bold text-sm md:text-lg  font-semibold cursor-pointer dark:text-stone-100  ${
+                    activeTab === 'SETTINGS'
+                      ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                      : ''
+                  }`}
+                  onClick={() => setActiveTab('SETTINGS')}
+                >
+                  개인 설정
+                </div>
+                <div
+                  className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                    activeTab === 'WRITE_POST'
+                      ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    setActiveTab('WRITE_POST');
+                  }}
+                >
+                  내가 쓴 글
+                </div>
+                <div
+                  className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                    activeTab === 'LIKE_POST'
+                      ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    setActiveTab('LIKE_POST');
+                  }}
+                >
+                  내가 좋아요 한 글
+                </div>
+                <div
+                  className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
+                    activeTab === 'STUDY_MANAGEMENT'
+                      ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    setActiveTab('STUDY_MANAGEMENT');
+                  }}
+                >
+                  스터디 관리
+                </div>
+              </>
+            )}
           </div>
-          {parseInt(userId) === session?.user?.userId && (
-            <>
-              <div
-                className={` text-bold text-sm md:text-lg  font-semibold cursor-pointer dark:text-stone-100  ${
-                  activeTab === 'SETTINGS'
-                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                    : ''
-                }`}
-                onClick={() => setActiveTab('SETTINGS')}
-              >
-                개인 설정
-              </div>
-              <div
-                className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
-                  activeTab === 'WRITE_POST'
-                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                    : ''
-                }`}
-                onClick={() => {
-                  setActiveTab('WRITE_POST');
-                }}
-              >
-                내가 쓴 글
-              </div>
-              <div
-                className={` text-bold text-sm md:text-lg font-semibold cursor-pointer dark:text-stone-100  ${
-                  activeTab === 'LIKE_POST'
-                    ? 'text-blue-500 xl:border-r-4 xl:border-b-0 min-[320px]:border-b-4 border-blue-500'
-                    : ''
-                }`}
-                onClick={() => {
-                  setActiveTab('LIKE_POST');
-                }}
-              >
-                내가 좋아요 한 글
-              </div>
-            </>
-          )}
         </div>
       </div>
       <div className="flex flex-col flex-1 p-2">
@@ -198,6 +211,7 @@ const Mypage = () => {
             <MyPostView userId={userId} queryKey="MY_LIKE_POSTS" />
           </div>
         )}
+        {activeTab === 'STUDY_MANAGEMENT' && <div>스터디 관리 탭</div>}
       </div>
       {userInfo && <UserAdditionalInfoModal userInfo={userInfo} />}
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
