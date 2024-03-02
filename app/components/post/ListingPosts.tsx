@@ -68,7 +68,7 @@ const ListingPosts = ({ listType }: ListingPostsProps) => {
 
   return (
     <>
-      <div className="pt-24 w-full max-w-6xl">
+      <div className="pt-10 w-full max-w-6xl">
         {listings?.pages.map((page) =>
           listType === 'study'
             ? page.studyList.map((listing: STUDY_LIST) => (
