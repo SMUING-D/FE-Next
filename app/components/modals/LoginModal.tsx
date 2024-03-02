@@ -9,10 +9,7 @@ import { signIn } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { AiFillGithub } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
 
-import Button from '../Button';
 import Heading from '../Heading';
 import FormError from '../form-error';
 import Input from '../inputs/Input';
@@ -96,13 +93,13 @@ const LoginModal = () => {
     </div>
   );
 
-  const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
-      <hr />
-      <Button outline label="구글로 계속하기" icon={FcGoogle} onClick={() => {}} />
-      <Button outline label="깃허브로 계속하기" icon={AiFillGithub} onClick={() => {}} />
-    </div>
-  );
+  // const footerContent = (
+  //   <div className="flex flex-col gap-4 mt-3">
+  //     <hr />
+  //     <Button outline label="구글로 계속하기" icon={FcGoogle} onClick={() => {}} />
+  //     <Button outline label="깃허브로 계속하기" icon={AiFillGithub} onClick={() => {}} />
+  //   </div>
+  // );
 
   return (
     <Modal
@@ -112,7 +109,7 @@ const LoginModal = () => {
       actionLabel="로그인"
       onClose={loginModal.onClose}
       body={bodyContent}
-      footer={footerContent}
+      // footer={footerContent}
       onSubmit={handleSubmit(onSubmit)}
     />
   );
