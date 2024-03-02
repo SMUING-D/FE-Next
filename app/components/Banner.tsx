@@ -6,7 +6,7 @@ const Banner = () => {
   return (
     <div className="p-20 my-10 flex items-center justify-center">
       <strong className="bg-gradient-to-r from-blue-400 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">
-        <div className="flex text-[13px] md:text-[25px] lg:text-[30px] xl:text-[35px] 2xl:text-[40px] text-nowrap">
+        <div className="flex text-[15px] md:text-[25px] lg:text-[30px] xl:text-[35px] 2xl:text-[40px] whitespace-nowrap">
           <ReactRotatingText
             items={[
               '인문사회과학대학',
