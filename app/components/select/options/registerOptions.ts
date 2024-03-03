@@ -36,10 +36,17 @@ const GRADE_OPTIONS = [
   { value: 'GRADUATE', label: '졸업' }
 ];
 
+const SKILL_LEVEL_OPTIONS = [
+  { value: '상', label: '상' },
+  { value: '중', label: '중' },
+  { value: '하', label: '하' }
+];
+
 export {
   EDUCATIONAL_STATUS_OPTIOS,
   UNGRADUATE_GRADE_OPTIONS,
   GRADUATE_GRADE_OPTIONS,
   COLLEGE_OPTIONS,
-  GRADE_OPTIONS
+  GRADE_OPTIONS,
+  SKILL_LEVEL_OPTIONS
 };

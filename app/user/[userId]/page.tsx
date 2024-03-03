@@ -5,17 +5,24 @@ import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserAdditionalInfoModal from '@/app/components/modals/UserAdditionalInfoModal';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
+import UserJobInfoAddModal from '@/app/components/modals/userEditModal/UserJobInfoAddModal';
+import UserSchoolInfoAddModal from '@/app/components/modals/userEditModal/UserSchoolInfoAddModal';
+import UserSkillInfoAddModal from '@/app/components/modals/userEditModal/UserSkillInfoAddModal';
 import MyPostView from '@/app/components/mypost/MyPostView';
 import StudyManagementList from '@/app/components/studyManagement/StudyManagementList';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserAdditionalInfoModal from '@/app/hooks/useUserAdditionalInfoModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
+import useUserJobInfoAddModal from '@/app/hooks/useUserJobInfoAddModal';
 import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
+import useUserSchoolInfoAddModal from '@/app/hooks/useUserSchoolInfoAddModal';
+import useUserSkillInfoAddModal from '@/app/hooks/useUserSkillInfoAddModal';
 import getUserInfo from '@/app/lib/getUserInfo';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { MdAdd } from 'react-icons/md';
 
 import { USER } from '../../types/index';
 
@@ -32,6 +39,9 @@ const Mypage = () => {
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
   const userRevokeModal = useUserRevokeModal();
+  const userSkillInfoAddModal = useUserSkillInfoAddModal();
+  const userJobInfoAddModal = useUserJobInfoAddModal();
+  const userSchoolInfoAddModal = useUserSchoolInfoAddModal();
   const [userInfo, setUserInfo] = useState<USER>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
@@ -125,13 +135,29 @@ const Mypage = () => {
       <div className="flex flex-col flex-1 p-2">
         {activeTab === 'MY_HOME' && (
           <div className="flex flex-col gap-20">
-            <div className="flex flex-col gap-3">
-              <div className="text-2xl font-semibold dark:text-stone-100">자기소개</div>
-              <div className="text-sm font-light dark:text-stone-100">{userInfo?.introduce}</div>
+            <div className="flex flex-col gap-7">
+              <div className="flex flex-row">
+                <div className="text-2xl font-semibold dark:text-stone-100">스킬</div>
+                {parseInt(userId) === session?.user?.userId && (
+                  <MdAdd
+                    className="flex ml-auto cursor-pointer text-xl"
+                    onClick={userSkillInfoAddModal.onOpen}
+                  />
+                )}
+              </div>
+              <div>skill</div>
             </div>
 
             <div className="flex flex-col gap-7">
-              <div className="text-2xl font-semibold dark:text-stone-100">학교</div>
+              <div className="flex flex-row">
+                <div className="flex text-2xl font-semibold dark:text-stone-100">학교</div>
+                {parseInt(userId) === session?.user?.userId && (
+                  <MdAdd
+                    className="flex ml-auto cursor-pointer text-xl"
+                    onClick={userSchoolInfoAddModal.onOpen}
+                  />
+                )}
+              </div>
               <div className="flex flex-col gap-3">
                 <div className="text-md font-medium text-stone-700 dark:text-stone-100">학교명</div>
                 <div className="text-sm font-light dark:text-stone-100">{userInfo?.school}</div>
@@ -156,7 +182,15 @@ const Mypage = () => {
             </div>
 
             <div className="flex flex-col gap-7">
-              <div className="text-2xl font-semibold dark:text-stone-100">경력</div>
+              <div className="flex flex-row">
+                <div className="text-2xl font-semibold dark:text-stone-100">경력</div>
+                {parseInt(userId) === session?.user?.userId && (
+                  <MdAdd
+                    className="flex ml-auto cursor-pointer text-xl"
+                    onClick={userJobInfoAddModal.onOpen}
+                  />
+                )}
+              </div>
               <div className="flex flex-col gap-3">
                 <div className="text-md font-medium text-stone-700 dark:text-stone-100">직업</div>
                 <div className="text-sm font-light dark:text-stone-100">{userInfo?.job}</div>
@@ -166,6 +200,11 @@ const Mypage = () => {
                 <div className="text-md font-medium text-stone-700 dark:text-stone-100">경력</div>
                 <div className="text-sm font-light dark:text-stone-100">{userInfo?.experience}</div>
               </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div className="text-2xl font-semibold dark:text-stone-100">자기소개</div>
+              <div className="text-sm font-light dark:text-stone-100">{userInfo?.introduce}</div>
             </div>
           </div>
         )}
@@ -218,6 +257,9 @@ const Mypage = () => {
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
       <PasswordEditModal />
       <UserRevokeModal />
+      <UserJobInfoAddModal />
+      <UserSchoolInfoAddModal />
+      <UserSkillInfoAddModal />
     </div>
   );
 };
