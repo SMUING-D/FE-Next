@@ -5,16 +5,20 @@ import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserAdditionalInfoModal from '@/app/components/modals/UserAdditionalInfoModal';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
+import UserActivityInfoAddModal from '@/app/components/modals/userInfoAddModal/UserActivityInfoAddModal';
 import UserJobInfoAddModal from '@/app/components/modals/userInfoAddModal/UserJobInfoAddModal';
 import UserSchoolInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSchoolInfoAddModal';
 import UserSkillInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSkillInfoAddModal';
+import ActivityView from '@/app/components/mypage/ActivityView';
 import JobView from '@/app/components/mypage/JobView';
+import LinkView from '@/app/components/mypage/LinkView';
 import SchoolView from '@/app/components/mypage/SchoolView';
 import SkillView from '@/app/components/mypage/SkillView';
 import MyPostView from '@/app/components/mypost/MyPostView';
 import StudyManagementList from '@/app/components/studyManagement/StudyManagementList';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
+import useUserActivityInfoAddModal from '@/app/hooks/useUserActivityInfoAddModal';
 import useUserAdditionalInfoModal from '@/app/hooks/useUserAdditionalInfoModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import useUserJobInfoAddModal from '@/app/hooks/useUserJobInfoAddModal';
@@ -45,6 +49,7 @@ const Mypage = () => {
   const userSkillInfoAddModal = useUserSkillInfoAddModal();
   const userJobInfoAddModal = useUserJobInfoAddModal();
   const userSchoolInfoAddModal = useUserSchoolInfoAddModal();
+  const userActivityInfoAddModal = useUserActivityInfoAddModal();
   const [userInfo, setUserInfo] = useState<USER>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
@@ -171,6 +176,19 @@ const Mypage = () => {
 
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
+                <div className="text-2xl font-semibold dark:text-stone-100">대외활동</div>
+                {parseInt(userId) === session?.user?.userId && (
+                  <MdAdd
+                    className="flex ml-auto cursor-pointer text-xl"
+                    onClick={userActivityInfoAddModal.onOpen}
+                  />
+                )}
+              </div>
+              <ActivityView />
+            </div>
+
+            <div className="flex flex-col gap-7">
+              <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">경력</div>
                 {parseInt(userId) === session?.user?.userId && (
                   <MdAdd
@@ -180,6 +198,19 @@ const Mypage = () => {
                 )}
               </div>
               <JobView />
+            </div>
+
+            <div className="flex flex-col gap-7">
+              <div className="flex flex-row">
+                <div className="text-2xl font-semibold dark:text-stone-100">링크</div>
+                {parseInt(userId) === session?.user?.userId && (
+                  <MdAdd
+                    className="flex ml-auto cursor-pointer text-xl"
+                    onClick={userJobInfoAddModal.onOpen}
+                  />
+                )}
+              </div>
+              <LinkView />
             </div>
           </div>
         )}
@@ -235,6 +266,7 @@ const Mypage = () => {
       <UserJobInfoAddModal />
       <UserSchoolInfoAddModal />
       <UserSkillInfoAddModal />
+      <UserActivityInfoAddModal />
     </div>
   );
 };
