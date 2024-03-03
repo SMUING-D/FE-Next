@@ -1,4 +1,4 @@
-import useUserJobInfoAddModal from '@/app/hooks/useUserJobInfoAddModal';
+import useUserSkillInfoAddModal from '@/app/hooks/useUserSkillInfoAddModal';
 import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -7,30 +7,40 @@ import toast from 'react-hot-toast';
 import Heading from '../../Heading';
 import Input from '../../inputs/Input';
 import TextInput from '../../inputs/TextInput';
+import SelectBox, { OptionType } from '../../select/SelectBox';
+import { SKILL_LEVEL_OPTIONS } from '../../select/options/registerOptions';
 import Modal from '../Modal';
 
-const UserJobInfoAddModal = () => {
+const UserSkillInfoAddModal = () => {
   const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  const UserJobInfoAddModal = useUserJobInfoAddModal();
+  const UserSkillInfoAddModal = useUserSkillInfoAddModal();
+  const [level, setLevel] = useState<OptionType>();
 
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
     reset
   } = useForm<FieldValues>({
     defaultValues: {
-      company: '',
-      position: '',
+      skill: '',
+      level: '',
       startDate: '',
       dueDate: '',
       description: ''
     }
   });
 
-  const company = watch('company');
-  const position = watch('position');
+  const handleSelectLevel = (e: OptionType) => {
+    const level = e.value;
+    setValue('level', level);
+    setLevel(null);
+    setLevel(e);
+  };
+
+  const skill = watch('skill');
   const startDate = watch('startDate');
   const dueDate = watch('dueDate');
 
@@ -45,35 +55,34 @@ const UserJobInfoAddModal = () => {
     console.log(data);
     if (data) {
       toast('제출되었습니다.');
-      UserJobInfoAddModal.onClose();
+      UserSkillInfoAddModal.onClose();
+      reset();
     }
   };
 
   const cancelAdd = () => {
     toast('취소되었습니다.');
-    UserJobInfoAddModal.onClose();
+    UserSkillInfoAddModal.onClose();
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading title="경력 정보를 추가합니다." />
+      <Heading title="스킬 정보를 추가합니다." />
       <Input
-        id="company"
-        label="기업명"
-        value={company}
+        id="skill"
+        label="스킬명"
+        value={skill}
         register={register}
         disabled={isLoading}
         errors={errors}
         required
       />
-      <Input
-        id="position"
-        label="직무"
-        value={position}
-        register={register}
-        disabled={isLoading}
-        errors={errors}
-        required
+      <SelectBox
+        id="level"
+        placeholder="스킬 레벨 선택"
+        value={level}
+        onChange={handleSelectLevel}
+        options={SKILL_LEVEL_OPTIONS}
       />
       <Input
         id="startDate"
@@ -95,20 +104,21 @@ const UserJobInfoAddModal = () => {
         errors={errors}
         required
       />
-      <TextInput id="description" register={register} placeholder="직무 한줄 소개" required />
+      <TextInput id="description" register={register} placeholder="스킬 한줄 소개" required />
     </div>
   );
 
   return (
     <Modal
       disabled={isLoading}
-      isOpen={UserJobInfoAddModal.isOpen}
+      isOpen={UserSkillInfoAddModal.isOpen}
       onClose={() => {
-        UserJobInfoAddModal.onClose();
+        UserSkillInfoAddModal.onClose();
         reset();
+        setLevel(null);
       }}
       onSubmit={handleSubmit(onSubmit)}
-      title="경력 정보 추가"
+      title="스킬 정보 추가"
       actionLabel="저장하기"
       body={bodyContent}
       secondaryAction={cancelAdd}
@@ -117,4 +127,4 @@ const UserJobInfoAddModal = () => {
   );
 };
 
-export default UserJobInfoAddModal;
+export default UserSkillInfoAddModal;

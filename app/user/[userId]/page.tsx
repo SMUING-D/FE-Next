@@ -5,9 +5,12 @@ import PasswordEditModal from '@/app/components/modals/PasswordEditModal.tsx';
 import UserAdditionalInfoModal from '@/app/components/modals/UserAdditionalInfoModal';
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
-import UserJobInfoAddModal from '@/app/components/modals/userEditModal/UserJobInfoAddModal';
-import UserSchoolInfoAddModal from '@/app/components/modals/userEditModal/UserSchoolInfoAddModal';
-import UserSkillInfoAddModal from '@/app/components/modals/userEditModal/UserSkillInfoAddModal';
+import UserJobInfoAddModal from '@/app/components/modals/userInfoAddModal/UserJobInfoAddModal';
+import UserSchoolInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSchoolInfoAddModal';
+import UserSkillInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSkillInfoAddModal';
+import JobView from '@/app/components/mypage/JobView';
+import SchoolView from '@/app/components/mypage/SchoolView';
+import SkillView from '@/app/components/mypage/SkillView';
 import MyPostView from '@/app/components/mypost/MyPostView';
 import StudyManagementList from '@/app/components/studyManagement/StudyManagementList';
 import ErrorPage from '@/app/error';
@@ -135,6 +138,11 @@ const Mypage = () => {
       <div className="flex flex-col flex-1 p-2">
         {activeTab === 'MY_HOME' && (
           <div className="flex flex-col gap-20">
+            <div className="flex flex-col gap-3">
+              <div className="text-2xl font-semibold dark:text-stone-100">자기소개</div>
+              <div className="text-sm font-light dark:text-stone-100">{userInfo?.introduce}</div>
+            </div>
+
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">스킬</div>
@@ -145,7 +153,7 @@ const Mypage = () => {
                   />
                 )}
               </div>
-              <div>skill</div>
+              <SkillView />
             </div>
 
             <div className="flex flex-col gap-7">
@@ -158,27 +166,7 @@ const Mypage = () => {
                   />
                 )}
               </div>
-              <div className="flex flex-col gap-3">
-                <div className="text-md font-medium text-stone-700 dark:text-stone-100">학교명</div>
-                <div className="text-sm font-light dark:text-stone-100">{userInfo?.school}</div>
-              </div>
-
-              <div className="text-lg font-medium dark:text-stone-100">전공</div>
-              <div className="flex flex-col gap-3">
-                <div className="text-sm font-medium text-stone-700 dark:text-stone-100">본전공</div>
-                <div className="text-sm font-light dark:text-stone-100">
-                  {userInfo?.majorCollege} {userInfo?.major}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <div className="text-sm font-medium text-stone-700 dark:text-stone-100">
-                  부전공 및 복수전공
-                </div>
-                <div className="text-sm font-light dark:text-stone-100">
-                  {userInfo?.minorCollege} {userInfo?.major}
-                </div>
-              </div>
+              <SchoolView />
             </div>
 
             <div className="flex flex-col gap-7">
@@ -191,20 +179,7 @@ const Mypage = () => {
                   />
                 )}
               </div>
-              <div className="flex flex-col gap-3">
-                <div className="text-md font-medium text-stone-700 dark:text-stone-100">직업</div>
-                <div className="text-sm font-light dark:text-stone-100">{userInfo?.job}</div>
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <div className="text-md font-medium text-stone-700 dark:text-stone-100">경력</div>
-                <div className="text-sm font-light dark:text-stone-100">{userInfo?.experience}</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <div className="text-2xl font-semibold dark:text-stone-100">자기소개</div>
-              <div className="text-sm font-light dark:text-stone-100">{userInfo?.introduce}</div>
+              <JobView />
             </div>
           </div>
         )}
