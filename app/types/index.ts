@@ -37,6 +37,7 @@ export type POST_DTO = {
   memberCount?: number;
   startDate?: string;
   dueDate?: string;
+  date?: string;
   createdAt: string;
   updatedAt: string;
   postLike: boolean;
@@ -88,7 +89,7 @@ export type USER = {
   school?: string;
   major?: string;
   minor?: string;
-  grade?: number; // 1~4 제한 or 졸업
+  grade?: string; // 1~4 제한 or 졸업
   introduce?: string;
   majorCollege?: string;
   minorCollege?: string;

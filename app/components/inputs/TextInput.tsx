@@ -31,7 +31,7 @@ const TextInput: React.FC<textInputProps> = ({
         required: required,
         onChange: textareaAutosize
       })}
-      className="w-full resize-none p-3 outline-none border-2 border-neutral-300 rounded-md placeholder:text-zinc-400"
+      className="w-full p-3 outline-none border-2 border-neutral-300 rounded-md placeholder:text-zinc-400"
     >
       {value}
     </textarea>

@@ -19,10 +19,7 @@ import Modal from './Modal';
 
 enum STEPS {
   ONE = 1,
-  TWO = 2,
-  THREE = 3,
-  FOUR = 4,
-  FIVE = 5
+  TWO = 2
 }
 
 const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
@@ -55,16 +52,8 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
   const {
     username,
     nickname,
-    profileImg, // eslint-disable-line @typescript-eslint/no-unused-vars
-    school,
-    major,
-    minor,
-    grade,
-    majorCollege,
-    minorCollege,
-    job,
-    experience,
-    introduce
+    profile_img, // eslint-disable-line @typescript-eslint/no-unused-vars
+    student_id
   } = watch();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +71,7 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
   };
 
   const actionLabel = useMemo(() => {
-    if (nowPage === STEPS.FIVE) {
+    if (nowPage === STEPS.TWO) {
       return '제출하기';
     }
     return '계속하기';
@@ -98,6 +87,7 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     try {
+      console.log(data);
       await editUserInfo('user', data);
     } catch (error) {
       console.error(error);
@@ -110,22 +100,10 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
   };
 
   const nextPage = () => {
-    if (nowPage === STEPS.FIVE) {
+    if (nowPage === STEPS.TWO) {
       handleSubmit(onSubmit)();
     } else {
-      if (nowPage === STEPS.ONE && (errors.name || errors.nickname || errors.profileImg)) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
-      } else if (nowPage === STEPS.TWO && (errors.school || errors.grade)) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
-      } else if (
-        nowPage === STEPS.THREE &&
-        (errors.major || errors.majorCollege || errors.minor || errors.minorCollege)
-      ) {
-        toast('양식에 맞는 내용을 입력해주세요');
-        return;
-      } else if (nowPage === STEPS.FOUR && (errors.job || errors.experience)) {
+      if (nowPage === STEPS.ONE && (errors.name || errors.nickname || errors.student_id)) {
         toast('양식에 맞는 내용을 입력해주세요');
         return;
       }
@@ -163,139 +141,43 @@ const UserInfoEditModal = ({ userInfo }: { userInfo: USER }) => {
         required
       />
       {errors.nickname && <FormError message={errors.nickname?.message?.toString()} />}
-      <div className="flex flex-row gap-3 justify-between">
-        {resetImage ? null : (
-          <Image
-            src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
-            width={50}
-            height={50}
-            className="rounded-md object-cover w-[70px] h-[70px]"
-            alt="profileImg"
-          />
-        )}
-        <FileInput
-          id="profileImg"
-          disabled={isLoading}
-          register={register}
-          onChange={handleFileChange}
-          errors={errors}
-          resetImage={resetImage}
-          onResetImage={onResetImage}
-        />
-      </div>
+      <Input
+        id="student_id"
+        label="학번"
+        value={student_id}
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      {errors.student_id && <FormError message={errors.student_id?.message?.toString()} />}
     </form>
   );
 
   if (nowPage === STEPS.TWO) {
     bodyContent = (
       <div className="flex flex-col gap-4">
-        <Input
-          id="school"
-          label="학교"
-          value={school}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.school && <FormError message={errors.school?.message?.toString()} />}
-        <Input
-          id="grade"
-          label="학년"
-          type="number"
-          value={grade}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.grade && <FormError message={errors.grade?.message?.toString()} />}
-      </div>
-    );
-  }
-
-  if (nowPage === STEPS.THREE) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <Input
-          id="major"
-          label="본전공"
-          value={major}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.major && <FormError message={errors.major?.message?.toString()} />}
-        <Input
-          id="minor"
-          label="부전공 및 복수전공"
-          value={minor}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        {errors.minor && <FormError message={errors.minor?.message?.toString()} />}
-        <Input
-          id="majorCollege"
-          label="본전공 단과대"
-          value={majorCollege}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-        {errors.majorCollege && <FormError message={errors.majorCollege?.message?.toString()} />}
-        <Input
-          id="minorCollege"
-          label="부전공 및 복수전공 단과대"
-          value={minorCollege}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        {errors.minorCollege && <FormError message={errors.minorCollege?.message?.toString()} />}
-      </div>
-    );
-  }
-
-  if (nowPage === STEPS.FOUR) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <Input
-          id="job"
-          label="직업"
-          value={job}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        {errors.job && <FormError message={errors.job?.message?.toString()} />}
-        <Input
-          id="experience"
-          label="경력"
-          value={experience}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        {errors.experience && <FormError message={errors.experience?.message?.toString()} />}
-      </div>
-    );
-  }
-
-  if (nowPage === STEPS.FIVE) {
-    bodyContent = (
-      <div className="flex flex-col gap-4">
-        <Input
-          id="introduce"
-          label="자기소개"
-          value={introduce}
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-        />
-        {errors.introduce && <FormError message={errors.introduce?.message?.toString()} />}
+        <Heading title="개인 정보를 수정합니다." subtitle="프로필 이미지 설정" />
+        <div className="flex flex-row gap-3 justify-between">
+          {resetImage ? null : (
+            <Image
+              src={selectedFile ? URL.createObjectURL(selectedFile) : userInfo.profileImg}
+              width={50}
+              height={50}
+              className="rounded-md object-cover w-[70px] h-[70px]"
+              alt="profileImg"
+            />
+          )}
+          <FileInput
+            id="profileImg"
+            disabled={isLoading}
+            register={register}
+            onChange={handleFileChange}
+            errors={errors}
+            resetImage={resetImage}
+            onResetImage={onResetImage}
+          />
+        </div>
       </div>
     );
   }

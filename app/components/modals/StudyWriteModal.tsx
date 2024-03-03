@@ -18,7 +18,9 @@ import Modal from './Modal';
 
 enum STEPS {
   ZERO = 0,
-  ONE = 1
+  ONE = 1,
+  TWO = 2,
+  THREE = 3
 }
 
 const StudyWriteModal = () => {
@@ -63,7 +65,9 @@ const StudyWriteModal = () => {
       startDate: '',
       memberCount: 1,
       dueDate: '',
-      college: ''
+      college: '',
+      linkName: '',
+      link: ''
     }
   });
 
@@ -72,6 +76,8 @@ const StudyWriteModal = () => {
   const startDate = watch('startDate');
   const dueDate = watch('dueDate');
   const memberCount = watch('memberCount');
+  const linkName = watch('linkName');
+  const link = watch('link');
   // const image = watch('image');
 
   const handleSelectCollege = (e: OptionType) => {
@@ -90,7 +96,7 @@ const StudyWriteModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { title, content, postImageDtoList, startDate, memberCount, dueDate, college } = data;
-    if (step !== STEPS.ONE) {
+    if (step !== STEPS.THREE) {
       return onNext();
     }
     try {
@@ -123,7 +129,7 @@ const StudyWriteModal = () => {
   };
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.ONE) {
+    if (step === STEPS.THREE) {
       return '글 작성하기';
     }
     return '다음';
@@ -194,6 +200,14 @@ const StudyWriteModal = () => {
           value={content}
           onChange={(event) => setValue('content', event.target.value)}
         />
+      </div>
+    );
+  }
+
+  if (step === STEPS.TWO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="관련 이미지를 첨부해주세요." />
         <input
           {...register('postImageDtoList')}
           id="picture"
@@ -248,6 +262,35 @@ const StudyWriteModal = () => {
               })}
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (step === STEPS.THREE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="연락 방법을 입력해주세요."
+          subtitle="카카오톡 오픈채팅, 구글폼, 이메일 등"
+        />
+        <Input
+          id="linkName"
+          value={linkName}
+          label="링크 이름"
+          register={register}
+          disabled={isLoading}
+          errors={errors}
+          required
+        />
+        <Input
+          id="link"
+          value={link}
+          label="링크 URL"
+          register={register}
+          disabled={isLoading}
+          errors={errors}
+          required
+        />
       </div>
     );
   }

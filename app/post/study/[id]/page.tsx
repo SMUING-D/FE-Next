@@ -16,11 +16,13 @@ import { useGetDetailPostData } from '@/app/lib/post/query/query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaComment, FaHeart } from 'react-icons/fa6';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoMdLink } from 'react-icons/io';
 
 type paramsType = {
   id: string;
@@ -151,6 +153,13 @@ const PostPage = () => {
           <div className="flex flex-row gap-2 items-center">
             <div className="text-lg font-semibold text-zinc-700">모집 인원</div>
             <div className="text-md font-medium text-zinc-500">{postData?.memberCount} 명</div>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <div className="text-lg font-semibold text-zinc-700">연락 방법</div>
+            <Link href="https://github.com/daindaind" className="flex flex-row items-center gap-1">
+              <div className="text-md font-medium text-zinc-500">오픈톡</div>
+              <IoMdLink className="text-lg text-zinc-500" />
+            </Link>
           </div>
         </div>
 
