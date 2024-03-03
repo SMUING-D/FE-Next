@@ -6,6 +6,7 @@ import UserAdditionalInfoModal from '@/app/components/modals/UserAdditionalInfoM
 import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
 import MyPostView from '@/app/components/mypost/MyPostView';
+import StudyManagementList from '@/app/components/studyManagement/StudyManagementList';
 import ErrorPage from '@/app/error';
 import usePasswordEditModal from '@/app/hooks/usePasswordEditModal';
 import useUserAdditionalInfoModal from '@/app/hooks/useUserAdditionalInfoModal';
@@ -211,7 +212,7 @@ const Mypage = () => {
             <MyPostView userId={userId} queryKey="MY_LIKE_POSTS" />
           </div>
         )}
-        {activeTab === 'STUDY_MANAGEMENT' && <div>스터디 관리 탭</div>}
+        {activeTab === 'STUDY_MANAGEMENT' && <StudyManagementList />}
       </div>
       {userInfo && <UserAdditionalInfoModal userInfo={userInfo} />}
       {userInfo && <UserInfoEditModal userInfo={userInfo} />}
