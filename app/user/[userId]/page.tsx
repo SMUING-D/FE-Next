@@ -44,6 +44,7 @@ export type paramsType = {
 const Mypage = () => {
   const { userId } = useParams<paramsType>();
   const { data: session } = useSession();
+  const isUser = parseInt(userId) === session?.user?.userId;
   const userAdditionalInfoModal = useUserAdditionalInfoModal();
   const userInfoEditModal = useUserInfoEditModal();
   const passwordEditModal = usePasswordEditModal();
@@ -88,9 +89,9 @@ const Mypage = () => {
               }`}
               onClick={() => setActiveTab('MY_HOME')}
             >
-              {parseInt(userId) === session?.user?.userId ? 'MY 홈' : '유저 정보'}
+              {isUser ? 'MY 홈' : '유저 정보'}
             </div>
-            {parseInt(userId) === session?.user?.userId && (
+            {isUser && (
               <>
                 <div
                   className={` text-bold text-sm md:text-lg  font-semibold cursor-pointer dark:text-stone-100  ${
@@ -154,66 +155,66 @@ const Mypage = () => {
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">스킬</div>
-                {parseInt(userId) === session?.user?.userId && (
+                {isUser && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
                     onClick={userSkillInfoAddModal.onOpen}
                   />
                 )}
               </div>
-              <SkillView />
+              <SkillView isUser={isUser} />
             </div>
 
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="flex text-2xl font-semibold dark:text-stone-100">학교</div>
-                {parseInt(userId) === session?.user?.userId && (
+                {isUser && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
                     onClick={userSchoolInfoAddModal.onOpen}
                   />
                 )}
               </div>
-              <SchoolView />
+              <SchoolView isUser={isUser} />
             </div>
 
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">대외활동</div>
-                {parseInt(userId) === session?.user?.userId && (
+                {isUser && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
                     onClick={userActivityInfoAddModal.onOpen}
                   />
                 )}
               </div>
-              <ActivityView />
+              <ActivityView isUser={isUser} />
             </div>
 
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">경력</div>
-                {parseInt(userId) === session?.user?.userId && (
+                {isUser && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
                     onClick={userJobInfoAddModal.onOpen}
                   />
                 )}
               </div>
-              <JobView />
+              <JobView isUser={isUser} />
             </div>
 
             <div className="flex flex-col gap-7">
               <div className="flex flex-row">
                 <div className="text-2xl font-semibold dark:text-stone-100">링크</div>
-                {parseInt(userId) === session?.user?.userId && (
+                {isUser && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
                     onClick={userLinkInfoAddModal.onOpen}
                   />
                 )}
               </div>
-              <LinkView />
+              <LinkView isUser={isUser} />
             </div>
           </div>
         )}

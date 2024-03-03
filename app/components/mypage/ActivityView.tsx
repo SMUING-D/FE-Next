@@ -2,7 +2,7 @@ import { MdEdit } from 'react-icons/md';
 
 import { MYACTIVITY_TEST_DATA } from './data/data';
 
-const ActivityView = () => {
+const ActivityView = ({ isUser }: { isUser: boolean }) => {
   return (
     <div className="flex flex-col gap-7">
       {MYACTIVITY_TEST_DATA.map((activity) => (
@@ -10,7 +10,7 @@ const ActivityView = () => {
           <div className="flex flex-col gap-1">
             <div className="flex flex-row gap-1">
               <div className="flex font-bold">{activity.activity}</div>
-              <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />
+              {isUser && <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />}
             </div>
             <div className="flex flex-row gap-1">
               <div className="flex font-light text-xs text-gray-500">{activity.startDate}</div>

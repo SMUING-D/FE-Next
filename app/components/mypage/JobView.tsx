@@ -2,7 +2,7 @@ import { MdEdit } from 'react-icons/md';
 
 import { MYJOB_TEST_DATA } from './data/data';
 
-const JobView = () => {
+const JobView = ({ isUser }: { isUser: boolean }) => {
   return (
     <div className="flex flex-col gap-7">
       {MYJOB_TEST_DATA.map((job) => (
@@ -12,7 +12,7 @@ const JobView = () => {
               <div className="flex font-bold">{job.company}</div>
               <div className="flex">-</div>
               <div className="flex font-medium text-gray-600">{job.position}</div>
-              <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />
+              {isUser && <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />}
             </div>
             <div className="flex flex-row gap-1">
               <div className="flex font-light text-xs text-gray-500">{job.startDate}</div>

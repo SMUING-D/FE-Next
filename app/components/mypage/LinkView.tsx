@@ -4,7 +4,7 @@ import { MdEdit } from 'react-icons/md';
 
 import { MYLINK_TEST_DATA } from './data/data';
 
-const LinkView = () => {
+const LinkView = ({ isUser }: { isUser: boolean }) => {
   return (
     <div className="flex flex-col gap-7">
       {MYLINK_TEST_DATA.map((link) => (
@@ -15,7 +15,7 @@ const LinkView = () => {
               <Link href={link.link} shallow={true}>
                 <div className="flex font-bold">{link.linkName}</div>
               </Link>
-              <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />
+              {isUser && <MdEdit className="flex ml-auto text-gray-500 cursor-pointer" />}
             </div>
           </div>
         </>
