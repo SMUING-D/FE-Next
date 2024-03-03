@@ -11,7 +11,7 @@ import Modal from '../Modal';
 
 const UserJobInfoAddModal = () => {
   const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  const UserJobInfoAddModal = useUserJobInfoAddModal();
+  const userJobInfoAddModal = useUserJobInfoAddModal();
 
   const {
     register,
@@ -45,14 +45,14 @@ const UserJobInfoAddModal = () => {
     console.log(data);
     if (data) {
       toast('제출되었습니다.');
-      UserJobInfoAddModal.onClose();
+      userJobInfoAddModal.onClose();
       reset();
     }
   };
 
   const cancelAdd = () => {
     toast('취소되었습니다.');
-    UserJobInfoAddModal.onClose();
+    userJobInfoAddModal.onClose();
   };
 
   const bodyContent = (
@@ -103,9 +103,9 @@ const UserJobInfoAddModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={UserJobInfoAddModal.isOpen}
+      isOpen={userJobInfoAddModal.isOpen}
       onClose={() => {
-        UserJobInfoAddModal.onClose();
+        userJobInfoAddModal.onClose();
         reset();
       }}
       onSubmit={handleSubmit(onSubmit)}

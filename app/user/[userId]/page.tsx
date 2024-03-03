@@ -7,6 +7,7 @@ import UserInfoEditModal from '@/app/components/modals/UserInfoEditModal';
 import UserRevokeModal from '@/app/components/modals/UserRevokeModal';
 import UserActivityInfoAddModal from '@/app/components/modals/userInfoAddModal/UserActivityInfoAddModal';
 import UserJobInfoAddModal from '@/app/components/modals/userInfoAddModal/UserJobInfoAddModal';
+import UserLinkInfoAddModal from '@/app/components/modals/userInfoAddModal/UserLinkInfoAddModal';
 import UserSchoolInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSchoolInfoAddModal';
 import UserSkillInfoAddModal from '@/app/components/modals/userInfoAddModal/UserSkillInfoAddModal';
 import ActivityView from '@/app/components/mypage/ActivityView';
@@ -22,6 +23,7 @@ import useUserActivityInfoAddModal from '@/app/hooks/useUserActivityInfoAddModal
 import useUserAdditionalInfoModal from '@/app/hooks/useUserAdditionalInfoModal';
 import useUserInfoEditModal from '@/app/hooks/useUserInfoModal';
 import useUserJobInfoAddModal from '@/app/hooks/useUserJobInfoAddModal';
+import useUserLinkInfoAddModal from '@/app/hooks/useUserLinkInfoAddModal';
 import useUserRevokeModal from '@/app/hooks/useUserRevokeModal';
 import useUserSchoolInfoAddModal from '@/app/hooks/useUserSchoolInfoAddModal';
 import useUserSkillInfoAddModal from '@/app/hooks/useUserSkillInfoAddModal';
@@ -50,6 +52,7 @@ const Mypage = () => {
   const userJobInfoAddModal = useUserJobInfoAddModal();
   const userSchoolInfoAddModal = useUserSchoolInfoAddModal();
   const userActivityInfoAddModal = useUserActivityInfoAddModal();
+  const userLinkInfoAddModal = useUserLinkInfoAddModal();
   const [userInfo, setUserInfo] = useState<USER>(null);
   const [activeTab, setActiveTab] = useState<ActiveType>('MY_HOME');
 
@@ -206,7 +209,7 @@ const Mypage = () => {
                 {parseInt(userId) === session?.user?.userId && (
                   <MdAdd
                     className="flex ml-auto cursor-pointer text-xl"
-                    onClick={userJobInfoAddModal.onOpen}
+                    onClick={userLinkInfoAddModal.onOpen}
                   />
                 )}
               </div>
@@ -267,6 +270,7 @@ const Mypage = () => {
       <UserSchoolInfoAddModal />
       <UserSkillInfoAddModal />
       <UserActivityInfoAddModal />
+      <UserLinkInfoAddModal />
     </div>
   );
 };

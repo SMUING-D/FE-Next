@@ -1,4 +1,4 @@
-import useUserActivityInfoAddModal from '@/app/hooks/useUserActivityInfoAddModal';
+import useUserLinkInfoAddModal from '@/app/hooks/useUserLinkInfoAddModal';
 import { allowScroll, preventScroll } from '@/app/utils/scroll';
 import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -10,7 +10,7 @@ import Modal from '../Modal';
 
 const UserLinkInfoAddModal = () => {
   const [isLoading, setIsLoading] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
-  const UserActivityInfoAddModal = useUserActivityInfoAddModal();
+  const userLinkInfoAddModal = useUserLinkInfoAddModal();
 
   const {
     register,
@@ -39,14 +39,14 @@ const UserLinkInfoAddModal = () => {
     console.log(data);
     if (data) {
       toast('제출되었습니다.');
-      UserActivityInfoAddModal.onClose();
+      userLinkInfoAddModal.onClose();
       reset();
     }
   };
 
   const cancelAdd = () => {
     toast('취소되었습니다.');
-    UserActivityInfoAddModal.onClose();
+    userLinkInfoAddModal.onClose();
   };
 
   const bodyContent = (
@@ -76,9 +76,9 @@ const UserLinkInfoAddModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={UserActivityInfoAddModal.isOpen}
+      isOpen={userLinkInfoAddModal.isOpen}
       onClose={() => {
-        UserActivityInfoAddModal.onClose();
+        userLinkInfoAddModal.onClose();
         reset();
       }}
       onSubmit={handleSubmit(onSubmit)}
